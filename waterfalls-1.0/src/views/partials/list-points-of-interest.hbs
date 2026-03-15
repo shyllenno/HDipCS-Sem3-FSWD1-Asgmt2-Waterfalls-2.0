@@ -1,0 +1,22 @@
+<table class="table is-fullwidth">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+      <th colspan="2">Coordinates</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each waterfall.POIs}}
+    <tr>
+      <td>
+        {{type}}
+      </td>
+      <td>
+        {{description}}
+      </td>
+      <td colspan="2">{{xCoordinate}}, {{yCoordinate}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
