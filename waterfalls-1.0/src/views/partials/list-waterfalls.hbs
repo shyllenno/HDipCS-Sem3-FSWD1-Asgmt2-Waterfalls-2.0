@@ -1,0 +1,25 @@
+{{#each waterfalls}}
+<div class="card mb-5">
+  <header class="card-header">
+    <p class="card-header-title">
+      {{name}}
+    </p>
+  </header>
+
+  <div class="card-content">
+    <div class="content">
+      <strong>Coordinates:</strong> {{x}}, {{y}}<br>
+      <strong>Description:</strong> {{description}}
+    </div>
+  </div>
+
+  <footer class="card-footer">
+    <a href="/waterfall/{{_id}}" class="card-footer-item">
+      <span class="icon">
+        <i class="fas fa-folder-open"></i>
+      </span>
+      &nbsp; View
+    </a>
+  </footer>
+</div>
+{{/each}}
