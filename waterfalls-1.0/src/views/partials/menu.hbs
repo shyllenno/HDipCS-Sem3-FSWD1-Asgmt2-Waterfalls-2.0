@@ -14,8 +14,9 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <a id="dashboard" class="button" href="/dashboard">Dashboard</a>
-          <a id="logout" class="button" href="/logout">Logout</a>
+          <a class="button" id="dashboard" href="/dashboard">Dashboard</a>
+          <a class="button" id="logout" href="/logout">Logout</a>
+          {{!-- <a id="about" class="button" href="/about"> About </a> --}}
         </div>
       </div>
     </div>
@@ -31,5 +32,12 @@
       burger.classList.toggle('is-active');
       menu.classList.toggle('is-active');
     });
+
+    // Highlight active button
+    const active = "{{active}}";
+    if (active) {
+      const el = document.getElementById(active);
+      if (el) el.classList.add("is-primary");
+    }
   });
 </script>

@@ -1,0 +1,20 @@
+<form class="box" action="/waterfall/{{waterfall._id}}/addpoi" method="POST">
+  <label>Enter Point Details:</label>
+  <div class="field is-horizontal">
+    <div class="field-body">
+      <div class="field">
+        <input class="input" type="text" placeholder="Enter Type" name="type">
+      </div>
+      <div class="field">
+        <input class="input" type="text" placeholder="Enter Description" name="description">
+      </div>
+      <div class="field">
+        <input class="input" type="text" placeholder="Enter X Coordinate" name="xCoordinate">
+      </div>
+      <div class="field">
+        <input class="input" type="text" placeholder="Enter Y Coordinate" name="yCoordinate">
+      </div>
+    </div>
+  </div>
+  <button class="button is-primary">Add POI</button>
+</form>

@@ -15,7 +15,7 @@ export const dashboardController = {
   addWaterfall: {
     handler: async function (request, h) {
       const newWaterfall = {
-        title: request.payload.title,
+        name: request.payload.name,
         description: request.payload.description,
         x: parseFloat(request.payload.x),
         y: parseFloat(request.payload.y),

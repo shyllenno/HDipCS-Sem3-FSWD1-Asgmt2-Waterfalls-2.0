@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
 import { v4 } from "uuid";
+import { POIMemStore } from "./poi-mem-store.js";
 
 let waterfalls = [];
 
@@ -20,7 +21,12 @@ export const waterfallMemStore = {
   },
 
   async getWaterfallById(id) {
-    return waterfalls.find((waterfall) => waterfall._id === id);
+    const list = waterfalls.find((waterfall) => waterfall._id === id);
+    if (list) {
+      list.POIs = await POIMemStore.getPOIsByWaterfallId(list._id);
+      return list;
+    }
+    return null;
   },
 
   async deleteWaterfallById(id) {
