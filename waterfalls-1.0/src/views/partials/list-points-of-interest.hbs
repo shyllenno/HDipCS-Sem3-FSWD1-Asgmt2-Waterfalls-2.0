@@ -4,6 +4,7 @@
       <th>Type</th>
       <th>Description</th>
       <th colspan="2">Coordinates</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -16,6 +17,11 @@
         {{description}}
       </td>
       <td colspan="2">{{xCoordinate}}, {{yCoordinate}}</td>
+      <td>
+        <a href="/waterfall/{{../waterfall._id}}/deletepoi/{{_id}}" class="ui icon button">
+          <i class="fas fa-trash"></i>
+        </a>
+      </td>
     </tr>
     {{/each}}
   </tbody>

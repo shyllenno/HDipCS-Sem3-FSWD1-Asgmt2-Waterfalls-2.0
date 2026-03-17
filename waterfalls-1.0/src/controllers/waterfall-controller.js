@@ -25,4 +25,12 @@ export const waterfallController = {
       return h.redirect(`/waterfall/${waterfall._id}`);
     },
   },
+
+  deletePOI: {
+    handler: async function (request, h) {
+      const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
+      await db.POIStore.deletePOI(request.params.poiId);
+      return h.redirect(`/waterfall/${waterfall._id}`);
+    },
+  },
 };
