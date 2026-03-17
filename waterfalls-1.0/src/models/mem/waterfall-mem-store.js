@@ -18,8 +18,8 @@ export const waterfallMemStore = {
     waterfall._id = v4();
 
     // Ensure coordinates exist, if not, default to 0
-    waterfall.x = waterfall.x ?? 0;
-    waterfall.y = waterfall.y ?? 0;
+    waterfall.latitude = waterfall.latitude ?? 0;
+    waterfall.longitude = waterfall.longitude ?? 0;
 
     waterfalls.push(waterfall);
     return waterfall;

@@ -3,16 +3,16 @@
   <div class="field is-horizontal">
     <div class="field-body">
       <div class="field">
-        <input class="input" type="text" placeholder="Enter Type" name="type" value="{{values.type}}">
+        <input class="input" type="text" placeholder="Enter Type (e.g., Hospital, Police Station, Restaurant, Grocery, etc.)" name="type" value="{{values.type}}">
       </div>
       <div class="field">
         <input class="input" type="text" placeholder="Enter Description" name="description" value="{{values.description}}">
       </div>
       <div class="field">
-        <input class="input" type="text" placeholder="Enter X Coordinate" name="xCoordinate" value="{{values.xCoordinate}}">
+        <input class="input" type="number" placeholder="Enter Latitude" name="latitude" value="{{values.latitude}}" min="-90" max="90" step="any">
       </div>
       <div class="field">
-        <input class="input" type="text" placeholder="Enter Y Coordinate" name="yCoordinate" value="{{values.yCoordinate}}">
+        <input class="input" type="number" placeholder="Enter Longitude" name="longitude" value="{{values.longitude}}" min="-180" max="180" step="any">
       </div>
     </div>
   </div>

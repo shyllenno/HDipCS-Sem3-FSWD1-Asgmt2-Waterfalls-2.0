@@ -29,8 +29,8 @@ export const waterfallController = {
         waterfallId: waterfall._id,
         type: request.payload.type,
         description: request.payload.description,
-        xCoordinate: parseFloat(request.payload.xCoordinate),
-        yCoordinate: parseFloat(request.payload.yCoordinate),
+        latitude: parseFloat(request.payload.latitude),
+        longitude: parseFloat(request.payload.longitude),
       };
       await db.POIStore.addPOI(waterfall._id, newPOI);
       return h.redirect(`/waterfall/${waterfall._id}`);

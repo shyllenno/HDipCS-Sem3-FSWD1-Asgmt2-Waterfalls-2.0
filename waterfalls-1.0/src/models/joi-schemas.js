@@ -15,13 +15,13 @@ export const UserCredentialsSpec = {
 export const WaterfallSpec = {
   name: Joi.string().required(),
   description: Joi.string().required(),
-  x: Joi.number().required(),
-  y: Joi.number().required(),
+  latitude: Joi.number().required(),
+  longitude: Joi.number().required(),
 };
 
 export const POISpec = {
   type: Joi.string().required(),
   description: Joi.string().required(),
-  xCoordinate: Joi.number().required(),
-  yCoordinate: Joi.number().required(),
+  latitude: Joi.number().required(),
+  longitude: Joi.number().required(),
 };

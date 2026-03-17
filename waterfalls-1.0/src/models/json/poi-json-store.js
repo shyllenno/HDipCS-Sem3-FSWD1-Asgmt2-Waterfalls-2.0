@@ -52,8 +52,8 @@ export const POIJsonStore = {
   async updatePOI(POI, updatedPOI) {
     POI.name = updatedPOI.name;
     POI.description = updatedPOI.description;
-    POI.xCoordinate = updatedPOI.xCoordinate;
-    POI.yCoordinate = updatedPOI.yCoordinate;
+    POI.latitude = updatedPOI.latitude;
+    POI.longitude = updatedPOI.longitude;
     await db.write();
   },
 };
