@@ -29,8 +29,8 @@ export const dashboardController = {
         userid: loogedInUser._id,
         name: request.payload.name,
         description: request.payload.description,
-        x: parseFloat(request.payload.x),
-        y: parseFloat(request.payload.y),
+        latitude: parseFloat(request.payload.latitude),
+        longitude: parseFloat(request.payload.longitude),
       };
       await db.waterfallStore.addWaterfall(newWaterfall);
       return h.redirect("/dashboard");

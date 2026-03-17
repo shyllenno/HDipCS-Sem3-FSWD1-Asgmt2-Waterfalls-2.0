@@ -8,28 +8,29 @@ export const POIMemStore = {
     return POIs;
   },
 
-  async addPOI(waterfallId, POI) {
+  async addPOI(POI) {
     POI._id = v4();
-    POI.waterfallid = waterfallId;
     POIs.push(POI);
     return POI;
   },
 
   async getPOIsByWaterfallId(id) {
-    return POIs.filter((POI) => POI.waterfallid === id);
+    let foundPOIs = POIs.filter((POI) => POI.waterfallid === id);
+    if (foundPOIs === undefined) foundPOIs = null;
+    return foundPOIs;
   },
 
   async getPOIById(id) {
-    return POIs.find((POI) => POI._id === id);
+    let foundPOI = POIs.find((POI) => POI._id === id);
+    if (foundPOI === undefined) foundPOI = null;
+    return foundPOI;
   },
 
-  async getWaterfallPOIs(waterfallId) {
-    return POIs.filter((POI) => POI.waterfallid === waterfallId);
-  },
-
-  async deletePOI(id) {
+  async deletePOIById(id) {
     const index = POIs.findIndex((POI) => POI._id === id);
-    POIs.splice(index, 1);
+    if (index !== -1) {
+      POIs.splice(index, 1);
+    }
   },
 
   async deleteAllPOIs() {
@@ -39,7 +40,7 @@ export const POIMemStore = {
   async updatePOI(POI, updatedPOI) {
     POI.name = updatedPOI.name;
     POI.description = updatedPOI.description;
-    POI.xCoordinate = updatedPOI.xCoordinate;
-    POI.yCoordinate = updatedPOI.yCoordinate;
+    POI.latitude = updatedPOI.latitude;
+    POI.longitude = updatedPOI.longitude;
   },
 };

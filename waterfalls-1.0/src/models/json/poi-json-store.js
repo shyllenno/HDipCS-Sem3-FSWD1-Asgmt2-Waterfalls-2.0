@@ -8,10 +8,9 @@ export const POIJsonStore = {
     return db.data.POIs;
   },
 
-  async addPOI(waterfallId, POI) {
+  async addPOI(POI) {
     await db.read();
     POI._id = v4();
-    POI.waterfallid = waterfallId;
     db.data.POIs.push(POI);
     await db.write();
     return POI;
@@ -19,18 +18,22 @@ export const POIJsonStore = {
 
   async getPOIsByWaterfallId(id) {
     await db.read();
-    return db.data.POIs.filter((POI) => POI.waterfallid === id);
+    let foundPOIs = db.data.POIs.filter((POI) => POI.waterfallid === id);
+    if (foundPOIs === undefined) foundPOIs = null;
+    return foundPOIs;
   },
 
   async getPOIById(id) {
     await db.read();
-    return db.data.POIs.find((POI) => POI._id === id);
+    let foundPOI = db.data.POIs.find((POI) => POI._id === id);
+    if (foundPOI === undefined) foundPOI = null;
+    return foundPOI;
   },
 
-  async deletePOI(id) {
+  async deletePOIById(id) {
     await db.read();
     const index = db.data.POIs.findIndex((POI) => POI._id === id);
-    db.data.POIs.splice(index, 1);
+    if (index !== -1) db.data.POIs.splice(index, 1);
     await db.write();
   },
 
@@ -42,8 +45,8 @@ export const POIJsonStore = {
   async updatePOI(POI, updatedPOI) {
     POI.name = updatedPOI.name;
     POI.description = updatedPOI.description;
-    POI.xCoordinate = updatedPOI.xCoordinate;
-    POI.yCoordinate = updatedPOI.yCoordinate;
+    POI.latitude = updatedPOI.latitude;
+    POI.longitude = updatedPOI.longitude;
     await db.write();
   },
 };

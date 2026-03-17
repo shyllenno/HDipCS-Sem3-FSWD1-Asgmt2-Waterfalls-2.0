@@ -11,9 +11,17 @@ export const db = {
   waterfallStore: null,
   POIStore: null,
 
-  init() {
-    this.userStore = userJsonStore;
-    this.waterfallStore = waterfallJsonStore;
-    this.POIStore = POIJsonStore;
+  init(storeType) {
+    switch (storeType) {
+      case "json":
+        this.userStore = userJsonStore;
+        this.waterfallStore = waterfallJsonStore;
+        this.POIStore = POIJsonStore;
+        break;
+      default:
+        this.userStore = userMemStore;
+        this.waterfallStore = waterfallMemStore;
+        this.POIStore = POIMemStore;
+    }
   },
 };
