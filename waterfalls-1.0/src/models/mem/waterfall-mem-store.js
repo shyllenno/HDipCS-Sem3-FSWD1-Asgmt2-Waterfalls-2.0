@@ -36,7 +36,7 @@ export const waterfallMemStore = {
 
   async deleteWaterfallById(id) {
     const index = waterfalls.findIndex((waterfall) => waterfall._id === id);
-    waterfalls.splice(index, 1);
+    if (index !== -1) waterfalls.splice(index, 1);
   },
 
   async deleteAllWaterfalls() {

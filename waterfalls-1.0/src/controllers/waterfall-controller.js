@@ -26,6 +26,7 @@ export const waterfallController = {
     handler: async function (request, h) {
       const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
       const newPOI = {
+        waterfallId: waterfall._id,
         type: request.payload.type,
         description: request.payload.description,
         xCoordinate: parseFloat(request.payload.xCoordinate),

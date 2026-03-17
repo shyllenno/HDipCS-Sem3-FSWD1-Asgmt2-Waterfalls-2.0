@@ -11,7 +11,6 @@ export const POIJsonStore = {
   async addPOI(waterfallId, POI) {
     await db.read();
     POI._id = v4();
-    POI.waterfallid = waterfallId;
     db.data.POIs.push(POI);
     await db.write();
     return POI;
@@ -19,18 +18,29 @@ export const POIJsonStore = {
 
   async getPOIsByWaterfallId(id) {
     await db.read();
-    return db.data.POIs.filter((POI) => POI.waterfallid === id);
+    let foundPOIs = db.data.POIs.filter((POI) => POI.waterfallid === id);
+    if (foundPOIs === undefined) foundPOIs = null;
+    return foundPOIs;
+  },
+
+  async getWaterfallPOIs(waterfallId) {
+    await db.read();
+    let foundPOIs = db.data.POIs.filter((POI) => POI.waterfallid === waterfallId);
+    if (foundPOIs === undefined) foundPOIs = null;
+    return foundPOIs;
   },
 
   async getPOIById(id) {
     await db.read();
-    return db.data.POIs.find((POI) => POI._id === id);
+    let foundPOI = db.data.POIs.find((POI) => POI._id === id);
+    if (foundPOI === undefined) foundPOI = null;
+    return foundPOI;
   },
 
-  async deletePOI(id) {
+  async deletePOIById(id) {
     await db.read();
     const index = db.data.POIs.findIndex((POI) => POI._id === id);
-    db.data.POIs.splice(index, 1);
+    if (index !== -1) db.data.POIs.splice(index, 1);
     await db.write();
   },
 

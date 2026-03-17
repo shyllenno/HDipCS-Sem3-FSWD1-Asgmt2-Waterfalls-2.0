@@ -17,6 +17,8 @@ export const waterfallJsonStore = {
     waterfall.x = waterfall.x ?? 0;
     waterfall.y = waterfall.y ?? 0;
 
+    waterfall.POIs = [];
+
     db.data.waterfalls.push(waterfall);
     await db.write();
     return waterfall;
@@ -24,8 +26,12 @@ export const waterfallJsonStore = {
 
   async getWaterfallById(id) {
     await db.read();
-    const list = db.data.waterfalls.find((waterfall) => waterfall._id === id);
-    list.POIs = await POIJsonStore.getPOIsByWaterfallId(list._id);
+    let list = db.data.waterfalls.find((waterfall) => waterfall._id === id);
+    if (list) {
+      list.POIs = await POIJsonStore.getPOIsByWaterfallId(list._id);
+    } else {
+      list = null;
+    }
     return list;
   },
 
@@ -37,7 +43,7 @@ export const waterfallJsonStore = {
   async deleteWaterfallById(id) {
     await db.read();
     const index = db.data.waterfalls.findIndex((waterfall) => waterfall._id === id);
-    db.data.waterfalls.splice(index, 1);
+    if (index !== -1) db.data.waterfalls.splice(index, 1);
     await db.write();
   },
 

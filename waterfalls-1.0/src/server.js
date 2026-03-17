@@ -50,7 +50,7 @@ async function init() {
     isCached: false,
   });
 
-  db.init();
+  db.init("json");
   server.route(webRoutes);
 
   await server.start();
