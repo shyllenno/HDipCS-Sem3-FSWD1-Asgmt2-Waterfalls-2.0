@@ -109,7 +109,7 @@ dist
 .dynamodb/
 
 # Lowdb local files
-db.json
+src/models/json/db.json
 
 # TernJS port file
 .tern-port
