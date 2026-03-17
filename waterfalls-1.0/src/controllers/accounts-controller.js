@@ -1,4 +1,5 @@
 import { db } from "../models/db.js";
+import { UserCredentialsSpec, UserSpec } from "../models/joi-schemas.js";
 
 export const accountsController = {
   index: {
@@ -15,6 +16,13 @@ export const accountsController = {
   },
   signup: {
     auth: false,
+    validate: {
+      payload: UserSpec,
+      options: { abortEarly: false },
+      failAction: function (request, h, error) {
+        return h.view("signup-view", { title: "Sign up error", errors: error.details, values: request.payload }).takeover().code(400);
+      },
+    },
     handler: async function (request, h) {
       const user = request.payload;
       await db.userStore.addUser(user);
@@ -29,12 +37,44 @@ export const accountsController = {
   },
   login: {
     auth: false,
+    validate: {
+      payload: UserCredentialsSpec,
+      options: { abortEarly: false },
+      failAction: function (request, h, error) {
+        return h.view("login-view", { title: "Login in error", errors: error.details, values: request.payload }).takeover().code(400);
+      },
+    },
     handler: async function (request, h) {
       const { email, password } = request.payload;
+      // const user = await db.userStore.getUserByEmail(email);
+      // if (!user || user.password !== password) {
+      //   return h.redirect("/");
+      // }
+
+      // 1. Check if email exists
       const user = await db.userStore.getUserByEmail(email);
-      if (!user || user.password !== password) {
-        return h.redirect("/");
+      if (!user) {
+        return h
+          .view("login-view", {
+            title: "Login error",
+            errors: [{ message: "Email not registered! Please sign up" }],
+            values: request.payload,
+          })
+          .code(400);
       }
+
+      // 2. Check password
+      const passwordsMatch = user.password === password; // or bcrypt.compare()
+      if (!passwordsMatch) {
+        return h
+          .view("login-view", {
+            title: "Login error",
+            errors: [{ message: "Incorrect password" }],
+            values: request.payload,
+          })
+          .code(400);
+      }
+
       request.cookieAuth.set({ id: user._id });
       return h.redirect("/dashboard");
     },

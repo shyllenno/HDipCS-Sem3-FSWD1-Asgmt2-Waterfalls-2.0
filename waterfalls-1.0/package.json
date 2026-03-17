@@ -1,6 +1,6 @@
 {
   "name": "waterfalls-1.0",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "homepage": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt1-Waterfalls-1.0#readme",
   "bugs": {
@@ -31,6 +31,8 @@
     "@hapi/vision": "^7.0.3",
     "dotenv": "^17.3.1",
     "handlebars": "^4.7.8",
+    "joi": "^18.0.2",
+    "lowdb": "^7.0.1",
     "uuid": "^13.0.0"
   }
 }
