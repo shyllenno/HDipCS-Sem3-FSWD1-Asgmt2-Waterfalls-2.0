@@ -1,4 +1,5 @@
 import { db } from "../models/db.js";
+import { WaterfallSpec } from "../models/joi-schemas.js";
 
 export const dashboardController = {
   index: {
@@ -15,6 +16,13 @@ export const dashboardController = {
   },
 
   addWaterfall: {
+    validate: {
+      payload: WaterfallSpec,
+      options: { abortEarly: false },
+      failAction: function (request, h, error) {
+        return h.view("dashboard-view", { title: "Add Waterfall error", errors: error.details, values: request.payload }).takeover().code(400);
+      },
+    },
     handler: async function (request, h) {
       const loogedInUser = request.auth.credentials;
       const newWaterfall = {
