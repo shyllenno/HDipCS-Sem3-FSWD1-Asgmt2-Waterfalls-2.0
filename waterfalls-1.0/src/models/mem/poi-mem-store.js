@@ -8,9 +8,8 @@ export const POIMemStore = {
     return POIs;
   },
 
-  async addPOI(waterfallId, POI) {
+  async addPOI(POI) {
     POI._id = v4();
-    POI.waterfallid = waterfallId;
     POIs.push(POI);
     return POI;
   },
