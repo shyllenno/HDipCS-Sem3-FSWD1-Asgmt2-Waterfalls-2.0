@@ -3,6 +3,7 @@ import Vision from "@hapi/vision";
 import Cookie from "@hapi/cookie";
 import Handlebars from "handlebars";
 import dotenv from "dotenv";
+import Joi from "joi";
 import path from "path";
 import { fileURLToPath } from "url";
 import { webRoutes } from "./web-routes.js";
@@ -26,6 +27,7 @@ async function init() {
 
   await server.register(Vision);
   await server.register(Cookie);
+  server.validator(Joi);
 
   server.auth.strategy("session", "cookie", {
     cookie: {
