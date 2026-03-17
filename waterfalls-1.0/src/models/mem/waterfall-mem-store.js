@@ -5,6 +5,11 @@ import { POIMemStore } from "./poi-mem-store.js";
 let waterfalls = [];
 
 export const waterfallMemStore = {
+
+  async getUserWaterfalls(userid) {
+    return waterfalls.filter((waterfall) => waterfall.userid === userid);
+  },
+
   async getAllWaterfalls() {
     return waterfalls;
   },

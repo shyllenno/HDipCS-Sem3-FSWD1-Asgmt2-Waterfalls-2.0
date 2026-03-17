@@ -1,19 +1,38 @@
 <form action="/dashboard/addwaterfall" method="POST">
-  <div class="field">
-    <label class="label">Waterfall</label> <input class="input" type="text" placeholder="Enter waterfall name"
-      name="name">
+
+  <div class="field is-horizontal">
+    <div class="field-body">
+
+      <div class="field">
+        <label class="label">Waterfall</label>
+        <div class="control">
+          <input class="input" type="text" name="name" placeholder="Enter waterfall name">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">X Coordinate</label>
+        <div class="control">
+          <input class="input" type="number" name="x" placeholder="X">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Y Coordinate</label>
+        <div class="control">
+          <input class="input" type="number" name="y" placeholder="Y">
+        </div>
+      </div>
+
+    </div>
   </div>
+
   <div class="field">
-    <label class="label">Description</label> <input class="input" type="text" placeholder="Enter the description"
-      name="description">
+    <label class="label">Description</label>
+    <div class="control">
+      <input class="input" type="text" name="description" placeholder="Enter the description">
+    </div>
   </div>
-  <div class="field">
-    <label class="label">X Coordinate</label> <input class="input" type="number" placeholder="Enter X coordinate"
-      name="x">
-  </div>
-  <div class="field">
-    <label class="label">Y Coordinate</label> <input class="input" type="number" placeholder="Enter Y coordinate"
-      name="y">
-  </div>
+
   <button class="button is-link">Add Waterfall</button>
 </form>

@@ -18,4 +18,7 @@ export const webRoutes = [
 
   { method: "GET", path: "/waterfall/{id}", config: waterfallController.index },
   { method: "POST", path: "/waterfall/{id}/addpoi", config: waterfallController.addPOI },
+
+  {method: "GET", path: "/dashboard/deletewaterfall/{id}", config: dashboardController.deleteWaterfall},
+  {method: "GET", path: "/waterfall/{id}/deletepoi/{poiId}", config: waterfallController.deletePOI},
 ];
