@@ -14,8 +14,10 @@ export const waterfallJsonStore = {
     waterfall._id = v4();
 
     // Ensure coordinates exist, if not, default to 0
-    waterfall.x = waterfall.x ?? 0;
-    waterfall.y = waterfall.y ?? 0;
+    waterfall.latitude = waterfall.latitude ?? 0;
+    waterfall.longitude = waterfall.longitude ?? 0;
+
+    waterfall.POIs = [];
 
     db.data.waterfalls.push(waterfall);
     await db.write();
@@ -24,8 +26,12 @@ export const waterfallJsonStore = {
 
   async getWaterfallById(id) {
     await db.read();
-    const list = db.data.waterfalls.find((waterfall) => waterfall._id === id);
-    list.POIs = await POIJsonStore.getPOIsByWaterfallId(list._id);
+    let list = db.data.waterfalls.find((waterfall) => waterfall._id === id);
+    if (list) {
+      list.POIs = await POIJsonStore.getPOIsByWaterfallId(list._id);
+    } else {
+      list = null;
+    }
     return list;
   },
 
@@ -37,7 +43,7 @@ export const waterfallJsonStore = {
   async deleteWaterfallById(id) {
     await db.read();
     const index = db.data.waterfalls.findIndex((waterfall) => waterfall._id === id);
-    db.data.waterfalls.splice(index, 1);
+    if (index !== -1) db.data.waterfalls.splice(index, 1);
     await db.write();
   },
 
