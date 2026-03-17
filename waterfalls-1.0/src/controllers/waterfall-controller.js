@@ -1,4 +1,5 @@
 import { db } from "../models/db.js";
+import { POISpec } from "../models/joi-schemas.js";
 
 export const waterfallController = {
   index: {
@@ -13,6 +14,15 @@ export const waterfallController = {
   },
 
   addPOI: {
+    validate: {
+      payload: POISpec,
+      options: { abortEarly: false },
+      failAction: async function (request, h, error) {
+        const waterfallId = request.params.id;
+        const waterfall = await db.waterfallStore.getWaterfallById(waterfallId);
+        return h.view("waterfall-view", { title: "Add POI error", waterfall: waterfall, errors: error.details, values: request.payload }).takeover().code(400);
+      },
+    },
     handler: async function (request, h) {
       const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
       const newPOI = {
