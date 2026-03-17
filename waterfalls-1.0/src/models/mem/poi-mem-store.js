@@ -27,10 +27,6 @@ export const POIMemStore = {
     return foundPOI;
   },
 
-  async getWaterfallPOIs(waterfallId) {
-    return POIs.filter((POI) => POI.waterfallid === waterfallId);
-  },
-
   async deletePOIById(id) {
     const index = POIs.findIndex((POI) => POI._id === id);
     if (index !== -1) {
