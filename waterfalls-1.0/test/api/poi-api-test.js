@@ -52,7 +52,7 @@ suite("POI API tests", () => {
     assert.equal(returnedPOIs.length, 0);
   });
 
-  test("denormalised playlist", async () => {
+  test("denormalised waterfall", async () => {
     for (let i = 0; i < testPOIs.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
       await waterfallService.createPOI(powerscourt._id, testPOIs[i]);

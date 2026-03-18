@@ -33,13 +33,14 @@ export const POIApi = {
     auth: false,
     handler: async function (request, h) {
       try {
-        const POI = await db.POIStore.addPOI(request.params.id, request.payload);
-        if (POI) {
-          return h.response(POI).code(201);
-        }
-        return Boom.badImplementation("error creating POI");
+        const poiData = request.payload;
+        poiData.waterfallid = request.params.id;
+
+        const poi = await db.POIStore.addPOI(poiData);
+        return h.response(poi).code(201);
       } catch (err) {
-        return Boom.serverUnavailable("Database Error:", err);
+        console.log(err);
+        return Boom.serverUnavailable("Database Error");
       }
     },
   },
@@ -64,7 +65,7 @@ export const POIApi = {
         if (!POI) {
           return Boom.notFound("No POI with this id");
         }
-        await db.POIStore.deletePOI(POI._id);
+        await db.POIStore.deletePOIById(POI._id);
         return h.response().code(204);
       } catch (err) {
         return Boom.serverUnavailable("No Track with this id:", err);
