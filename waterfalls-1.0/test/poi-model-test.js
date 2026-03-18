@@ -1,22 +1,29 @@
 import { assert } from "chai";
 import Joi from "joi";
 import { db } from "../src/models/db.js";
-import { testPOIs } from "./fixtures.js";
+import { testPOIs as base } from "./fixtures.js";
 import { POISpec } from "../src/models/joi-schemas.js";
+import { assertSubset } from "./test-utils.js";
+
+let testPOIs = [];
 
 suite("POI Model tests", () => {
   setup(async () => {
-    db.init("json");
+    db.init("mongo");
     await db.POIStore.deleteAllPOIs();
-    for (let i = 0; i < testPOIs.length; i += 1) {
+
+    testPOIs = [];
+    
+    for (let i = 0; i < base.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      testPOIs[i] = await db.POIStore.addPOI(testPOIs[i]);
+      testPOIs[i] = await db.POIStore.addPOI({ ...base[i] });
     }
   });
 
   test("create a POI", async () => {
-    const newPOI = await db.POIStore.addPOI(testPOIs[0]);
-    assert.equal(newPOI, testPOIs[0]);
+    const newPOI = await db.POIStore.addPOI(base[0]);
+    const getPOI = await db.POIStore.getPOIById(newPOI._id);
+    assertSubset(getPOI, newPOI);
   });
 
   test("delete all POIs", async () => {
@@ -28,7 +35,7 @@ suite("POI Model tests", () => {
   });
 
   test("get a POI - success", async () => {
-    const POI = await db.POIStore.addPOI(testPOIs[0]);
+    const POI = await db.POIStore.addPOI(base[0]);
     const returnedPOI = await db.POIStore.getPOIById(POI._id);
     assert.deepEqual(POI, returnedPOI);
   });
@@ -137,45 +144,50 @@ suite("POI Model tests", () => {
   test("create a POI - out of bounds coordinates", async () => {
     const schema = Joi.object(POISpec);
 
-    const badMinusLatitude = { 
-      type: "Bad POI", 
-      description: "Should fail", 
-      latitude: -91, 
-      longitude: 0 };
+    const badMinusLatitude = {
+      type: "Bad POI",
+      description: "Should fail",
+      latitude: -91,
+      longitude: 0,
+    };
     let validation = schema.validate(badMinusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude < -90");
 
-    const badPlusLatitude = { 
-      type: "Bad POI", 
-      description: "Should fail", 
-      latitude: 91, 
-      longitude: 0 };
+    const badPlusLatitude = {
+      type: "Bad POI",
+      description: "Should fail",
+      latitude: 91,
+      longitude: 0,
+    };
     validation = schema.validate(badPlusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude > 90");
 
-    const badMinusLongitude = { 
-      type: "Bad POI", 
-      description: "Should fail", 
-      latitude: 0, 
-      longitude: -181 };
+    const badMinusLongitude = {
+      type: "Bad POI",
+      description: "Should fail",
+      latitude: 0,
+      longitude: -181,
+    };
     validation = schema.validate(badMinusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude < -180");
 
-    const badPlusLongitude = { 
-      type: "Bad POI", 
-      description: "Should fail", 
-      latitude: -100, 
-      longitude: 181 };
+    const badPlusLongitude = {
+      type: "Bad POI",
+      description: "Should fail",
+      latitude: -100,
+      longitude: 181,
+    };
     validation = schema.validate(badPlusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude > 180");
   });
 
   test("create a POI - valid coordinates", async () => {
-    const goodCoordinates = { 
-      type: "Good POI", 
-      description: "A good POI, it should pass", 
-      latitude: 52.3, 
-      longitude: -7.5 };
+    const goodCoordinates = {
+      type: "Good POI",
+      description: "A good POI, it should pass",
+      latitude: 52.3,
+      longitude: -7.5,
+    };
 
     const schema = Joi.object(POISpec);
     const validation = schema.validate(goodCoordinates);
