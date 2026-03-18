@@ -1,17 +1,28 @@
 {{> welcome-menu active="login"}}
 
 <section class="section">
-  <h1 class="title">Log in</h1>
-  <form action="/authenticate" method="POST">
-    <div class="field">
-      <label class="label">Email</label> <input class="input" type="text" placeholder="Enter email" name="email" value="{{values.email}}">
+  <div class="columns is-vcentered ">
+    <div class="column">
+      <img src="/images/designtek-waterfall-4726196_640.jpg" alt="Waterfall image">
     </div>
-    <div class="field">
-      <label class="label">Password</label> <input class="input" type="password" placeholder="Enter Password"
-        name="password" value="{{values.password}}">
+
+
+    <div class="column has-text-centered">
+      <h1 class="title">Log in</h1>
+      <form action="/authenticate" method="POST">
+        <div class="field">
+          <label class="label">Email</label> <input class="input" type="text" placeholder="Enter email" name="email"
+            value="{{values.email}}">
+        </div>
+        <div class="field">
+          <label class="label">Password</label> <input class="input" type="password" placeholder="Enter Password"
+            name="password" value="{{values.password}}">
+        </div>
+        <div class="field is-grouped">
+          <button class="button is-link">Submit</button>
+        </div>
+      </form>
     </div>
-    <div class="field is-grouped">
-      <button class="button is-link">Submit</button>
-    </div>
-  </form>
+  </div>
+
 </section>
