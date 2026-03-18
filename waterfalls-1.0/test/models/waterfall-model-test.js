@@ -1,10 +1,10 @@
 import { assert } from "chai";
 import Joi from "joi";
 import { EventEmitter } from "events";
-import { db } from "../src/models/db.js";
-import { testWaterfalls as base } from "./fixtures.js";
-import { WaterfallSpec, POISpec } from "../src/models/joi-schemas.js";
-import { assertSubset } from "./test-utils.js";
+import { db } from "../../src/models/db.js";
+import { testWaterfalls as base } from "../fixtures.js";
+import { WaterfallSpec, POISpec } from "../../src/models/joi-schemas.js";
+import { assertSubset } from "../test-utils.js";
 
 EventEmitter.setMaxListeners(10000);
 
@@ -12,7 +12,7 @@ let testWaterfalls = [];
 
 suite("Waterfall Model tests", () => {
   setup(async () => {
-    db.init("mongo");
+    db.init("json");
     await db.waterfallStore.deleteAllWaterfalls();
 
     testWaterfalls = [];
@@ -31,7 +31,7 @@ suite("Waterfall Model tests", () => {
 
   test("delete all waterfalls", async () => {
     let returnedWaterfalls = await db.waterfallStore.getAllWaterfalls();
-    assert.equal(returnedWaterfalls.length, 1);
+    assert.equal(returnedWaterfalls.length, testWaterfalls.length);
     await db.waterfallStore.deleteAllWaterfalls();
     returnedWaterfalls = await db.waterfallStore.getAllWaterfalls();
     assert.equal(returnedWaterfalls.length, 0);

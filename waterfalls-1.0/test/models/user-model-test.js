@@ -1,13 +1,13 @@
 import { assert } from "chai";
-import { db } from "../src/models/db.js";
-import { maggie, testUsers as base } from "./fixtures.js";
-import { assertSubset } from "./test-utils.js";
+import { db } from "../../src/models/db.js";
+import { maggie, testUsers as base } from "../fixtures.js";
+import { assertSubset } from "../test-utils.js";
 
 let testUsers = [];
 
 suite("User Model tests", () => {
   setup(async () => {
-    db.init("mongo");
+    db.init("json");
     await db.userStore.deleteAll();
     
     testUsers = [];
