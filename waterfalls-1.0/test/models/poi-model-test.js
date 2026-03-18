@@ -1,9 +1,9 @@
 import { assert } from "chai";
 import Joi from "joi";
-import { db } from "../src/models/db.js";
-import { testPOIs as base } from "./fixtures.js";
-import { POISpec } from "../src/models/joi-schemas.js";
-import { assertSubset } from "./test-utils.js";
+import { db } from "../../src/models/db.js";
+import { testPOIs as base } from "../fixtures.js";
+import { POISpec } from "../../src/models/joi-schemas.js";
+import { assertSubset } from "../test-utils.js";
 
 let testPOIs = [];
 
@@ -13,11 +13,15 @@ suite("POI Model tests", () => {
     await db.POIStore.deleteAllPOIs();
 
     testPOIs = [];
-    
+
     for (let i = 0; i < base.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
       testPOIs[i] = await db.POIStore.addPOI({ ...base[i] });
     }
+  });
+
+  teardown(async () => {
+    await db.POIStore.deleteAllPOIs();
   });
 
   test("create a POI", async () => {
@@ -28,7 +32,7 @@ suite("POI Model tests", () => {
 
   test("delete all POIs", async () => {
     let returnedPOIs = await db.POIStore.getAllPOIs();
-    assert.equal(returnedPOIs.length, 2);
+    assert.equal(returnedPOIs.length, testPOIs.length);
     await db.POIStore.deleteAllPOIs();
     returnedPOIs = await db.POIStore.getAllPOIs();
     assert.equal(returnedPOIs.length, 0);
