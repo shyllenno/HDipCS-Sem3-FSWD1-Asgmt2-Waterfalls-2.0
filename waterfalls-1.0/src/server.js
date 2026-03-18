@@ -51,7 +51,7 @@ async function init() {
     isCached: false,
   });
 
-  db.init("json");
+  db.init("mongo");
   server.route(webRoutes);
   server.route(apiRoutes);
 

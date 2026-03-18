@@ -16,7 +16,10 @@ suite("Waterfall API tests", () => {
     powerscourtWaterfall.userid = user._id;
   });
 
-  teardown(async () => {});
+  teardown(async () => {
+    await waterfallService.deleteAllWaterfalls();
+    await waterfallService.deleteAllUsers();
+  });
 
   test("create waterfall", async () => {
     const returnedWaterfall = await waterfallService.createWaterfall(powerscourtWaterfall);
@@ -57,5 +60,4 @@ suite("Waterfall API tests", () => {
       assert(error.response.data.message === "No Waterfall with this id", "Incorrect Response Message");
     }
   });
-
 });

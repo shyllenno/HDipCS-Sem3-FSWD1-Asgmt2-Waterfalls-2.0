@@ -12,7 +12,7 @@ let testWaterfalls = [];
 
 suite("Waterfall Model tests", () => {
   setup(async () => {
-    db.init("json");
+    db.init("mongo");
     await db.waterfallStore.deleteAllWaterfalls();
 
     testWaterfalls = [];
@@ -21,6 +21,10 @@ suite("Waterfall Model tests", () => {
       // eslint-disable-next-line no-await-in-loop
       testWaterfalls[i] = await db.waterfallStore.addWaterfall({ ...base[i] });
     }
+  });
+
+  teardown(async () => {
+    await db.waterfallStore.deleteAllWaterfalls();
   });
 
   test("create a waterfall", async () => {

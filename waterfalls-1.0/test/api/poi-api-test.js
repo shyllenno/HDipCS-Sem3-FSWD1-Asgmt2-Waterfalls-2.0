@@ -1,7 +1,9 @@
 import { assert } from "chai";
 import { assertSubset } from "../test-utils.js";
 import { waterfallService } from "./waterfall-service.js";
-import { maggie, powerscourtWaterfall, powerscourtHouseGarden, testWaterfalls, testPOIs } from "../fixtures.js";
+import { maggie, powerscourtWaterfall, powerscourtHouseGarden, testWaterfalls, testPOIs as base } from "../fixtures.js";
+
+let testPOIs = [];
 
 suite("POI API tests", () => {
   let user = null;
@@ -11,12 +13,20 @@ suite("POI API tests", () => {
     await waterfallService.deleteAllWaterfalls();
     await waterfallService.deleteAllUsers();
     await waterfallService.deleteAllPOIs();
+
+    testPOIs = [];
+
     user = await waterfallService.createUser(maggie);
     powerscourtWaterfall.userid = user._id;
     powerscourt = await waterfallService.createWaterfall(powerscourtWaterfall);
   });
 
-  teardown(async () => {});
+  teardown(async () => {
+    await waterfallService.deleteAllWaterfalls();
+    await waterfallService.deleteAllUsers();
+    await waterfallService.deleteAllPOIs();
+    testPOIs = [];
+  });
 
   test("create POI", async () => {
     const returnedPOI = await waterfallService.createPOI(powerscourt._id, powerscourtHouseGarden);
@@ -24,9 +34,9 @@ suite("POI API tests", () => {
   });
 
   test("create Multiple POIs", async () => {
-    for (let i = 0; i < testPOIs.length; i += 1) {
+    for (let i = 0; i < base.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      await waterfallService.createPOI(powerscourt._id, testPOIs[i]);
+      testPOIs[i] = await waterfallService.createPOI(powerscourt._id, base[i]);
     }
     const returnedPOIs = await waterfallService.getAllPOIs();
     assert.equal(returnedPOIs.length, testPOIs.length);
@@ -38,9 +48,9 @@ suite("POI API tests", () => {
   });
 
   test("Delete POIApi", async () => {
-    for (let i = 0; i < testPOIs.length; i += 1) {
+    for (let i = 0; i < base.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      await waterfallService.createPOI(powerscourt._id, testPOIs[i]);
+      testPOIs[i] = await waterfallService.createPOI(powerscourt._id, base[i]);
     }
     let returnedPOIs = await waterfallService.getAllPOIs();
     assert.equal(returnedPOIs.length, testPOIs.length);
@@ -53,9 +63,9 @@ suite("POI API tests", () => {
   });
 
   test("denormalised waterfall", async () => {
-    for (let i = 0; i < testPOIs.length; i += 1) {
+    for (let i = 0; i < base.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      await waterfallService.createPOI(powerscourt._id, testPOIs[i]);
+      testPOIs[i] = await waterfallService.createPOI(powerscourt._id, base[i]);
     }
     const returnedWaterfall = await waterfallService.getWaterfall(powerscourt._id);
     assert.equal(returnedWaterfall.POIs.length, testPOIs.length);

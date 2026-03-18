@@ -11,7 +11,9 @@ suite("User API tests", () => {
       testUsers[i] = await waterfallService.createUser(testUsers[i]);
     }
   });
-  teardown(async () => {});
+  teardown(async () => {
+    await waterfallService.deleteAllUsers();
+  });
 
   test("create a user", async () => {
     const newUser = await waterfallService.createUser(maggie);

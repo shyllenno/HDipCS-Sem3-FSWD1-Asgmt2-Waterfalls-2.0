@@ -7,15 +7,19 @@ let testUsers = [];
 
 suite("User Model tests", () => {
   setup(async () => {
-    db.init("json");
+    db.init("mongo");
     await db.userStore.deleteAll();
-    
+
     testUsers = [];
-    
+
     for (let i = 0; i < base.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
       testUsers[i] = await db.userStore.addUser({ ...base[i] });
     }
+  });
+
+  teardown(async () => {
+    await db.userStore.deleteAll();
   });
 
   test("create a user", async () => {

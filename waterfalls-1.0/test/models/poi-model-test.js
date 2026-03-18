@@ -9,15 +9,19 @@ let testPOIs = [];
 
 suite("POI Model tests", () => {
   setup(async () => {
-    db.init("json");
+    db.init("mongo");
     await db.POIStore.deleteAllPOIs();
 
     testPOIs = [];
-    
+
     for (let i = 0; i < base.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
       testPOIs[i] = await db.POIStore.addPOI({ ...base[i] });
     }
+  });
+
+  teardown(async () => {
+    await db.POIStore.deleteAllPOIs();
   });
 
   test("create a POI", async () => {
