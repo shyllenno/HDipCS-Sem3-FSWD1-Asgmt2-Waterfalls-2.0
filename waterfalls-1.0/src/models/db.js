@@ -6,6 +6,11 @@ import { userJsonStore } from "./json/user-json-store.js";
 import { waterfallJsonStore } from "./json/waterfall-json-store.js";
 import { POIJsonStore } from "./json/poi-json-store.js";
 
+import { connectMongo } from "./mongo/connect.js";
+import { userMongoStore } from "./mongo/user-mongo-store.js";
+import { waterfallMongoStore } from "./mongo/waterfall-mongo-store.js";
+import { poiMongoStore } from "./mongo/poi-mongo-store.js";
+
 export const db = {
   userStore: null,
   waterfallStore: null,
@@ -13,6 +18,12 @@ export const db = {
 
   init(storeType) {
     switch (storeType) {
+      case "mongo":
+        this.userStore = userMongoStore;
+        this.waterfallStore = waterfallMongoStore;
+        this.POIStore = poiMongoStore;
+        connectMongo();
+        break;
       case "json":
         this.userStore = userJsonStore;
         this.waterfallStore = waterfallJsonStore;

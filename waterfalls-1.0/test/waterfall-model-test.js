@@ -1,22 +1,32 @@
 import { assert } from "chai";
 import Joi from "joi";
+import { EventEmitter } from "events";
 import { db } from "../src/models/db.js";
-import { testWaterfalls } from "./fixtures.js";
+import { testWaterfalls as base } from "./fixtures.js";
 import { WaterfallSpec, POISpec } from "../src/models/joi-schemas.js";
+import { assertSubset } from "./test-utils.js";
+
+EventEmitter.setMaxListeners(10000);
+
+let testWaterfalls = [];
 
 suite("Waterfall Model tests", () => {
   setup(async () => {
-    db.init("json");
+    db.init("mongo");
     await db.waterfallStore.deleteAllWaterfalls();
-    for (let i = 0; i < testWaterfalls.length; i += 1) {
+
+    testWaterfalls = [];
+
+    for (let i = 0; i < base.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      testWaterfalls[i] = await db.waterfallStore.addWaterfall(testWaterfalls[i]);
+      testWaterfalls[i] = await db.waterfallStore.addWaterfall({ ...base[i] });
     }
   });
 
   test("create a waterfall", async () => {
-    const newWaterfall = await db.waterfallStore.addWaterfall(testWaterfalls[0]);
-    assert.equal(newWaterfall, testWaterfalls[0]);
+    const newWaterfall = await db.waterfallStore.addWaterfall(base[0]);
+    const getWaterfall = await db.waterfallStore.getWaterfallById(newWaterfall._id);
+    assertSubset(getWaterfall, newWaterfall);
   });
 
   test("delete all waterfalls", async () => {
@@ -28,9 +38,9 @@ suite("Waterfall Model tests", () => {
   });
 
   test("get a waterfall - success", async () => {
-    const waterfall = await db.waterfallStore.addWaterfall(testWaterfalls[0]);
+    const waterfall = await db.waterfallStore.addWaterfall(base[0]);
     const returnedWaterfall = await db.waterfallStore.getWaterfallById(waterfall._id);
-    assert.deepEqual(waterfall, returnedWaterfall);
+    assertSubset(waterfall, returnedWaterfall);
   });
 
   test("delete One waterfall - success", async () => {
@@ -137,45 +147,50 @@ suite("Waterfall Model tests", () => {
   test("create a waterfall - out of bounds coordinates", async () => {
     const schema = Joi.object(WaterfallSpec);
 
-    const badMinusLatitude = { 
-      name: "Bad Waterfall", 
-      description: "Should fail", 
-      latitude: -91, 
-      longitude: 0 };
+    const badMinusLatitude = {
+      name: "Bad Waterfall",
+      description: "Should fail",
+      latitude: -91,
+      longitude: 0,
+    };
     let validation = schema.validate(badMinusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude < -90");
 
-    const badPlusLatitude = { 
-      name: "Bad Waterfall", 
-      description: "Should fail", 
-      latitude: 91, 
-      longitude: 0 };
+    const badPlusLatitude = {
+      name: "Bad Waterfall",
+      description: "Should fail",
+      latitude: 91,
+      longitude: 0,
+    };
     validation = schema.validate(badPlusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude > 90");
 
-    const badMinusLongitude = { 
-      name: "Bad Waterfall", 
-      description: "Should fail", 
-      latitude: 0, 
-      longitude: -181 };
+    const badMinusLongitude = {
+      name: "Bad Waterfall",
+      description: "Should fail",
+      latitude: 0,
+      longitude: -181,
+    };
     validation = schema.validate(badMinusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude < -180");
 
-    const badPlusLongitude = { 
-      name: "Bad Waterfall", 
-      description: "Should fail", 
-      latitude: -100, 
-      longitude: 181 };
+    const badPlusLongitude = {
+      name: "Bad Waterfall",
+      description: "Should fail",
+      latitude: -100,
+      longitude: 181,
+    };
     validation = schema.validate(badPlusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude > 180");
   });
 
   test("create a waterfall - valid coordinates", async () => {
-    const goodCoordinates = { 
-      name: "Good Waterfall", 
-      description: "A good waterfall, it should pass", 
-      latitude: 52.3, 
-      longitude: -7.5 };
+    const goodCoordinates = {
+      name: "Good Waterfall",
+      description: "A good waterfall, it should pass",
+      latitude: 52.3,
+      longitude: -7.5,
+    };
 
     const schema = Joi.object(WaterfallSpec);
     const validation = schema.validate(goodCoordinates);
