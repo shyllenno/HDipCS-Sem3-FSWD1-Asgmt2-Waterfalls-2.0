@@ -7,6 +7,7 @@ import Joi from "joi";
 import path from "path";
 import { fileURLToPath } from "url";
 import Inert from "@hapi/inert";
+import HapiSwagger from "hapi-swagger";
 import { webRoutes } from "./web-routes.js";
 import { db } from "./models/db.js";
 import { accountsController } from "./controllers/accounts-controller.js";
@@ -21,6 +22,13 @@ if (result.error) {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const swaggerOptions = {
+  info: {
+    title: "Waterfalls-1.0 API Documentation",
+    version: "0.1.0",
+  },
+};
+
 async function init() {
   const server = Hapi.server({
     port: 3000,
@@ -30,6 +38,11 @@ async function init() {
   await server.register(Vision);
   await server.register(Cookie);
   await server.register(Inert);
+  await server.register({
+    plugin: HapiSwagger,
+    options: swaggerOptions,
+  });
+
   server.validator(Joi);
 
   server.auth.strategy("session", "cookie", {
