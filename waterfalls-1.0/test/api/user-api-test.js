@@ -1,14 +1,19 @@
 import { assert } from "chai";
 import { waterfallService } from "./waterfall-service.js";
 import { assertSubset } from "../test-utils.js";
-import { maggie, testUsers } from "../fixtures.js";
+import { maggie, testUsers as base } from "../fixtures.js";
+import { db } from "../../src/models/db.js";
+
+let testUsers = [];
 
 suite("User API tests", () => {
   setup(async () => {
     await waterfallService.deleteAllUsers();
-    for (let i = 0; i < testUsers.length; i += 1) {
+    testUsers = [];
+
+    for (let i = 0; i < base.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      testUsers[i] = await waterfallService.createUser(testUsers[i]);
+      testUsers[i] = await waterfallService.createUser(base[i]);
     }
   });
   teardown(async () => {
@@ -41,6 +46,7 @@ suite("User API tests", () => {
       assert.fail("Should not return a response");
     } catch (error) {
       assert(error.response.data.message === "No User with this id");
+      assert.equal(error.response.data.statusCode, 404);
     }
   });
 
@@ -51,6 +57,7 @@ suite("User API tests", () => {
       assert.fail("Should not return a response");
     } catch (error) {
       assert(error.response.data.message === "No User with this id");
+      assert.equal(error.response.data.statusCode, 404);
     }
   });
 });

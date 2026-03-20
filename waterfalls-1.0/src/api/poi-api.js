@@ -1,5 +1,7 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
+import { IdSpec, POISpec, POISpecPlus, POIArray } from "../models/joi-schemas.js";
+import { validationError } from "./logger.js";
 
 export const POIApi = {
   find: {
@@ -12,6 +14,10 @@ export const POIApi = {
         return Boom.serverUnavailable("Database Error:", err);
       }
     },
+    tags: ["api"],
+    response: { schema: POIArray, failAction: validationError },
+    description: "Get all POIApi",
+    notes: "Returns all POIApi",
   },
 
   findOne: {
@@ -27,6 +33,11 @@ export const POIApi = {
         return Boom.serverUnavailable("No POI with this id:", err);
       }
     },
+    tags: ["api"],
+    description: "Find a POI",
+    notes: "Returns a POI",
+    validate: { params: { id: IdSpec }, failAction: validationError },
+    response: { schema: POISpecPlus, failAction: validationError },
   },
 
   create: {
@@ -34,15 +45,22 @@ export const POIApi = {
     handler: async function (request, h) {
       try {
         const poiData = request.payload;
-        poiData.waterfallid = request.params.id;
+        // poiData.waterfallid = request.params.id;
 
         const poi = await db.POIStore.addPOI(poiData);
         return h.response(poi).code(201);
       } catch (err) {
         console.log(err);
-        return Boom.serverUnavailable("Database Error");
+        console.log("POI CREATE ERROR:", err);
+        throw err;
+        // return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    description: "Create a POI",
+    notes: "Returns the newly created POI",
+    validate: { payload: POISpec },
+    response: { schema: POISpecPlus, failAction: validationError },
   },
 
   deleteAll: {
@@ -55,6 +73,8 @@ export const POIApi = {
         return Boom.serverUnavailable("Database Error:", err);
       }
     },
+    tags: ["api"],
+    description: "Delete all POIs",
   },
 
   deleteOne: {
@@ -68,8 +88,11 @@ export const POIApi = {
         await db.POIStore.deletePOIById(POI._id);
         return h.response().code(204);
       } catch (err) {
-        return Boom.serverUnavailable("No Track with this id:", err);
+        return Boom.serverUnavailable("No POI with this id:", err);
       }
     },
+    tags: ["api"],
+    description: "Delete a POI",
+    validate: { params: { id: IdSpec }, failAction: validationError },
   },
 };

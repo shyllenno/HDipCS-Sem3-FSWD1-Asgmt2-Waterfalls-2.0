@@ -1,5 +1,7 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
+import { IdSpec, WaterfallArray, WaterfallSpec, WaterfallSpecPlus } from "../models/joi-schemas.js";
+import { validationError } from "./logger.js";
 
 export const waterfallApi = {
   find: {
@@ -12,8 +14,11 @@ export const waterfallApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    response: { schema: WaterfallArray, failAction: validationError },
+    description: "Get all waterfalls",
+    notes: "Returns all waterfalls",
   },
-
 
   findOne: {
     auth: false,
@@ -28,6 +33,11 @@ export const waterfallApi = {
         return Boom.serverUnavailable("No Waterfall with this id");
       }
     },
+    tags: ["api"],
+    description: "Find a Waterfall",
+    notes: "Returns a waterfall",
+    validate: { params: { id: IdSpec }, failAction: validationError },
+    response: { schema: WaterfallSpecPlus, failAction: validationError },
   },
 
   create: {
@@ -41,9 +51,16 @@ export const waterfallApi = {
         }
         return Boom.badImplementation("error creating waterfall");
       } catch (err) {
-        return Boom.serverUnavailable("Database Error");
+        console.log("WATERFALL CREATE ERROR:", err);
+        throw err;
+        // return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    description: "Create a Waterfall",
+    notes: "Returns the newly created waterfall",
+    validate: { payload: WaterfallSpec, failAction: validationError },
+    response: { schema: WaterfallSpecPlus, failAction: validationError },
   },
 
   deleteOne: {
@@ -60,6 +77,9 @@ export const waterfallApi = {
         return Boom.serverUnavailable("No Waterfall with this id");
       }
     },
+    tags: ["api"],
+    description: "Delete a Waterfall",
+    validate: { params: { id: IdSpec }, failAction: validationError },
   },
 
   deleteAll: {
@@ -72,5 +92,7 @@ export const waterfallApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    description: "Delete all Waterfalls",
   },
 };
