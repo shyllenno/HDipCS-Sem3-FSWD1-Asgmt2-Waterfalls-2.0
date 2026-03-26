@@ -15,7 +15,7 @@ export const poiMongoStore = {
     return null;
   },
 
-    async getPOIsByWaterfallId(id) {
+  async getPOIsByWaterfallId(id) {
     const pois = await POISchema.find({ waterfallid: id }).lean();
     return pois;
   },

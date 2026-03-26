@@ -48,12 +48,12 @@ export const POIApi = {
         // poiData.waterfallid = request.params.id;
 
         const poi = await db.POIStore.addPOI(poiData);
-        return h.response(poi).code(201);
+        if (poi) {
+          return h.response(poi).code(201);
+        }
+        return Boom.badImplementation("error creating POI");
       } catch (err) {
-        console.log(err);
-        console.log("POI CREATE ERROR:", err);
-        throw err;
-        // return Boom.serverUnavailable("Database Error");
+        return Boom.serverUnavailable("Database Error:", err);
       }
     },
     tags: ["api"],

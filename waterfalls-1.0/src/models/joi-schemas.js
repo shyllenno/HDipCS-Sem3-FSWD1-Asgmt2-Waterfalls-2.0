@@ -28,8 +28,7 @@ export const WaterfallSpec = Joi.object()
     latitude: Joi.number().min(-90).max(90).example(53.1461).required(),
     longitude: Joi.number().min(-180).max(180).example(-6.2112).required(),
     userid: IdSpec,
-    _id: IdSpec,
-    __v: Joi.number(),
+    POIs: Joi.array(),
   })
   .label("WaterfallDetails");
 
@@ -47,8 +46,6 @@ export const POISpec = Joi.object()
     latitude: Joi.number().min(-90).max(90).example(53.18472).required(),
     longitude: Joi.number().min(-180).max(180).example(-6.18694).required(),
     waterfallid: IdSpec,
-    _id: IdSpec,
-    __v: Joi.number(),
   })
   .label("POIDetails");
 

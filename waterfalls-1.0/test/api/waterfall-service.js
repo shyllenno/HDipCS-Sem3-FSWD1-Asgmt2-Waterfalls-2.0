@@ -26,8 +26,8 @@ export const waterfallService = {
   },
 
   async createWaterfall(waterfall) {
-    const res = await axios.post(`${this.waterfallUrl}/api/waterfalls`, waterfall);
-    return res.data;
+    const response = await axios.post(`${this.waterfallUrl}/api/waterfalls`, waterfall);
+    return response.data;
   },
 
   async deleteAllWaterfalls() {
@@ -41,42 +41,37 @@ export const waterfallService = {
   },
 
   async getAllWaterfalls() {
-    const res = await axios.get(`${this.waterfallUrl}/api/waterfalls`);
-    return res.data;
+    const response = await axios.get(`${this.waterfallUrl}/api/waterfalls`);
+    return response.data;
   },
 
   async getWaterfall(id) {
-    const res = await axios.get(`${this.waterfallUrl}/api/waterfalls/${id}`);
-    return res.data;
+    const response = await axios.get(`${this.waterfallUrl}/api/waterfalls/${id}`);
+    return response.data;
   },
 
-  
-  
-
-
   async getAllPOIs() {
-    const res = await axios.get(`${this.waterfallUrl}/api/pois`);
-    return res.data;
+    const response = await axios.get(`${this.waterfallUrl}/api/pois`);
+    return response.data;
   },
 
   async createPOI(id, POI) {
-    const res = await axios.post(`${this.waterfallUrl}/api/waterfalls/${id}/pois`, POI);
-    return res.data;
+    const response = await axios.post(`${this.waterfallUrl}/api/waterfalls/${id}/pois`, POI);
+    return response.data;
   },
 
   async deleteAllPOIs() {
-    const res = await axios.delete(`${this.waterfallUrl}/api/pois`);
-    return res.data;
+    const response = await axios.delete(`${this.waterfallUrl}/api/pois`);
+    return response.data;
   },
 
   async getPOI(id) {
-    const res = await axios.get(`${this.waterfallUrl}/api/pois/${id}`);
-    return res.data;
+    const response = await axios.get(`${this.waterfallUrl}/api/pois/${id}`);
+    return response.data;
   },
 
   async deletePOI(id) {
-    const res = await axios.delete(`${this.waterfallUrl}/api/pois/${id}`);
-    return res.data;
+    const response = await axios.delete(`${this.waterfallUrl}/api/pois/${id}`);
+    return response.data;
   },
-
 };

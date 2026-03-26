@@ -1,7 +1,6 @@
 import { assert } from "chai";
 
 export function assertSubset(subset, superset) {
-
   // console.log("Asserting subset:", subset);
   // console.log("Against superset:", superset);
 

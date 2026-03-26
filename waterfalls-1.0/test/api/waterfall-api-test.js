@@ -2,9 +2,11 @@ import { EventEmitter } from "events";
 import { assert } from "chai";
 import { waterfallService } from "./waterfall-service.js";
 import { assertSubset } from "../test-utils.js";
-import { maggie, powerscourtWaterfall, testWaterfalls } from "../fixtures.js";
+import { maggie, powerscourtWaterfall, testWaterfalls as base } from "../fixtures.js";
 
 EventEmitter.setMaxListeners(25);
+
+let testWaterfalls = [];
 
 suite("Waterfall API tests", () => {
   let user = null;
@@ -12,6 +14,9 @@ suite("Waterfall API tests", () => {
   setup(async () => {
     await waterfallService.deleteAllWaterfalls();
     await waterfallService.deleteAllUsers();
+
+    testWaterfalls = [];
+
     user = await waterfallService.createUser(maggie);
     powerscourtWaterfall.userid = user._id;
   });
@@ -19,10 +24,12 @@ suite("Waterfall API tests", () => {
   teardown(async () => {
     await waterfallService.deleteAllWaterfalls();
     await waterfallService.deleteAllUsers();
+    testWaterfalls = [];
   });
 
   test("create waterfall", async () => {
     const returnedWaterfall = await waterfallService.createWaterfall(powerscourtWaterfall);
+
     assert.isNotNull(returnedWaterfall);
     assertSubset(powerscourtWaterfall, returnedWaterfall);
   });
@@ -40,10 +47,10 @@ suite("Waterfall API tests", () => {
   });
 
   test("create multiple waterfalls", async () => {
-    for (let i = 0; i < testWaterfalls.length; i += 1) {
-      testWaterfalls[i].userid = user._id;
+    for (let i = 0; i < base.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      await waterfallService.createWaterfall(testWaterfalls[i]);
+      testWaterfalls[i] = await waterfallService.createWaterfall(base[i]);
+      testWaterfalls[i].userid = user._id;
     }
     let returnedLists = await waterfallService.getAllWaterfalls();
     assert.equal(returnedLists.length, testWaterfalls.length);

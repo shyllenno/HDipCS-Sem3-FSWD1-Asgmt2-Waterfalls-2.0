@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
-import { db } from "../models/db.js";
 import { IdSpec, WaterfallArray, WaterfallSpec, WaterfallSpecPlus } from "../models/joi-schemas.js";
+import { db } from "../models/db.js";
 import { validationError } from "./logger.js";
 
 export const waterfallApi = {
@@ -45,15 +45,15 @@ export const waterfallApi = {
     handler: async function (request, h) {
       try {
         const waterfall = request.payload;
+
         const newWaterfall = await db.waterfallStore.addWaterfall(waterfall);
+
         if (newWaterfall) {
           return h.response(newWaterfall).code(201);
         }
         return Boom.badImplementation("error creating waterfall");
       } catch (err) {
-        console.log("WATERFALL CREATE ERROR:", err);
-        throw err;
-        // return Boom.serverUnavailable("Database Error");
+        return Boom.serverUnavailable("Database Error");
       }
     },
     tags: ["api"],
@@ -78,7 +78,7 @@ export const waterfallApi = {
       }
     },
     tags: ["api"],
-    description: "Delete a Waterfall",
+    description: "Delete a waterfall",
     validate: { params: { id: IdSpec }, failAction: validationError },
   },
 
@@ -93,6 +93,6 @@ export const waterfallApi = {
       }
     },
     tags: ["api"],
-    description: "Delete all Waterfalls",
+    description: "Delete all WaterfallApi",
   },
 };
