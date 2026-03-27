@@ -66,8 +66,7 @@ export const powerscourtHouseGarden = {
 export const testPOIs = [
   {
     type: "Attraction",
-    description:
-      "The Garganta do Diabo (Devil’s Throat) (accessible from both sides, but superior from Argentina) is widely considered the most spectacular point, while the Brazilian side panoramic viewpoint provides the best photo opportunity",
+    description: "The Garganta do Diabo (Devil’s Throat): Location: Accessible from both sides, but superior from Argentina. Type: Natural Feature.",
     latitude: -25.6953,
     longitude: -54.4367,
   },

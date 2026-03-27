@@ -131,8 +131,7 @@ suite("POI Model tests", () => {
       latitude: 150.0,
       longitude: -200.0,
     };
-    const schema = Joi.object(POISpec);
-    const validation = schema.validate(badPOI);
+    const validation = POISpec.validate(badPOI);
 
     if (validation.error) {
       const result = null;
@@ -146,7 +145,6 @@ suite("POI Model tests", () => {
   });
 
   test("create a POI - out of bounds coordinates", async () => {
-    const schema = Joi.object(POISpec);
 
     const badMinusLatitude = {
       type: "Bad POI",
@@ -154,7 +152,7 @@ suite("POI Model tests", () => {
       latitude: -91,
       longitude: 0,
     };
-    let validation = schema.validate(badMinusLatitude);
+    let validation = POISpec.validate(badMinusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude < -90");
 
     const badPlusLatitude = {
@@ -163,7 +161,7 @@ suite("POI Model tests", () => {
       latitude: 91,
       longitude: 0,
     };
-    validation = schema.validate(badPlusLatitude);
+    validation = POISpec.validate(badPlusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude > 90");
 
     const badMinusLongitude = {
@@ -172,7 +170,7 @@ suite("POI Model tests", () => {
       latitude: 0,
       longitude: -181,
     };
-    validation = schema.validate(badMinusLongitude);
+    validation = POISpec.validate(badMinusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude < -180");
 
     const badPlusLongitude = {
@@ -181,7 +179,7 @@ suite("POI Model tests", () => {
       latitude: -100,
       longitude: 181,
     };
-    validation = schema.validate(badPlusLongitude);
+    validation = POISpec.validate(badPlusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude > 180");
   });
 
@@ -193,8 +191,7 @@ suite("POI Model tests", () => {
       longitude: -7.5,
     };
 
-    const schema = Joi.object(POISpec);
-    const validation = schema.validate(goodCoordinates);
+    const validation = POISpec.validate(goodCoordinates);
 
     assert.isUndefined(validation.error, "Should not have errors for valid coordinates");
   });

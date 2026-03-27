@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import { assertSubset } from "../test-utils.js";
 import { waterfallService } from "./waterfall-service.js";
-import { maggie, powerscourtWaterfall, powerscourtHouseGarden, testWaterfalls, testPOIs as base } from "../fixtures.js";
+import { maggie, powerscourtWaterfall, powerscourtHouseGarden, testPOIs as base } from "../fixtures.js";
 
 let testPOIs = [];
 
@@ -64,10 +64,13 @@ suite("POI API tests", () => {
 
   test("denormalised waterfall", async () => {
     for (let i = 0; i < base.length; i += 1) {
+      base[i].waterfallid = powerscourt._id;
       // eslint-disable-next-line no-await-in-loop
       testPOIs[i] = await waterfallService.createPOI(powerscourt._id, base[i]);
     }
+
     const returnedWaterfall = await waterfallService.getWaterfall(powerscourt._id);
+
     assert.equal(returnedWaterfall.POIs.length, testPOIs.length);
     for (let i = 0; i < testPOIs.length; i += 1) {
       assertSubset(testPOIs[i], returnedWaterfall.POIs[i]);

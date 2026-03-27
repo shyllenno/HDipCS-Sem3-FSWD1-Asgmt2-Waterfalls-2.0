@@ -1,5 +1,7 @@
 import Boom from "@hapi/boom";
+import { IdSpec, WaterfallArray, WaterfallSpec, WaterfallSpecPlus } from "../models/joi-schemas.js";
 import { db } from "../models/db.js";
+import { validationError } from "./logger.js";
 
 export const waterfallApi = {
   find: {
@@ -12,8 +14,11 @@ export const waterfallApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    response: { schema: WaterfallArray, failAction: validationError },
+    description: "Get all waterfalls",
+    notes: "Returns all waterfalls",
   },
-
 
   findOne: {
     auth: false,
@@ -28,6 +33,11 @@ export const waterfallApi = {
         return Boom.serverUnavailable("No Waterfall with this id");
       }
     },
+    tags: ["api"],
+    description: "Find a Waterfall",
+    notes: "Returns a waterfall",
+    validate: { params: { id: IdSpec }, failAction: validationError },
+    response: { schema: WaterfallSpecPlus, failAction: validationError },
   },
 
   create: {
@@ -35,7 +45,9 @@ export const waterfallApi = {
     handler: async function (request, h) {
       try {
         const waterfall = request.payload;
+
         const newWaterfall = await db.waterfallStore.addWaterfall(waterfall);
+
         if (newWaterfall) {
           return h.response(newWaterfall).code(201);
         }
@@ -44,6 +56,11 @@ export const waterfallApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    description: "Create a Waterfall",
+    notes: "Returns the newly created waterfall",
+    validate: { payload: WaterfallSpec, failAction: validationError },
+    response: { schema: WaterfallSpecPlus, failAction: validationError },
   },
 
   deleteOne: {
@@ -60,6 +77,9 @@ export const waterfallApi = {
         return Boom.serverUnavailable("No Waterfall with this id");
       }
     },
+    tags: ["api"],
+    description: "Delete a waterfall",
+    validate: { params: { id: IdSpec }, failAction: validationError },
   },
 
   deleteAll: {
@@ -72,5 +92,7 @@ export const waterfallApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    description: "Delete all WaterfallApi",
   },
 };
