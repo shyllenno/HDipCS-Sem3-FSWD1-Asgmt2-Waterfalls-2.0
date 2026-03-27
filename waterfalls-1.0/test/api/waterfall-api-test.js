@@ -13,8 +13,6 @@ suite("Waterfall API tests", () => {
 
   setup(async () => {
     await waterfallService.deleteAllWaterfalls();
-    await waterfallService.deleteAllUsers();
-
     testWaterfalls = [];
 
     user = await waterfallService.createUser(maggie);
@@ -23,7 +21,6 @@ suite("Waterfall API tests", () => {
 
   teardown(async () => {
     await waterfallService.deleteAllWaterfalls();
-    await waterfallService.deleteAllUsers();
     testWaterfalls = [];
   });
 

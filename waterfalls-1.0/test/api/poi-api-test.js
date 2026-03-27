@@ -11,7 +11,6 @@ suite("POI API tests", () => {
 
   setup(async () => {
     await waterfallService.deleteAllWaterfalls();
-    await waterfallService.deleteAllUsers();
     await waterfallService.deleteAllPOIs();
 
     testPOIs = [];
@@ -23,7 +22,6 @@ suite("POI API tests", () => {
 
   teardown(async () => {
     await waterfallService.deleteAllWaterfalls();
-    await waterfallService.deleteAllUsers();
     await waterfallService.deleteAllPOIs();
     testPOIs = [];
   });

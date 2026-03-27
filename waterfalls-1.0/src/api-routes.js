@@ -19,4 +19,6 @@ export const apiRoutes = [
   { method: "POST", path: "/api/waterfalls/{id}/pois", config: POIApi.create },
   { method: "DELETE", path: "/api/pois", config: POIApi.deleteAll },
   { method: "DELETE", path: "/api/pois/{id}", config: POIApi.deleteOne },
+
+  { method: "POST", path: "/api/users/authenticate", config: userApi.authenticate },
 ];

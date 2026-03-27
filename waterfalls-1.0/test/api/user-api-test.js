@@ -3,11 +3,15 @@ import { waterfallService } from "./waterfall-service.js";
 import { assertSubset } from "../test-utils.js";
 import { maggie, testUsers as base } from "../fixtures.js";
 import { db } from "../../src/models/db.js";
+import { decodeToken } from "../../src/api/jwt-utils.js";
 
 let testUsers = [];
 
 suite("User API tests", () => {
   setup(async () => {
+    waterfallService.clearAuth();
+    await waterfallService.createUser(maggie);
+    await waterfallService.authenticate(maggie);
     await waterfallService.deleteAllUsers();
     testUsers = [];
 
@@ -16,20 +20,22 @@ suite("User API tests", () => {
       testUsers[i] = await waterfallService.createUser(base[i]);
     }
   });
-  teardown(async () => {
-    await waterfallService.deleteAllUsers();
-  });
+  teardown(async () => {});
 
   test("create a user", async () => {
     const newUser = await waterfallService.createUser(maggie);
+    await waterfallService.authenticate(maggie);
+
     const getNewUser = await waterfallService.getUser(newUser._id);
     assertSubset(newUser, getNewUser);
     assert.isDefined(getNewUser._id);
   });
 
   test("delete all users", async () => {
+    const newUser = await waterfallService.createUser(maggie);
+    await waterfallService.authenticate(maggie);
     let returnedUsers = await waterfallService.getUsers();
-    assert.equal(returnedUsers.length, 3);
+    assert.equal(returnedUsers.length, 4);
     await waterfallService.deleteAllUsers();
     returnedUsers = await waterfallService.getUsers();
     assert.equal(returnedUsers.length, 0);
@@ -51,6 +57,8 @@ suite("User API tests", () => {
   });
 
   test("get a user - deleted user", async () => {
+    const newUser = await waterfallService.createUser(maggie);
+    await waterfallService.authenticate(maggie);
     await waterfallService.deleteAllUsers();
     try {
       const returnedUser = await waterfallService.getUser(testUsers[0]._id);
