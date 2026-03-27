@@ -29,6 +29,15 @@ const swaggerOptions = {
     title: "Waterfalls-1.0 API Documentation",
     version: "0.1.0",
   },
+  securityDefinitions: {
+    jwt: {
+      type: "apiKey",
+      name: "Authorization",
+      in: "header"
+    }
+  },
+  security: [{ jwt: [] }],
+
 };
 
 async function init() {

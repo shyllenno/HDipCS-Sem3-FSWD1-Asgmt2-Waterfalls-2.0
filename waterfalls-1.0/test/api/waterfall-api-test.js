@@ -2,7 +2,7 @@ import { EventEmitter } from "events";
 import { assert } from "chai";
 import { waterfallService } from "./waterfall-service.js";
 import { assertSubset } from "../test-utils.js";
-import { maggie, powerscourtWaterfall, testWaterfalls as base } from "../fixtures.js";
+import { maggie, maggieCredentials, powerscourtWaterfall, testWaterfalls as base } from "../fixtures.js";
 
 EventEmitter.setMaxListeners(25);
 
@@ -12,10 +12,13 @@ suite("Waterfall API tests", () => {
   let user = null;
 
   setup(async () => {
+    waterfallService.clearAuth();
+    user = await waterfallService.createUser(maggie);
+    await waterfallService.authenticate(maggieCredentials);
+
     await waterfallService.deleteAllWaterfalls();
     testWaterfalls = [];
 
-    user = await waterfallService.createUser(maggie);
     powerscourtWaterfall.userid = user._id;
   });
 
