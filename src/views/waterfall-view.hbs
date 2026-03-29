@@ -6,4 +6,36 @@
   </div>
   {{> add-points-of-interest}}
   {{> list-points-of-interest}}
+  {{> gallery-points-of-interest}}
+  </div>
+
 </section>
+
+{{!-- Reference: https://bulma.io/documentation/components/modal/ --}}
+<div id="image-modal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content" style="max-width: 90%; max-height: 90%;">
+    <p class="image">
+      <img id="modal-image" src="">
+    </p>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
+<script>
+  const galleryThumbs = document.querySelectorAll('.gallery-thumb');
+  const modal = document.getElementById('image-modal');
+  const modalImage = document.getElementById('modal-image');
+  const modalClose = modal.querySelector('.modal-close');
+
+  galleryThumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      modalImage.src = thumb.dataset.full;
+      modal.classList.add('is-active');
+    });
+  });
+
+  modalClose.addEventListener('click', () => {
+    modal.classList.remove('is-active');
+    modalImage.src = '';
+  });
+</script>

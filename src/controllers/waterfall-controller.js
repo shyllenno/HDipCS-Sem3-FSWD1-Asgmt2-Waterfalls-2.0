@@ -1,5 +1,6 @@
 import { db } from "../models/db.js";
 import { POISpec } from "../models/joi-schemas.js";
+import { imageStore } from "../models/image-store.js";
 
 export const waterfallController = {
   index: {
@@ -25,12 +26,20 @@ export const waterfallController = {
     },
     handler: async function (request, h) {
       const waterfallid = request.params.id;
+
+      const imageFile = request.payload.imagefile;
+      let imageUrl = "";
+      if (Object.keys(imageFile).length > 0) {
+        imageUrl = await imageStore.uploadImage(imageFile);
+      }
+
       const newPOI = {
         waterfallid: waterfallid,
         type: request.payload.type,
         description: request.payload.description,
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
+        img: imageUrl,
       };
       await db.POIStore.addPOI(newPOI);
       return h.redirect(`/waterfall/${waterfallid}`);

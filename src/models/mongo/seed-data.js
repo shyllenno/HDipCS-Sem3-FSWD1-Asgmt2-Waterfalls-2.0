@@ -19,6 +19,12 @@ export const seedData = {
       email: "bart@simpson.com",
       password: "secret",
     },
+    a:{
+      firstName: "A",
+      lastName: "A",
+      email: "a@a.ie",
+      password: "a",
+    }
   },
   waterfalls: {
     _model: "Waterfalls",

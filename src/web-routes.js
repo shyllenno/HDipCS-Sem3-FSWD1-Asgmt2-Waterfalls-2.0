@@ -12,12 +12,37 @@ export const webRoutes = [
   { method: "POST", path: "/authenticate", config: accountsController.login },
 
   { method: "GET", path: "/dashboard", config: dashboardController.index },
-  { method: "POST", path: "/dashboard/addwaterfall", config: dashboardController.addWaterfall },
+
+  {
+    method: "POST",
+    path: "/dashboard/addwaterfall",
+    options: {
+      payload: {
+        output: "data",
+        parse: true,
+        multipart: true,
+        maxBytes: 209715200,
+      },
+      handler: dashboardController.addWaterfall.handler,
+    },
+  },
 
   { method: "GET", path: "/about", config: aboutController.index },
 
   { method: "GET", path: "/waterfall/{id}", config: waterfallController.index },
-  { method: "POST", path: "/waterfall/{id}/addpoi", config: waterfallController.addPOI },
+  {
+    method: "POST",
+    path: "/waterfall/{id}/addpoi",
+    options: {
+      payload: {
+        output: "data",
+        parse: true,
+        multipart: true,
+        maxBytes: 209715200,
+      },
+      handler: waterfallController.addPOI.handler,
+    },
+  },
 
   { method: "GET", path: "/dashboard/deletewaterfall/{id}", config: dashboardController.deleteWaterfall },
   { method: "GET", path: "/waterfall/{id}/deletepoi/{poiId}", config: waterfallController.deletePOI },
