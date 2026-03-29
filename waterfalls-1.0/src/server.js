@@ -71,7 +71,7 @@ async function init() {
     validate: validate,
     verifyOptions: { algorithms: ["HS256"] },
   });
-  server.auth.default("jwt");
+  server.auth.default("session");
 
   server.views({
     engines: { hbs: Handlebars },
