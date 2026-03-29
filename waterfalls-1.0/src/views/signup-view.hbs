@@ -1,6 +1,10 @@
 {{> welcome-menu active="signup"}}
 
 <section class="section">
+  <div class="column">
+    <img src="/images/photobella-tamul-5542694_1280.jpg" alt="Waterfall image"
+      style="width: 80%; height: auto; display: block; margin: 0 auto;">
+  </div>
   <h1 class="title">Sign up</h1>
   <form action="/register" method="POST">
     <label class="label">Name</label>
@@ -15,7 +19,8 @@
       </div>
     </div>
     <div class="field">
-      <label class="label">Email</label> <input class="input" type="text" placeholder="Enter email" name="email" value="{{values.email}}">
+      <label class="label">Email</label> <input class="input" type="text" placeholder="Enter email" name="email"
+        value="{{values.email}}">
     </div>
     <div class="field">
       <label class="label">Password</label> <input class="input" type="password" placeholder="Enter Password"
@@ -25,4 +30,6 @@
       <button class="button is-link">Submit</button>
     </div>
   </form>
+
+
 </section>

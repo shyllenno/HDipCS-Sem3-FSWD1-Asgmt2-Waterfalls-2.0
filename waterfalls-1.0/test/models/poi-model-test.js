@@ -1,9 +1,9 @@
 import { assert } from "chai";
 import Joi from "joi";
-import { db } from "../src/models/db.js";
-import { testPOIs as base } from "./fixtures.js";
-import { POISpec } from "../src/models/joi-schemas.js";
-import { assertSubset } from "./test-utils.js";
+import { db } from "../../src/models/db.js";
+import { testPOIs as base } from "../fixtures.js";
+import { POISpec } from "../../src/models/joi-schemas.js";
+import { assertSubset } from "../test-utils.js";
 
 let testPOIs = [];
 
@@ -13,11 +13,15 @@ suite("POI Model tests", () => {
     await db.POIStore.deleteAllPOIs();
 
     testPOIs = [];
-    
+
     for (let i = 0; i < base.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
       testPOIs[i] = await db.POIStore.addPOI({ ...base[i] });
     }
+  });
+
+  teardown(async () => {
+    await db.POIStore.deleteAllPOIs();
   });
 
   test("create a POI", async () => {
@@ -28,7 +32,7 @@ suite("POI Model tests", () => {
 
   test("delete all POIs", async () => {
     let returnedPOIs = await db.POIStore.getAllPOIs();
-    assert.equal(returnedPOIs.length, 2);
+    assert.equal(returnedPOIs.length, testPOIs.length);
     await db.POIStore.deleteAllPOIs();
     returnedPOIs = await db.POIStore.getAllPOIs();
     assert.equal(returnedPOIs.length, 0);
@@ -127,8 +131,7 @@ suite("POI Model tests", () => {
       latitude: 150.0,
       longitude: -200.0,
     };
-    const schema = Joi.object(POISpec);
-    const validation = schema.validate(badPOI);
+    const validation = POISpec.validate(badPOI);
 
     if (validation.error) {
       const result = null;
@@ -142,7 +145,6 @@ suite("POI Model tests", () => {
   });
 
   test("create a POI - out of bounds coordinates", async () => {
-    const schema = Joi.object(POISpec);
 
     const badMinusLatitude = {
       type: "Bad POI",
@@ -150,7 +152,7 @@ suite("POI Model tests", () => {
       latitude: -91,
       longitude: 0,
     };
-    let validation = schema.validate(badMinusLatitude);
+    let validation = POISpec.validate(badMinusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude < -90");
 
     const badPlusLatitude = {
@@ -159,7 +161,7 @@ suite("POI Model tests", () => {
       latitude: 91,
       longitude: 0,
     };
-    validation = schema.validate(badPlusLatitude);
+    validation = POISpec.validate(badPlusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude > 90");
 
     const badMinusLongitude = {
@@ -168,7 +170,7 @@ suite("POI Model tests", () => {
       latitude: 0,
       longitude: -181,
     };
-    validation = schema.validate(badMinusLongitude);
+    validation = POISpec.validate(badMinusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude < -180");
 
     const badPlusLongitude = {
@@ -177,7 +179,7 @@ suite("POI Model tests", () => {
       latitude: -100,
       longitude: 181,
     };
-    validation = schema.validate(badPlusLongitude);
+    validation = POISpec.validate(badPlusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude > 180");
   });
 
@@ -189,8 +191,7 @@ suite("POI Model tests", () => {
       longitude: -7.5,
     };
 
-    const schema = Joi.object(POISpec);
-    const validation = schema.validate(goodCoordinates);
+    const validation = POISpec.validate(goodCoordinates);
 
     assert.isUndefined(validation.error, "Should not have errors for valid coordinates");
   });

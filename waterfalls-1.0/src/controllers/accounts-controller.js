@@ -46,10 +46,6 @@ export const accountsController = {
     },
     handler: async function (request, h) {
       const { email, password } = request.payload;
-      // const user = await db.userStore.getUserByEmail(email);
-      // if (!user || user.password !== password) {
-      //   return h.redirect("/");
-      // }
 
       // 1. Check if email exists
       const user = await db.userStore.getUserByEmail(email);
@@ -64,7 +60,7 @@ export const accountsController = {
       }
 
       // 2. Check password
-      const passwordsMatch = user.password === password; // or bcrypt.compare()
+      const passwordsMatch = user.password === password;
       if (!passwordsMatch) {
         return h
           .view("login-view", {

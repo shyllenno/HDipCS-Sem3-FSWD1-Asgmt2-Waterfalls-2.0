@@ -1,7 +1,7 @@
 {
   "name": "waterfalls-1.0",
-  "version": "0.5.0",
-  "description": "Waterfalls App 1.0: Implement and test MongoDB data structure",
+  "version": "0.6.0",
+  "description": "Waterfalls App 1.0: Implement API with Hapi, MongoDB, and JWT Authentication, including test data seeding with mais-mongoose-seeder",
   "homepage": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt1-Waterfalls-1.0#readme",
   "bugs": {
     "url": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt1-Waterfalls-1.0/issues"
@@ -16,26 +16,37 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
+    "dev": "nodemon src/server.js --ignore 'src/models/json/*.json'",
     "lint": "./node_modules/.bin/eslint . --ext .js",
-    "test": "./node_modules/.bin/mocha --ui tdd test/**.js -exit"
+    "test": "./node_modules/.bin/mocha --ui tdd test/**/*.js -exit",
+    "testmodels": "./node_modules/.bin/mocha --ui tdd test/models/*.js -exit",
+    "testapi": "./node_modules/.bin/mocha --ui tdd test/api/*.js -exit"
   },
   "devDependencies": {
+    "axios": "^1.13.6",
     "chai": "^6.2.2",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "mocha": "^11.7.5",
+    "nodemon": "^3.1.14",
     "prettier": "^3.8.1"
   },
   "dependencies": {
+    "@hapi/boom": "^10.0.1",
     "@hapi/cookie": "^12.0.1",
     "@hapi/hapi": "^21.4.7",
+    "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^7.0.3",
     "dotenv": "^17.3.1",
     "handlebars": "^4.7.8",
-    "joi": "^18.0.2",
+    "hapi-auth-jwt2": "^11.0.0",
+    "hapi-swagger": "^17.3.2",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.3",
     "lowdb": "^7.0.1",
+    "mais-mongoose-seeder": "^1.0.7",
     "mongoose": "^9.3.1",
     "uuid": "^13.0.0"
   }

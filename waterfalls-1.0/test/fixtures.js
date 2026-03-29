@@ -1,6 +1,13 @@
+export const serviceUrl = "http://localhost:3000";
+
 export const maggie = {
   firstName: "Maggie",
   lastName: "Simpson",
+  email: "maggie@simpson.com",
+  password: "secret",
+};
+
+export const maggieCredentials = {
   email: "maggie@simpson.com",
   password: "secret",
 };
@@ -26,19 +33,45 @@ export const testUsers = [
   },
 ];
 
+export const powerscourtWaterfall = {
+  name: "Powerscourt Waterfall",
+  description: "Powerscourt Waterfall in Wicklow",
+  latitude: 53.1911,
+  longitude: -6.1178,
+};
+
 export const testWaterfalls = [
   {
     name: "Iguazu Falls",
-    description: "Iguazu Falls is a breathtaking natural wonder located on the border of Argentina and Brazil. It is one of the largest waterfall systems in the world, consisting of approximately 275 individual falls that stretch for nearly 2.7 kilometers (1.7 miles). The falls are surrounded by lush rainforest, making it a popular destination for nature lovers and adventure seekers alike.",
+    description: "Iguazu Falls is located on the border of Argentina and Brazil.",
     latitude: -25.6953,
     longitude: -54.4367,
   },
+  {
+    name: "Niagara Falls",
+    description: "Niagara Falls is located on the border of the United States and Canada.",
+    latitude: 43.0799,
+    longitude: -79.0747,
+  },
+  {
+    name: "Victoria Falls",
+    description: "Victoria Falls is located on the border of Zambia and Zimbabwe.",
+    latitude: -17.9243,
+    longitude: 25.8567,
+  },
 ];
+
+export const powerscourtHouseGarden = {
+  type: "Attraction",
+  description: "Powerscourt House and Gardens features beautiful gardens",
+  latitude: 53.1911,
+  longitude: -6.1178,
+};
 
 export const testPOIs = [
   {
     type: "Attraction",
-    description: "The Garganta do Diabo (Devil’s Throat) (accessible from both sides, but superior from Argentina) is widely considered the most spectacular point, while the Brazilian side panoramic viewpoint provides the best photo opportunity",
+    description: "The Garganta do Diabo (Devil’s Throat): Location: Accessible from both sides, but superior from Argentina. Type: Natural Feature.",
     latitude: -25.6953,
     longitude: -54.4367,
   },
@@ -47,5 +80,11 @@ export const testPOIs = [
     description: "Hospital Dra. Marta T. Schwarz (Puerto Iguazú, Argentina): Location: Av. Victoria Aguirre 131, Puerto Iguazú. Hours: Open 24 hours. Type: Public Hospital.",
     latitude: -25.5971159,
     longitude: -54.5778447,
+  },
+  {
+    type: "Restaurant",
+    description: "La Rueda 1975 (Puerto Iguazú, Argentina): Location: Av. Victoria Aguirre 1975, Puerto Iguazú. Hours: 12:00 PM - 11:00 PM. Type: Casual Dining.",
+    latitude: -25.5958,
+    longitude: -54.5772,
   },
 ];

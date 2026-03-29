@@ -1,10 +1,10 @@
 import { assert } from "chai";
 import Joi from "joi";
 import { EventEmitter } from "events";
-import { db } from "../src/models/db.js";
-import { testWaterfalls as base } from "./fixtures.js";
-import { WaterfallSpec, POISpec } from "../src/models/joi-schemas.js";
-import { assertSubset } from "./test-utils.js";
+import { db } from "../../src/models/db.js";
+import { testWaterfalls as base } from "../fixtures.js";
+import { WaterfallSpec, POISpec } from "../../src/models/joi-schemas.js";
+import { assertSubset } from "../test-utils.js";
 
 EventEmitter.setMaxListeners(10000);
 
@@ -23,6 +23,10 @@ suite("Waterfall Model tests", () => {
     }
   });
 
+  teardown(async () => {
+    await db.waterfallStore.deleteAllWaterfalls();
+  });
+
   test("create a waterfall", async () => {
     const newWaterfall = await db.waterfallStore.addWaterfall(base[0]);
     const getWaterfall = await db.waterfallStore.getWaterfallById(newWaterfall._id);
@@ -31,7 +35,7 @@ suite("Waterfall Model tests", () => {
 
   test("delete all waterfalls", async () => {
     let returnedWaterfalls = await db.waterfallStore.getAllWaterfalls();
-    assert.equal(returnedWaterfalls.length, 1);
+    assert.equal(returnedWaterfalls.length, testWaterfalls.length);
     await db.waterfallStore.deleteAllWaterfalls();
     returnedWaterfalls = await db.waterfallStore.getAllWaterfalls();
     assert.equal(returnedWaterfalls.length, 0);
@@ -130,8 +134,7 @@ suite("Waterfall Model tests", () => {
       latitude: 150.0,
       longitude: -200.0,
     };
-    const schema = Joi.object(WaterfallSpec);
-    const validation = schema.validate(badWaterfall);
+    const validation = WaterfallSpec.validate(badWaterfall);
 
     if (validation.error) {
       const result = null;
@@ -145,7 +148,6 @@ suite("Waterfall Model tests", () => {
   });
 
   test("create a waterfall - out of bounds coordinates", async () => {
-    const schema = Joi.object(WaterfallSpec);
 
     const badMinusLatitude = {
       name: "Bad Waterfall",
@@ -153,7 +155,7 @@ suite("Waterfall Model tests", () => {
       latitude: -91,
       longitude: 0,
     };
-    let validation = schema.validate(badMinusLatitude);
+    let validation = WaterfallSpec.validate(badMinusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude < -90");
 
     const badPlusLatitude = {
@@ -162,7 +164,7 @@ suite("Waterfall Model tests", () => {
       latitude: 91,
       longitude: 0,
     };
-    validation = schema.validate(badPlusLatitude);
+    validation = WaterfallSpec.validate(badPlusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude > 90");
 
     const badMinusLongitude = {
@@ -171,7 +173,7 @@ suite("Waterfall Model tests", () => {
       latitude: 0,
       longitude: -181,
     };
-    validation = schema.validate(badMinusLongitude);
+    validation = WaterfallSpec.validate(badMinusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude < -180");
 
     const badPlusLongitude = {
@@ -180,7 +182,7 @@ suite("Waterfall Model tests", () => {
       latitude: -100,
       longitude: 181,
     };
-    validation = schema.validate(badPlusLongitude);
+    validation = WaterfallSpec.validate(badPlusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude > 180");
   });
 
@@ -192,8 +194,7 @@ suite("Waterfall Model tests", () => {
       longitude: -7.5,
     };
 
-    const schema = Joi.object(WaterfallSpec);
-    const validation = schema.validate(goodCoordinates);
+    const validation = WaterfallSpec.validate(goodCoordinates);
 
     assert.isUndefined(validation.error, "Should not have errors for valid coordinates");
   });

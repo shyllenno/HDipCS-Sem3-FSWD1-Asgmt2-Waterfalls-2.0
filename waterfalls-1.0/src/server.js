@@ -6,9 +6,14 @@ import dotenv from "dotenv";
 import Joi from "joi";
 import path from "path";
 import { fileURLToPath } from "url";
+import Inert from "@hapi/inert";
+import HapiSwagger from "hapi-swagger";
+import jwt from "hapi-auth-jwt2";
 import { webRoutes } from "./web-routes.js";
 import { db } from "./models/db.js";
 import { accountsController } from "./controllers/accounts-controller.js";
+import { apiRoutes } from "./api-routes.js";
+import { validate } from "./api/jwt-utils.js";
 
 const result = dotenv.config();
 if (result.error) {
@@ -19,6 +24,22 @@ if (result.error) {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const swaggerOptions = {
+  info: {
+    title: "Waterfalls-1.0 API Documentation",
+    version: "0.1.0",
+  },
+  securityDefinitions: {
+    jwt: {
+      type: "apiKey",
+      name: "Authorization",
+      in: "header"
+    }
+  },
+  security: [{ jwt: [] }],
+
+};
+
 async function init() {
   const server = Hapi.server({
     port: 3000,
@@ -27,6 +48,13 @@ async function init() {
 
   await server.register(Vision);
   await server.register(Cookie);
+  await server.register(Inert);
+  await server.register({
+    plugin: HapiSwagger,
+    options: swaggerOptions,
+  });
+  await server.register(jwt);
+
   server.validator(Joi);
 
   server.auth.strategy("session", "cookie", {
@@ -37,6 +65,11 @@ async function init() {
     },
     redirectTo: "/",
     validate: accountsController.validate,
+  });
+  server.auth.strategy("jwt", "jwt", {
+    key: process.env.COOKIE_PASSWORD,
+    validate: validate,
+    verifyOptions: { algorithms: ["HS256"] },
   });
   server.auth.default("session");
 
@@ -52,6 +85,7 @@ async function init() {
 
   db.init("mongo");
   server.route(webRoutes);
+  server.route(apiRoutes);
 
   await server.start();
   console.log("Server running on %s", server.info.uri);
