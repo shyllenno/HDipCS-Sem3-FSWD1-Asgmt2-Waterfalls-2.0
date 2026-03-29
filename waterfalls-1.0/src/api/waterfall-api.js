@@ -5,7 +5,7 @@ import { validationError } from "./logger.js";
 
 export const waterfallApi = {
   find: {
-    auth: false,
+    auth: { strategy: "jwt" },
     handler: async function (request, h) {
       try {
         const waterfalls = await db.waterfallStore.getAllWaterfalls();
@@ -21,7 +21,7 @@ export const waterfallApi = {
   },
 
   findOne: {
-    auth: false,
+    auth: { strategy: "jwt" },
     async handler(request) {
       try {
         const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
@@ -41,7 +41,7 @@ export const waterfallApi = {
   },
 
   create: {
-    auth: false,
+    auth: { strategy: "jwt" },
     handler: async function (request, h) {
       try {
         const waterfall = request.payload;
@@ -64,7 +64,7 @@ export const waterfallApi = {
   },
 
   deleteOne: {
-    auth: false,
+    auth: { strategy: "jwt" },
     handler: async function (request, h) {
       try {
         const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
@@ -83,7 +83,7 @@ export const waterfallApi = {
   },
 
   deleteAll: {
-    auth: false,
+    auth: { strategy: "jwt" },
     handler: async function (request, h) {
       try {
         await db.waterfallStore.deleteAllWaterfalls();

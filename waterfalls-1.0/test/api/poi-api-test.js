@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import { assertSubset } from "../test-utils.js";
 import { waterfallService } from "./waterfall-service.js";
-import { maggie, powerscourtWaterfall, powerscourtHouseGarden, testPOIs as base } from "../fixtures.js";
+import { maggie, maggieCredentials, powerscourtWaterfall, powerscourtHouseGarden, testPOIs as base } from "../fixtures.js";
 
 let testPOIs = [];
 
@@ -10,20 +10,21 @@ suite("POI API tests", () => {
   let powerscourt = null;
 
   setup(async () => {
+    waterfallService.clearAuth();
+    user = await waterfallService.createUser(maggie);
+    await waterfallService.authenticate(maggieCredentials);
+
     await waterfallService.deleteAllWaterfalls();
-    await waterfallService.deleteAllUsers();
     await waterfallService.deleteAllPOIs();
 
     testPOIs = [];
 
-    user = await waterfallService.createUser(maggie);
     powerscourtWaterfall.userid = user._id;
     powerscourt = await waterfallService.createWaterfall(powerscourtWaterfall);
   });
 
   teardown(async () => {
     await waterfallService.deleteAllWaterfalls();
-    await waterfallService.deleteAllUsers();
     await waterfallService.deleteAllPOIs();
     testPOIs = [];
   });

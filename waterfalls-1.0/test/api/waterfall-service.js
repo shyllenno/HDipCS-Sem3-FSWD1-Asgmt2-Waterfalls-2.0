@@ -74,4 +74,16 @@ export const waterfallService = {
     const response = await axios.delete(`${this.waterfallUrl}/api/pois/${id}`);
     return response.data;
   },
+
+  async authenticate(user) {
+    const response = await axios.post(`${this.waterfallUrl}/api/users/authenticate`, user);
+    // eslint-disable-next-line dot-notation
+    axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+    return response.data;
+  },
+
+  async clearAuth() {
+    // eslint-disable-next-line dot-notation
+    axios.defaults.headers.common["Authorization"] = "";
+  },
 };
