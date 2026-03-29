@@ -1,7 +1,7 @@
 {
   "name": "waterfalls-1.0",
-  "version": "0.5.0",
-  "description": "Waterfalls App 1.0: Implement and test MongoDB data structure",
+  "version": "0.6.0",
+  "description": "Waterfalls App 1.0: Implement API with Hapi, MongoDB, and JWT Authentication, including test data seeding with mais-mongoose-seeder",
   "homepage": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt1-Waterfalls-1.0#readme",
   "bugs": {
     "url": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt1-Waterfalls-1.0/issues"
