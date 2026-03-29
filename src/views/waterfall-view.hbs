@@ -11,31 +11,118 @@
 
 </section>
 
-{{!-- Reference: https://bulma.io/documentation/components/modal/ --}}
+{{!-- References --}}
+{{!-- https://bulma.io/documentation/components/modal/ --}}
+{{!-- https://bulma.io/documentation/components/modal/?utm_#javascript-implementation-example --}}
+
+<style>
+  #modal-image {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+</style>
+
 <div id="image-modal" class="modal">
   <div class="modal-background"></div>
-  <div class="modal-content" style="max-width: 90%; max-height: 90%;">
-    <p class="image">
-      <img id="modal-image" src="">
-    </p>
+
+  <div class="modal-content" style="width: 90%; height: 90%; position: relative;">
+
+    <button id="prev-btn" class="button is-dark"
+      style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); z-index: 10;">
+      ‹
+    </button>
+
+    <div style="text-align: center;">
+      <img id="modal-image" src="" alt="Full Image">
+      <div id="modal-caption" style="margin-top: 15px; color: white;">
+        <p id="modal-type" style="font-weight: bold;"></p>
+        <p id="modal-description"></p>
+      </div>
+    </div>
+
+    <button id="next-btn" class="button is-dark"
+      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 10;">
+      ›
+    </button>
+
   </div>
+
   <button class="modal-close is-large" aria-label="close"></button>
 </div>
+
+
 <script>
-  const galleryThumbs = document.querySelectorAll('.gallery-thumb');
+  const galleryThumbs = Array.from(document.querySelectorAll('.gallery-thumb'));
   const modal = document.getElementById('image-modal');
   const modalImage = document.getElementById('modal-image');
   const modalClose = modal.querySelector('.modal-close');
 
-  galleryThumbs.forEach(thumb => {
+  const nextButton = document.getElementById('next-btn');
+  const previousButton = document.getElementById('prev-btn');
+
+  const modalType = document.getElementById('modal-type');
+  const modalDescription = document.getElementById('modal-description');
+
+  let currentIndex = 0;
+
+  galleryThumbs.forEach((thumb, index) => {
     thumb.addEventListener('click', () => {
+      currentIndex = index;
+
       modalImage.src = thumb.dataset.full;
+      modalType.textContent = thumb.dataset.type;
+      modalDescription.textContent = thumb.dataset.description;
+
       modal.classList.add('is-active');
     });
   });
+
 
   modalClose.addEventListener('click', () => {
     modal.classList.remove('is-active');
     modalImage.src = '';
   });
+
+  nextButton.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % galleryThumbs.length;
+    const thumb = galleryThumbs[currentIndex]
+    modalImage.src = thumb.dataset.full;
+    modalType.textContent = thumb.dataset.type;
+    modalDescription.textContent = thumb.dataset.description;
+  });
+
+  previousButton.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + galleryThumbs.length) % galleryThumbs.length;
+    const thumb = galleryThumbs[currentIndex]
+    modalImage.src = thumb.dataset.full;
+    modalType.textContent = thumb.dataset.type;
+    modalDescription.textContent = thumb.dataset.description;
+  });
+
+
+  document.addEventListener("keydown", (event) => {
+    if (!modal.classList.contains("is-active")) return;
+
+    if (event.key === "ArrowRight") {
+      currentIndex = (currentIndex + 1) % galleryThumbs.length;
+    } else if (event.key === "ArrowLeft") {
+      currentIndex = (currentIndex - 1 + galleryThumbs.length) % galleryThumbs.length;
+    } else if (event.key === "Escape") {
+      modal.classList.remove("is-active");
+      modalImage.src = "";
+      return;
+    } else {
+      return;
+    }
+
+    const thumb = galleryThumbs[currentIndex];
+    modalImage.src = thumb.dataset.full;
+    modalType.textContent = thumb.dataset.type;
+    modalDescription.textContent = thumb.dataset.description;
+  });
+
+
 </script>
