@@ -1,7 +1,7 @@
 {
   "name": "waterfalls-1.0",
-  "version": "0.6.0",
-  "description": "Waterfalls App 1.0: Implement API with Hapi, MongoDB, and JWT Authentication, including test data seeding with mais-mongoose-seeder",
+  "version": "0.6.1",
+  "description": "Waterfalls App 1.0: Refactor: Move app files to root directory (Render requires package.json at repo root)",
   "homepage": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt1-Waterfalls-1.0#readme",
   "bugs": {
     "url": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt1-Waterfalls-1.0/issues"
