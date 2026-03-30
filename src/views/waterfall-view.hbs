@@ -10,7 +10,6 @@
   <br>
   {{> list-points-of-interest}}
   {{> gallery-points-of-interest}}
-  </div>
 
   <div id="image-modal" class="modal">
     <div class="modal-background"></div>
@@ -59,6 +58,22 @@
 
   #map {
     height: 180px;
+  }
+
+  .modal {
+    z-index: 10000 !important;
+  }
+
+  .modal-background {
+    z-index: 9999 !important;
+  }
+
+  .modal-content {
+    z-index: 10001 !important;
+  }
+
+  .modal-close {
+    z-index: 10003 !important;
   }
 </style>
 
