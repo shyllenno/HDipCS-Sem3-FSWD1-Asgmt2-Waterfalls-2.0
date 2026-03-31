@@ -31,9 +31,10 @@ export const seedData = {
     powerscourt: {
       name: "Powerscourt Waterfall",
       description: "Powerscourt Waterfall in Wicklow",
-      latitude: 53.1911,
-      longitude: -6.1178,
+      latitude: 53.14620152788905,
+      longitude: -6.210519267263215,
       userid: "->users.homer",
+      img: "/images/powerscourt-waterfall.jpg",
     },
     iguazu: {
       name: "Iguazu Falls",
@@ -41,7 +42,7 @@ export const seedData = {
       latitude: -25.6953,
       longitude: -54.4367,
       userid: "->users.marge",
-      img: "/images/pexels-rafael-arroyo-675020266-18735359.jpg"
+      img: "/images/iguazufalls.jpg",
     },
     niagara: {
       name: "Niagara Falls",
@@ -49,6 +50,7 @@ export const seedData = {
       latitude: 43.0799,
       longitude: -79.0747,
       userid: "->users.bart",
+      img: "/images/niagara-falls.jpg",
     },
     victoria: {
       name: "Victoria Falls",
@@ -56,6 +58,7 @@ export const seedData = {
       latitude: -17.9243,
       longitude: 25.8567,
       userid: "->users.marge",
+      img: "/images/victoria-falls.jpg",
     },
   },
   POIs: {
@@ -63,32 +66,35 @@ export const seedData = {
     powerscourtHouse: {
       type: "Powerscourt House & Gardens",
       description: "Beautiful gardens",
-      latitude: 53.1911,
-      longitude: -6.1178,
+      latitude: 53.184451129908986,
+      longitude: -6.186072170673118,
       waterfallid: "->waterfalls.powerscourt",
+      img: "/images/powerscourt-house-gardens.jpg",
     },
 
     attractionGargantaDoDiabo: {
       type: "Attraction",
       description: "The Garganta do Diabo (Devil’s Throat): Location: Accessible from both sides, but superior from Argentina. Type: Natural Feature.",
-      latitude: -25.6953,
-      longitude: -54.4367,
+      latitude: -25.695225872631873,
+      longitude: -54.43660026853571,
       waterfallid: "->waterfalls.iguazu",
-      img: "/images/ralfskysegel-brazil-2973890_640.jpg",
+      img: "/images/devilstroat.jpg",
     },
-    hospitalDraMarta: {
+    hospitalTuristico: {
       type: "Hospital",
-      description: "Hospital Dra. Marta T. Schwarz (Puerto Iguazú, Argentina): Location: Av. Victoria Aguirre 131, Puerto Iguazú. Hours: Open 24 hours. Type: Public Hospital.",
-      latitude: -25.5971159,
-      longitude: -54.5778447,
+      description: "Hospital Turistico (Puerto Iguazú, Argentina): Location: Av. Victoria Aguirre 125, Puerto Iguazú. Hours: Open 8am-8pm. Type: Public Hospital.",
+      latitude: -25.595943473868985,
+      longitude: -54.573262479584095,
       waterfallid: "->waterfalls.iguazu",
+      img: "/images/hospital-turistico.jpeg",
     },
     restaurantLaRueda: {
       type: "Restaurant",
       description: "La Rueda 1975 (Puerto Iguazú, Argentina): Location: Av. Victoria Aguirre 1975, Puerto Iguazú. Hours: 12:00 PM - 11:00 PM. Type: Casual Dining.",
-      latitude: -25.5958,
-      longitude: -54.5772,
+      latitude: -25.60118509457849,
+      longitude: -54.57171175176343,
       waterfallid: "->waterfalls.iguazu",
+      img: "/images/RestauranteLaRueda1975.jpg",
     },
   },
 };
