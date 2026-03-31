@@ -123,3 +123,6 @@ src/models/json/db.json
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# temp.img
+public/temp.img

@@ -8,6 +8,14 @@
         </p>
       </header>
 
+      {{#if img}}
+      <div class="card-image">
+        <figure class="image is-128x128" style="margin: auto; padding-top: 10px;">
+          <img src="{{img}}" alt="{{name}}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;">
+        </figure>
+      </div>
+      {{/if}}
+
       <div class="card-content">
         <div class="content">
           <strong>Coordinates:</strong> {{latitude}}, {{longitude}}<br>

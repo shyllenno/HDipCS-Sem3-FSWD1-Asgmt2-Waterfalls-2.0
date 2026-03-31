@@ -5,5 +5,43 @@
     {{waterfall.name}}
   </div>
   {{> add-points-of-interest}}
+
+  <div id="map"></div>
+  <br>
   {{> list-points-of-interest}}
+  {{> gallery-points-of-interest}}
+
 </section>
+
+
+{{!-- References --}}
+{{!-- https://leafletjs.com/examples/quick-start/ --}}
+
+<style>
+  #map {
+    height: 300px;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+
+    const rows = document.querySelectorAll(".row");
+
+    const map = L.map("map").setView([0, 0], 1);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    for (let i = 0; i < rows.length; i++) {
+      const POIType = rows[i].querySelector(".type").innerText
+      const POIDescription = rows[i].querySelector(".description").innerText
+      const POILatitude = rows[i].querySelector(".coordinates").innerText.split(",")[0].trim()
+      const POILongitude = rows[i].querySelector(".coordinates").innerText.split(",")[1].trim()
+
+      L.marker([POILatitude, POILongitude]).addTo(map).bindPopup(`${POIType}: ${POIDescription}`);
+      map.setView([POILatitude, POILongitude],10);
+    }
+  })
+</script>

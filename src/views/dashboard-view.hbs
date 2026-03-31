@@ -3,4 +3,38 @@
 <section class="section">
   {{> add-waterfall}}
   <br>
+  <div id="map"></div>
+  <br>
   {{> list-waterfalls}}
+
+</section>
+
+<style>
+  #map {
+    height: 300px;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+
+    const waterfallCards = document.querySelectorAll(".card")
+
+    const map = L.map("map").setView([0, 0], 1);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    for (let i = 0; i < waterfallCards.length; i++) {
+      const waterfallName = waterfallCards[i].querySelector(".card-header-title").innerText;
+      const waterfallLatitude = waterfallCards[i].querySelector(".content").innerText.split("\n")[0].split(":")[1].split(",")[0].trim();
+      const waterfallLongitute = waterfallCards[i].querySelector(".content").innerText.split("\n")[0].split(":")[1].split(",")[1].trim();
+      const waterfallDescription = waterfallCards[i].querySelector(".content").innerText.split("\n")[1].split(":")[1].trim();
+      const waterfallURL = waterfallCards[i].querySelector(".card-footer-item").href;
+
+      L.marker([waterfallLatitude, waterfallLongitute]).addTo(map).bindPopup(`<a href=${waterfallURL}>${waterfallName}</a>`);
+      map.setView([waterfallLatitude, waterfallLongitute]);
+    }
+  })
+</script>

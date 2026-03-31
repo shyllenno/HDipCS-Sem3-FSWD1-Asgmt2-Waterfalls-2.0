@@ -1,5 +1,6 @@
 import { db } from "../models/db.js";
 import { WaterfallSpec } from "../models/joi-schemas.js";
+import { imageStore } from "../models/image-store.js";
 
 export const dashboardController = {
   index: {
@@ -25,12 +26,20 @@ export const dashboardController = {
     },
     handler: async function (request, h) {
       const loogedInUser = request.auth.credentials;
+
+      const imageFile = request.payload.imagefile;
+      let imageUrl = "";
+      if (Object.keys(imageFile).length > 0) {
+        imageUrl = await imageStore.uploadImage(imageFile);
+      }
+
       const newWaterfall = {
         userid: loogedInUser._id,
         name: request.payload.name,
         description: request.payload.description,
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
+        img: imageUrl,
       };
       await db.waterfallStore.addWaterfall(newWaterfall);
       return h.redirect("/dashboard");

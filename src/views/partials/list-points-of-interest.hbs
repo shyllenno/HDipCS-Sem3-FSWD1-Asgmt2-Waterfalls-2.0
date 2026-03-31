@@ -9,14 +9,14 @@
   </thead>
   <tbody>
     {{#each waterfall.POIs}}
-    <tr>
-      <td>
+    <tr class="row">
+      <td class="type">
         {{type}}
       </td>
-      <td>
+      <td class="description">
         {{description}}
       </td>
-      <td colspan="2">{{latitude}}, {{longitude}}</td>
+      <td class="coordinates" colspan="2">{{latitude}}, {{longitude}}</td>
       <td>
         <a href="/waterfall/{{../waterfall._id}}/deletepoi/{{_id}}" class="ui icon button">
           <i class="fas fa-trash"></i>
