@@ -1,7 +1,7 @@
 {
   "name": "waterfalls-1.0",
-  "version": "0.6.3",
-  "description": "Waterfalls App 1.0: Fix: Bind server to 0.0.0.0 and use process.env.PORT for Render deployment compatibility",
+  "version": "0.7.0",
+  "description": "Waterfalls App 1.0: Add Leaflet Map and Pin-Point Waterfalls and POIs into the Maps",
   "homepage": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt1-Waterfalls-1.0#readme",
   "bugs": {
     "url": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt1-Waterfalls-1.0/issues"
