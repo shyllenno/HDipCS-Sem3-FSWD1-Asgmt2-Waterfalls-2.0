@@ -4,15 +4,15 @@
 
   <div class="columns is-multiline">
     {{#each waterfall.POIs}}
-      {{#if img}}
-      <div class="column is-one-quarter">
-        <figure class="image is-128x128">
-          <img src="{{img}}" alt="{{type}}" class="gallery-thumb" data-full="{{img}}" data-type="{{type}}"
-            data-description="{{description}}"
-            style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px; cursor: pointer;">
-        </figure>
-      </div>
-      {{/if}}
+    {{#if img}}
+    <div class="column is-one-quarter">
+      <figure class="image is-128x128">
+        <img src="{{img}}" alt="{{type}}" class="gallery-thumb" data-full="{{img}}" data-type="{{type}}"
+          data-description="{{description}}"
+          style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px; cursor: pointer;">
+      </figure>
+    </div>
+    {{/if}}
     {{/each}}
   </div>
 </div>
@@ -78,70 +78,73 @@
 </style>
 
 <script>
-  const galleryThumbs = Array.from(document.querySelectorAll('.gallery-thumb'));
-  const modal = document.getElementById('image-modal');
-  const modalImage = document.getElementById('modal-image');
-  const modalClose = modal.querySelector('.modal-close');
+  document.addEventListener("DOMContentLoaded", () => {
 
-  const nextButton = document.getElementById('next-button');
-  const previousButton = document.getElementById('prev-button');
+    const galleryThumbs = Array.from(document.querySelectorAll('.gallery-thumb'));
+    const modal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalClose = modal.querySelector('.modal-close');
 
-  const modalType = document.getElementById('modal-type');
-  const modalDescription = document.getElementById('modal-description');
+    const nextButton = document.getElementById('next-button');
+    const previousButton = document.getElementById('prev-button');
 
-  let currentIndex = 0;
+    const modalType = document.getElementById('modal-type');
+    const modalDescription = document.getElementById('modal-description');
 
-  galleryThumbs.forEach((thumb, index) => {
-    thumb.addEventListener('click', () => {
-      currentIndex = index;
+    let currentIndex = 0;
 
+    galleryThumbs.forEach((thumb, index) => {
+      thumb.addEventListener('click', () => {
+        currentIndex = index;
+
+        modalImage.src = thumb.dataset.full;
+        modalType.textContent = thumb.dataset.type;
+        modalDescription.textContent = thumb.dataset.description;
+
+        modal.classList.add('is-active');
+      });
+    });
+
+    modalClose.addEventListener('click', () => {
+      modal.classList.remove('is-active');
+      modalImage.src = '';
+    });
+
+    nextButton.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % galleryThumbs.length;
+      const thumb = galleryThumbs[currentIndex]
       modalImage.src = thumb.dataset.full;
       modalType.textContent = thumb.dataset.type;
       modalDescription.textContent = thumb.dataset.description;
-
-      modal.classList.add('is-active');
     });
-  });
 
-  modalClose.addEventListener('click', () => {
-    modal.classList.remove('is-active');
-    modalImage.src = '';
-  });
-
-  nextButton.addEventListener('click', () => {
-    currentIndex = (currentIndex + 1) % galleryThumbs.length;
-    const thumb = galleryThumbs[currentIndex]
-    modalImage.src = thumb.dataset.full;
-    modalType.textContent = thumb.dataset.type;
-    modalDescription.textContent = thumb.dataset.description;
-  });
-
-  previousButton.addEventListener('click', () => {
-    currentIndex = (currentIndex - 1 + galleryThumbs.length) % galleryThumbs.length;
-    const thumb = galleryThumbs[currentIndex]
-    modalImage.src = thumb.dataset.full;
-    modalType.textContent = thumb.dataset.type;
-    modalDescription.textContent = thumb.dataset.description;
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (!modal.classList.contains("is-active")) return;
-
-    if (event.key === "ArrowRight") {
-      currentIndex = (currentIndex + 1) % galleryThumbs.length;
-    } else if (event.key === "ArrowLeft") {
+    previousButton.addEventListener('click', () => {
       currentIndex = (currentIndex - 1 + galleryThumbs.length) % galleryThumbs.length;
-    } else if (event.key === "Escape") {
-      modal.classList.remove("is-active");
-      modalImage.src = "";
-      return;
-    } else {
-      return;
-    }
+      const thumb = galleryThumbs[currentIndex]
+      modalImage.src = thumb.dataset.full;
+      modalType.textContent = thumb.dataset.type;
+      modalDescription.textContent = thumb.dataset.description;
+    });
 
-    const thumb = galleryThumbs[currentIndex];
-    modalImage.src = thumb.dataset.full;
-    modalType.textContent = thumb.dataset.type;
-    modalDescription.textContent = thumb.dataset.description;
-  });
+    document.addEventListener("keydown", (event) => {
+      if (!modal.classList.contains("is-active")) return;
+
+      if (event.key === "ArrowRight") {
+        currentIndex = (currentIndex + 1) % galleryThumbs.length;
+      } else if (event.key === "ArrowLeft") {
+        currentIndex = (currentIndex - 1 + galleryThumbs.length) % galleryThumbs.length;
+      } else if (event.key === "Escape") {
+        modal.classList.remove("is-active");
+        modalImage.src = "";
+        return;
+      } else {
+        return;
+      }
+
+      const thumb = galleryThumbs[currentIndex];
+      modalImage.src = thumb.dataset.full;
+      modalType.textContent = thumb.dataset.type;
+      modalDescription.textContent = thumb.dataset.description;
+    });
+  })
 </script>

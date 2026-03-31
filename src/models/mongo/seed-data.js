@@ -41,6 +41,7 @@ export const seedData = {
       latitude: -25.6953,
       longitude: -54.4367,
       userid: "->users.marge",
+      img: "/images/pexels-rafael-arroyo-675020266-18735359.jpg"
     },
     niagara: {
       name: "Niagara Falls",
@@ -73,6 +74,7 @@ export const seedData = {
       latitude: -25.6953,
       longitude: -54.4367,
       waterfallid: "->waterfalls.iguazu",
+      img: "/images/ralfskysegel-brazil-2973890_640.jpg",
     },
     hospitalDraMarta: {
       type: "Hospital",
