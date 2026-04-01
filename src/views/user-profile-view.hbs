@@ -22,12 +22,15 @@
       <label class="label">Password</label> <input class="input" type="password" placeholder="Enter Password"
         name="password" value="{{user.password}}">
     </div>
-    <div class="field is-grouped">
-      <button class="button is-link">Update</button>
+    <div class="field is-grouped is-grouped-centered mt-5">
+      <div class="control">
+        <button class="button is-link" id="update">Update Profile</button>
+      </div>
+      <div class="control">
+        <button type="button" class="button is-danger is-light" id="delete-button">Delete Account</button>
+      </div>
     </div>
   </form>
-
-
 </section>
 
 <!-- Modal Overlay for showing the confirmation page -->
@@ -35,28 +38,66 @@
   <div class="modal-background"></div>
   <div class="modal-content">
     <div class="box has-text-centered">
-      <p class="is-size-5 mb-4">Details Updated!</p>
+      <p id="confirmation-message" class="is-size-5 mb-4"></p>
       <button class="button is-success" id="close-modal">Okay</button>
     </div>
   </div>
+</div>
 
+<!-- Modal Overlay for asking user"s confirmation for deleting the account -->
+<div class="modal" id="delete-modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box has-text-centered">
+      <h2 class="title is-4">Are you sure?</h2>
+      <p class="mb-4">This action is permanent and cannot be undone.</p>
+      <div class="buttons is-centered">
+        <form action="/user-profile/delete/{{user._id}}" method="POST">
+          <button class="button is-danger">Yes, Delete My Account</button>
+        </form>
+        <button class="button" id="cancel-delete">Cancel</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
 
-    const modal = document.getElementById('confirmation-modal');
-    const closeBtn = document.getElementById('close-modal');
+    const URLParams = new URLSearchParams(window.location.search);
+    const status = URLParams.get("status");
 
-    if (window.location.search.includes("updatesuccessful")) {
-      modal.classList.add('is-active');
-    }
+    // Confirmation Modal Elements
+    const confirmationModal = document.getElementById("confirmation-modal");
+    const closeConfirmationModal = document.getElementById("close-modal");
+    const confirmationMessage = document.getElementById("confirmation-message");
 
-    const closeModal = () => {
-      modal.classList.remove('is-active');
-      window.location.href = "/dashboard";
+    // Delete Modal Elements
+    const deleteModal = document.getElementById("delete-modal");
+    const openDeleteModal = document.getElementById("delete-button");
+    const cancelDeleteModal = document.getElementById("cancel-delete");
+
+    // Confirmation Modal Logic
+    if (status === "updatesuccessful") {
+      confirmationMessage.textContent = "Details Updated!";
+      confirmationModal.classList.add("is-active");
+    } else if (status === "deletesuccessful") {
+      confirmationMessage.textContent = "Your account has been successufully deleted!";
+      confirmationModal.classList.add("is-active");
     };
 
-    closeBtn.addEventListener('click', closeModal);
+    closeConfirmationModal.addEventListener("click", () => {
+      confirmationModal.classList.remove("is-active");
+      window.location.href = "/dashboard";
+    });
+
+    // Delete Modal Logic
+    openDeleteModal.addEventListener("click", () => {
+      deleteModal.classList.add("is-active");
+    });
+
+    cancelDeleteModal.addEventListener("click", () => {
+      deleteModal.classList.remove("is-active");
+    });
   });
 </script>

@@ -118,12 +118,21 @@ export const accountsController = {
       },
     },
     handler: async function (request, h) {
-      const userId = request.auth.credentials._id;
+      const userId = request.params.id;
       const updatedUser = request.payload;
 
       await db.userStore.updateUser(userId, updatedUser);
 
       return h.redirect("/user-profile?status=updatesuccessful");
+    },
+  },
+  delete: {
+    auth: "session",
+    handler: async function (request, h){
+      const userId = request.params.id;
+      await db.userStore.deleteUserById(userId);
+      request.cookieAuth.clear();
+      return h.redirect("/?status=deletesuccessful");
     },
   },
 };
