@@ -89,4 +89,39 @@ export const accountsController = {
     }
     return { isValid: true, credentials: user };
   },
+  profile: {
+    auth: "session",
+    handler: function (request, h) {
+      const user = request.auth.credentials;
+      return h.view("user-profile-view", {
+        title: "User Profile",
+        user: user,
+      });
+    },
+  },
+  update: {
+    auth: "session",
+    validate: {
+      payload: UserSpec,
+      options: { abortEarly: false },
+      failAction: function (request, h, error) {
+        return h
+          .view("user-profile-view", {
+            title: "Update error",
+            errors: error.details,
+            user: request.payload,
+          })
+          .takeover()
+          .code(400);
+      },
+    },
+    handler: async function (request, h) {
+      const userId = request.auth.credentials._id;
+      const updatedUser = request.payload;
+    
+      await db.userStore.updateUser(userId, updatedUser);
+      
+      return h.redirect("/dashboard");
+    },
+  },
 };

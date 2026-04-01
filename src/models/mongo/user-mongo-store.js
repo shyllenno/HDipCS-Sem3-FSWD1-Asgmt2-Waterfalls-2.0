@@ -37,5 +37,14 @@ export const userMongoStore = {
 
   async deleteAll() {
     await UserSchema.deleteMany({});
-  }
+  },
+
+  // References
+  // https://mongoosejs.com/docs/tutorials/findoneandupdate.html
+  // As most of our getters return a plain JS object ".lean()", the db.save() is not working
+  // so the workaround is to use findbyIdAndUpdate()
+
+  async updateUser(id, updatedFields) {
+    return UserSchema.findByIdAndUpdate(id, updatedFields, { new: true });
+  },
 };
