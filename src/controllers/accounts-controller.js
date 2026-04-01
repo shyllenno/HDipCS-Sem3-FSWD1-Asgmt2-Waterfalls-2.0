@@ -89,4 +89,50 @@ export const accountsController = {
     }
     return { isValid: true, credentials: user };
   },
+  profile: {
+    auth: "session",
+    handler: function (request, h) {
+      const user = request.auth.credentials;
+      return h.view("user-profile-view", {
+        title: "User Profile",
+        user: user,
+      });
+    },
+  },
+  update: {
+    auth: "session",
+    validate: {
+      payload: UserSpec,
+      options: { abortEarly: false },
+      failAction: function (request, h, error) {
+        const formData = request.payload;
+        formData._id = request.auth.credentials._id;
+        return h
+          .view("user-profile-view", {
+            title: "Update error",
+            errors: error.details,
+            user: formData,
+          })
+          .takeover()
+          .code(400);
+      },
+    },
+    handler: async function (request, h) {
+      const userId = request.params.id;
+      const updatedUser = request.payload;
+
+      await db.userStore.updateUser(userId, updatedUser);
+
+      return h.redirect("/user-profile?status=updatesuccessful");
+    },
+  },
+  delete: {
+    auth: "session",
+    handler: async function (request, h){
+      const userId = request.params.id;
+      await db.userStore.deleteUserById(userId);
+      request.cookieAuth.clear();
+      return h.redirect("/?status=deletesuccessful");
+    },
+  },
 };

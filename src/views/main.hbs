@@ -13,3 +13,31 @@
     </div>
   </div>
 </section>
+
+<!-- Modal Overlay for showing the confirmation page -->
+<div class="modal" id="confirmation-modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box has-text-centered">
+      <p class="is-size-5 mb-4">Your Account has been deleted successfully!</p>
+      <button class="button is-success" id="close-modal">Okay</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    const modal = document.getElementById('confirmation-modal');
+    const closeModal = document.getElementById('close-modal');
+
+    if (window.location.search.includes("deletesuccessful")) {
+      modal.classList.add('is-active');
+    }
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('is-active');
+      window.location.href = "/";
+    });
+  });
+</script>
