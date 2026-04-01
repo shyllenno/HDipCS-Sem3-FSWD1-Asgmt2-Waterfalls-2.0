@@ -48,4 +48,8 @@ export const webRoutes = [
   { method: "GET", path: "/waterfall/{id}/deletepoi/{poiId}", config: waterfallController.deletePOI },
 
   { method: "GET", path: "/{param*}", handler: { directory: { path: "./public" } }, options: { auth: false } },
+
+  { method: "GET", path: "/user-profile", config: accountsController.profile },
+  { method: "POST", path: "/user-profile/update/{id}", config: accountsController.update },
+  { method: "POST", path: "/user-profile/delete/{id}", config: accountsController.delete },
 ];
