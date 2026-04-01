@@ -29,3 +29,34 @@
 
 
 </section>
+
+<!-- Modal Overlay for showing the confirmation page -->
+<div class="modal" id="confirmation-modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box has-text-centered">
+      <p class="is-size-5 mb-4">Details Updated!</p>
+      <button class="button is-success" id="close-modal">Okay</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    const modal = document.getElementById('confirmation-modal');
+    const closeBtn = document.getElementById('close-modal');
+
+    if (window.location.search.includes("updatesuccessful")) {
+      modal.classList.add('is-active');
+    }
+
+    const closeModal = () => {
+      modal.classList.remove('is-active');
+      window.location.href = "/dashboard";
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+  });
+</script>

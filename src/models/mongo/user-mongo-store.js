@@ -43,8 +43,9 @@ export const userMongoStore = {
   // https://mongoosejs.com/docs/tutorials/findoneandupdate.html
   // As most of our getters return a plain JS object ".lean()", the db.save() is not working
   // so the workaround is to use findbyIdAndUpdate()
+  // Changed from new: true to returnDocument: after as requested by deprecation warning message
 
   async updateUser(id, updatedFields) {
-    return UserSchema.findByIdAndUpdate(id, updatedFields, { new: true });
+    return UserSchema.findByIdAndUpdate(id, updatedFields, { returnDocument: "after" });
   },
 };

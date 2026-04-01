@@ -105,11 +105,13 @@ export const accountsController = {
       payload: UserSpec,
       options: { abortEarly: false },
       failAction: function (request, h, error) {
+        const formData = request.payload;
+        formData._id = request.auth.credentials._id;
         return h
           .view("user-profile-view", {
             title: "Update error",
             errors: error.details,
-            user: request.payload,
+            user: formData,
           })
           .takeover()
           .code(400);
@@ -118,10 +120,10 @@ export const accountsController = {
     handler: async function (request, h) {
       const userId = request.auth.credentials._id;
       const updatedUser = request.payload;
-    
+
       await db.userStore.updateUser(userId, updatedUser);
-      
-      return h.redirect("/dashboard");
+
+      return h.redirect("/user-profile?status=updatesuccessful");
     },
   },
 };
