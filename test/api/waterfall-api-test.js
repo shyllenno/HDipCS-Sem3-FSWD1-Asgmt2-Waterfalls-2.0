@@ -8,6 +8,7 @@ EventEmitter.setMaxListeners(25);
 
 let testWaterfalls = [];
 
+
 suite("Waterfall API tests", () => {
   let user = null;
 
@@ -20,11 +21,6 @@ suite("Waterfall API tests", () => {
     testWaterfalls = [];
 
     powerscourtWaterfall.userid = user._id;
-  });
-
-  teardown(async () => {
-    await waterfallService.deleteAllWaterfalls();
-    testWaterfalls = [];
   });
 
   test("create waterfall", async () => {

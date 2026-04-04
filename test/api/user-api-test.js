@@ -20,7 +20,6 @@ suite("User API tests", () => {
       testUsers[i] = await waterfallService.createUser(base[i]);
     }
   });
-  teardown(async () => {});
 
   test("create a user", async () => {
     const newUser = await waterfallService.createUser(maggie);

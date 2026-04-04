@@ -5,9 +5,17 @@ import { assertSubset } from "../test-utils.js";
 
 let testUsers = [];
 
+suiteSetup(async () => {
+  await db.init("mongo");
+});
+
+suiteTeardown(async () => {
+  await db.close();
+});
+
 suite("User Model tests", () => {
+
   setup(async () => {
-    db.init("mongo");
     await db.userStore.deleteAll();
 
     testUsers = [];
@@ -16,10 +24,6 @@ suite("User Model tests", () => {
       // eslint-disable-next-line no-await-in-loop
       testUsers[i] = await db.userStore.addUser({ ...base[i] });
     }
-  });
-
-  teardown(async () => {
-    await db.userStore.deleteAll();
   });
 
   test("create a user", async () => {
