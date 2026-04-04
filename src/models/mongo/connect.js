@@ -22,17 +22,12 @@ export async function connectMongo() {
 
   db.once("open", async function () {
     console.log(`database connected to ${this.name} on ${this.host}`);
-
-    // Only seed in non-test environments
-    if (process.env.NODE_ENV !== "test") {
-      await seed();
-    }
+    await seed();
   });
-  
+
   db.on("disconnected", () => {
     console.log("database disconnected");
   });
-  
 
   return db;
 }
