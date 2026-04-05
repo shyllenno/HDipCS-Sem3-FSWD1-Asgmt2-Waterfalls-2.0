@@ -37,6 +37,7 @@ export const WaterfallSchema = Mongoose.model("Waterfalls", waterfallSchema);
 
 const poiSchema = new Schema({
   type: String,
+  group: String,
   description: String,
   latitude: Number,
   longitude: Number,

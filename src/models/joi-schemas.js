@@ -43,6 +43,7 @@ export const WaterfallArray = Joi.array().items(WaterfallSpecPlus).label("Waterf
 export const POISpec = Joi.object()
   .keys({
     type: Joi.string().example("Powerscourt House & Gardens").required(),
+    group: Joi.string().example("Historical Site").required(),
     description: Joi.string().example("Beautiful gardens").required(),
     latitude: Joi.number().min(-90).max(90).example(53.18472).required(),
     longitude: Joi.number().min(-180).max(180).example(-6.18694).required(),

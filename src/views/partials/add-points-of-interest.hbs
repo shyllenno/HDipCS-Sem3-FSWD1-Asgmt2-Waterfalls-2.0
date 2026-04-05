@@ -2,15 +2,10 @@
   <label>Enter Point of Interest Details:</label>
 
   <div class="columns is-multiline">
-    <div class="column is-half">
+    <div class="column is-one-third">
       <div class="field">
-        <input name="POICategoryInput" class="input" type="text"
-          placeholder="Type (e.g., Hospital, Police Station, Restaurant, Grocery, etc.)" name="type"
-          value="{{values.type}}">
-
-        <input type="text" name="POICategoryType" id="POICategoryType">
-        <input type="text" name="POICategoryGroup" id="POICategoryGroup">
-
+        <input type="hidden" name="type" id="POICategoryType" value="{{values.type}}">
+        <input type="hidden" name="group" id="POICategoryGroup" value="{{values.group}}">
         <div class="control">
           <div class="select is-fullwidth">
             <select id="POICategoryDropdown" name="POICategory" required>
@@ -18,14 +13,14 @@
 
               <!-- Waterfall-Specific -->
               <optgroup label="Waterfall-Specific">
-                <option value="Waterfall Viewpoint" data-group="Waterfall-Specific Info">Waterfall Viewpoint</option>
-                <option value="Swimming Allowed" data-group="Waterfall-Specific Info">Swimming Allowed</option>
-                <option value="Danger Zone" data-group="Waterfall-Specific Info">Danger Zone</option>
-                <option value="Best Season to Visit" data-group="Waterfall-Specific Info">Best Season to Visit</option>
-                <option value="Drone-Friendly Area" data-group="Waterfall-Specific Info">Drone-Friendly Area</option>
-                <option value="Drone-Restricted Area" data-group="Waterfall-Specific Info">Drone-Restricted Area
+                <option value="Waterfall Viewpoint" data-group="Waterfall-Specific">Waterfall Viewpoint</option>
+                <option value="Swimming Allowed" data-group="Waterfall-Specific">Swimming Allowed</option>
+                <option value="Danger Zone" data-group="Waterfall-Specific">Danger Zone</option>
+                <option value="Best Season to Visit" data-group="Waterfall-Specific">Best Season to Visit</option>
+                <option value="Drone-Friendly Area" data-group="Waterfall-Specific">Drone-Friendly Area</option>
+                <option value="Drone-Restricted Area" data-group="Waterfall-Specific">Drone-Restricted Area
                 </option>
-                <option value="Accessibility Rating" data-group="Waterfall-Specific Info">Accessibility Rating</option>
+                <option value="Accessibility Rating" data-group="Waterfall-Specific">Accessibility Rating</option>
               </optgroup>
 
               <!-- Nature & Outdoor Facilities -->
@@ -34,13 +29,7 @@
                 <option value="Scenic Viewpoint" data-group="Nature & Outdoor">Scenic Viewpoint</option>
                 <option value="Picnic Area" data-group="Nature & Outdoor">Picnic Area</option>
                 <option value="Camping Site" data-group="Nature & Outdoor">Camping Site</option>
-                <option value="Car Park / Trailhead Parking" data-group="Nature & Outdoor">Car Park / Trailhead Parking
-                </option>
                 <option value="Swimming Spot" data-group="Nature & Outdoor">Swimming Spot</option>
-                <option value="Rock Climbing Area" data-group="Nature & Outdoor">Rock Climbing Area</option>
-                <option value="River Access Point" data-group="Nature & Outdoor">River Access Point</option>
-                <option value="Boat Rental / Canoe Access" data-group="Nature & Outdoor">Boat Rental / Canoe Access
-                </option>
               </optgroup>
 
               <!-- Safety & Emergency -->
@@ -50,7 +39,6 @@
                 </option>
                 <option value="Ranger Station / Mountain Rescue" data-group="Safety & Emergency">Ranger Station /
                   Mountain Rescue</option>
-                <option value="Lifeguard Station" data-group="Safety & Emergency">Lifeguard Station</option>
                 <option value="Police Station" data-group="Safety & Emergency">Police Station</option>
                 <option value="Fire Station" data-group="Safety & Emergency">Fire Station</option>
                 <option value="Hospital" data-group="Safety & Emergency">Hospital</option>
@@ -68,23 +56,16 @@
                 <option value="Hotel" data-group="Accommodation">Hotel</option>
                 <option value="Hostel" data-group="Accommodation">Hostel</option>
                 <option value="Guesthouse / B&B" data-group="Accommodation">Guesthouse / B&B</option>
-                <option value="Cabin / Lodge" data-group="Accommodation">Cabin / Lodge</option>
                 <option value="Campsite" data-group="Accommodation">Campsite</option>
                 <option value="Caravan / RV Park" data-group="Accommodation">Caravan / RV Park</option>
-                <option value="Holiday Cottage" data-group="Accommodation">Holiday Cottage</option>
               </optgroup>
 
               <!-- Shops & Services -->
               <optgroup label="Shops & Services">
                 <option value="Convenience Store" data-group="Shops & Services">Convenience Store</option>
-                <option value="Outdoor Gear Shop" data-group="Shops & Services">Outdoor Gear Shop</option>
-                <option value="Souvenir Shop" data-group="Shops & Services">Souvenir Shop</option>
                 <option value="Petrol Station" data-group="Shops & Services">Petrol Station</option>
                 <option value="ATM / Bank" data-group="Shops & Services">ATM / Bank</option>
                 <option value="Post Office" data-group="Shops & Services">Post Office</option>
-                <option value="Tourist Information Center" data-group="Shops & Services">Tourist Information Center
-                </option>
-                <option value="Bike Rental / Repair" data-group="Shops & Services">Bike Rental / Repair</option>
               </optgroup>
 
               <!-- Transport & Access -->
@@ -92,18 +73,14 @@
                 <option value="Bus Stop" data-group="Transport & Access">Bus Stop</option>
                 <option value="Train Station" data-group="Transport & Access">Train Station</option>
                 <option value="Car Park" data-group="Transport & Access">Car Park</option>
-                <option value="Ferry Terminal" data-group="Transport & Access">Ferry Terminal</option>
               </optgroup>
 
-              <!-- Tourist Attractions -->
-              <optgroup label="Tourist Attractions & Activities">
-                <option value="Museum" data-group="Tourist Attractions & Activities">Museum</option>
-                <option value="Historical Site" data-group="Tourist Attractions & Activities">Historical Site</option>
-                <option value="Art Gallery" data-group="Tourist Attractions & Activities">Art Gallery</option>
-                <option value="Zoo / Wildlife Park" data-group="Tourist Attractions & Activities">Zoo / Wildlife Park
-                </option>
-                <option value="Guided Tour" data-group="Tourist Attractions & Activities">Guided Tour</option>
-                <option value="Boat Tour" data-group="Tourist Attractions & Activities">Boat Tour</option>
+              <!-- Attractions & Activities -->
+              <optgroup label="Attractions & Activities">
+                <option value="Museum" data-group="Attractions & Activities">Museum</option>
+                <option value="Historical Site" data-group="Attractions & Activities">Historical Site</option>
+                <option value="Guided Tour" data-group="Attractions & Activities">Guided Tour</option>
+                <option value="Boat Tour" data-group="Attractions & Activities">Boat Tour</option>
                 </option>
               </optgroup>
 
@@ -111,9 +88,6 @@
               <optgroup label="Public Facilities">
                 <option value="Public Toilet" data-group="Public Facilities">Public Toilet</option>
                 <option value="Drinking Water Station" data-group="Public Facilities">Drinking Water Station</option>
-                <option value="Visitor Centre" data-group="Public Facilities">Visitor Center</option>
-                <option value="Picnic Shelter" data-group="Public Facilities">Picnic Shelter</option>
-                <option value="BBQ Area" data-group="Public Facilities">BBQ Area</option>
                 <option value="Waste Disposal / Recycling" data-group="Public Facilities">Waste Disposal / Recycling
                 </option>
               </optgroup>
@@ -124,7 +98,7 @@
       </div>
     </div>
 
-    <div class="column is-half">
+    <div class="column is-two-thirds">
       <div class="field">
         <input class="input" type="text" placeholder="Description" name="description" value="{{values.description}}">
       </div>
