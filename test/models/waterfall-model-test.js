@@ -8,11 +8,19 @@ import { assertSubset } from "../test-utils.js";
 
 EventEmitter.setMaxListeners(10000);
 
+suiteSetup(async () => {
+  await db.init("mongo");
+});
+
+suiteTeardown(async () => {
+  await db.close();
+});
+
 let testWaterfalls = [];
 
 suite("Waterfall Model tests", () => {
+
   setup(async () => {
-    db.init("mongo");
     await db.waterfallStore.deleteAllWaterfalls();
 
     testWaterfalls = [];
@@ -21,10 +29,6 @@ suite("Waterfall Model tests", () => {
       // eslint-disable-next-line no-await-in-loop
       testWaterfalls[i] = await db.waterfallStore.addWaterfall({ ...base[i] });
     }
-  });
-
-  teardown(async () => {
-    await db.waterfallStore.deleteAllWaterfalls();
   });
 
   test("create a waterfall", async () => {
@@ -148,7 +152,6 @@ suite("Waterfall Model tests", () => {
   });
 
   test("create a waterfall - out of bounds coordinates", async () => {
-
     const badMinusLatitude = {
       name: "Bad Waterfall",
       description: "Should fail",
