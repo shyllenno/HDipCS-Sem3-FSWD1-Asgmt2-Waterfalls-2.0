@@ -5,7 +5,6 @@ import { seedData } from "./seed-data.js";
 
 dotenv.config();
 
-
 const seedLib = mongooseSeeder.default;
 
 async function seed() {
@@ -26,12 +25,13 @@ export async function connectMongo() {
 
   db.once("open", async function () {
     console.log(`database connected to ${this.name} on ${this.host}`);
-    await seed();
   });
 
   db.on("disconnected", () => {
     console.log("database disconnected");
   });
+
+  await seed();
 
   return db;
 }
