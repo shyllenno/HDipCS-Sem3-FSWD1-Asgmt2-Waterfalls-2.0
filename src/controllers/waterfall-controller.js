@@ -36,6 +36,7 @@ export const waterfallController = {
       const newPOI = {
         waterfallid: waterfallid,
         type: request.payload.type,
+        group: request.payload.group,
         description: request.payload.description,
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),

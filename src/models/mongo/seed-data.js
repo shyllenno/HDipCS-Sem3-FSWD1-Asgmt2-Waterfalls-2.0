@@ -19,12 +19,12 @@ export const seedData = {
       email: "bart@simpson.com",
       password: "secret",
     },
-    a:{
+    a: {
       firstName: "A",
       lastName: "A",
       email: "a@a.ie",
       password: "a",
-    }
+    },
   },
   waterfalls: {
     _model: "Waterfalls",
@@ -64,8 +64,9 @@ export const seedData = {
   POIs: {
     _model: "POIs",
     powerscourtHouse: {
-      type: "Powerscourt House & Gardens",
-      description: "Beautiful gardens",
+      type: "Historical Site",
+      group: "Attractions & Activities",
+      description: "Powerscourt House & Gardens - Beautiful gardens",
       latitude: 53.184451129908986,
       longitude: -6.186072170673118,
       waterfallid: "->waterfalls.powerscourt",
@@ -74,6 +75,7 @@ export const seedData = {
 
     attractionGargantaDoDiabo: {
       type: "Attraction",
+      group: "Attractions & Activities",
       description: "The Garganta do Diabo (Devil’s Throat): Location: Accessible from both sides, but superior from Argentina. Type: Natural Feature.",
       latitude: -25.695225872631873,
       longitude: -54.43660026853571,
@@ -82,6 +84,7 @@ export const seedData = {
     },
     hospitalTuristico: {
       type: "Hospital",
+      group: "Safety & Emergency",
       description: "Hospital Turistico (Puerto Iguazú, Argentina): Location: Av. Victoria Aguirre 125, Puerto Iguazú. Hours: Open 8am-8pm. Type: Public Hospital.",
       latitude: -25.595943473868985,
       longitude: -54.573262479584095,
@@ -90,6 +93,7 @@ export const seedData = {
     },
     restaurantLaRueda: {
       type: "Restaurant",
+      group: "Food & Drink",
       description: "La Rueda 1975 (Puerto Iguazú, Argentina): Location: Av. Victoria Aguirre 1975, Puerto Iguazú. Hours: 12:00 PM - 11:00 PM. Type: Casual Dining.",
       latitude: -25.60118509457849,
       longitude: -54.57171175176343,
