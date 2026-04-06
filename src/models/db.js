@@ -15,14 +15,15 @@ export const db = {
   userStore: null,
   waterfallStore: null,
   POIStore: null,
+  connection: null,
 
-  init(storeType) {
+  async init(storeType) {
     switch (storeType) {
       case "mongo":
         this.userStore = userMongoStore;
         this.waterfallStore = waterfallMongoStore;
         this.POIStore = poiMongoStore;
-        connectMongo();
+        this.connection = await connectMongo();
         break;
       case "json":
         this.userStore = userJsonStore;
@@ -33,6 +34,13 @@ export const db = {
         this.userStore = userMemStore;
         this.waterfallStore = waterfallMemStore;
         this.POIStore = POIMemStore;
+    }
+  },
+
+  async close(){
+    if (this.connection){
+      await this.connection.close();
+      this.connection = null;
     }
   },
 };

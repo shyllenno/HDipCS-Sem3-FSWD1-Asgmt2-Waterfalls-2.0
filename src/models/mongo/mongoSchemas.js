@@ -30,18 +30,19 @@ const waterfallSchema = new Schema({
   latitude: Number,
   longitude: Number,
   userid: { type: Mongoose.Schema.Types.ObjectId, ref: "Users" },
-  img: String,
+  imagefile: String,
 });
 
 export const WaterfallSchema = Mongoose.model("Waterfalls", waterfallSchema);
 
 const poiSchema = new Schema({
   type: String,
+  group: String,
   description: String,
   latitude: Number,
   longitude: Number,
   waterfallid: { type: Mongoose.Schema.Types.ObjectId, ref: "Waterfalls" },
-  img: String,
+  imagefile: String,
 });
 
 export const POISchema = Mongoose.model("POIs", poiSchema);

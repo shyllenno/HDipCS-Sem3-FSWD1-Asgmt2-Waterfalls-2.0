@@ -38,7 +38,8 @@ export const POIMemStore = {
   },
 
   async updatePOI(POI, updatedPOI) {
-    POI.name = updatedPOI.name;
+    POI.type = updatedPOI.type;
+    POI.group = updatedPOI.group;
     POI.description = updatedPOI.description;
     POI.latitude = updatedPOI.latitude;
     POI.longitude = updatedPOI.longitude;

@@ -7,9 +7,17 @@ import { assertSubset } from "../test-utils.js";
 
 let testPOIs = [];
 
+suiteSetup(async () => {
+  await db.init("mongo");
+});
+
+suiteTeardown(async () => {
+  await db.close();
+});
+
 suite("POI Model tests", () => {
+
   setup(async () => {
-    db.init("mongo");
     await db.POIStore.deleteAllPOIs();
 
     testPOIs = [];
@@ -18,10 +26,6 @@ suite("POI Model tests", () => {
       // eslint-disable-next-line no-await-in-loop
       testPOIs[i] = await db.POIStore.addPOI({ ...base[i] });
     }
-  });
-
-  teardown(async () => {
-    await db.POIStore.deleteAllPOIs();
   });
 
   test("create a POI", async () => {
@@ -145,7 +149,6 @@ suite("POI Model tests", () => {
   });
 
   test("create a POI - out of bounds coordinates", async () => {
-
     const badMinusLatitude = {
       type: "Bad POI",
       description: "Should fail",

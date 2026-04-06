@@ -4,10 +4,10 @@
 
   <div class="columns is-multiline">
     {{#each waterfall.POIs}}
-    {{#if img}}
+    {{#if imagefile}}
     <div class="column is-one-quarter">
       <figure class="image is-128x128">
-        <img src="{{img}}" alt="{{type}}" class="gallery-thumb" data-full="{{img}}" data-type="{{type}}"
+        <img src="{{imagefile}}" alt="{{type}}" class="gallery-thumb" data-full="{{imagefile}}" data-type="{{type}}"
           data-description="{{description}}"
           style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px; cursor: pointer;">
       </figure>

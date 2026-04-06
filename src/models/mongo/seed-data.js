@@ -19,12 +19,12 @@ export const seedData = {
       email: "bart@simpson.com",
       password: "secret",
     },
-    a:{
+    a: {
       firstName: "A",
       lastName: "A",
       email: "a@a.ie",
       password: "a",
-    }
+    },
   },
   waterfalls: {
     _model: "Waterfalls",
@@ -34,7 +34,7 @@ export const seedData = {
       latitude: 53.14620152788905,
       longitude: -6.210519267263215,
       userid: "->users.homer",
-      img: "/images/powerscourt-waterfall.jpg",
+      imagefile: "/images/powerscourt-waterfall.jpg",
     },
     iguazu: {
       name: "Iguazu Falls",
@@ -42,7 +42,7 @@ export const seedData = {
       latitude: -25.6953,
       longitude: -54.4367,
       userid: "->users.marge",
-      img: "/images/iguazufalls.jpg",
+      imagefile: "/images/iguazufalls.jpg",
     },
     niagara: {
       name: "Niagara Falls",
@@ -50,7 +50,7 @@ export const seedData = {
       latitude: 43.0799,
       longitude: -79.0747,
       userid: "->users.bart",
-      img: "/images/niagara-falls.jpg",
+      imagefile: "/images/niagara-falls.jpg",
     },
     victoria: {
       name: "Victoria Falls",
@@ -58,43 +58,47 @@ export const seedData = {
       latitude: -17.9243,
       longitude: 25.8567,
       userid: "->users.marge",
-      img: "/images/victoria-falls.jpg",
+      imagefile: "/images/victoria-falls.jpg",
     },
   },
   POIs: {
     _model: "POIs",
     powerscourtHouse: {
-      type: "Powerscourt House & Gardens",
-      description: "Beautiful gardens",
+      type: "Historical Site",
+      group: "Attractions & Activities",
+      description: "Powerscourt House & Gardens - Beautiful gardens",
       latitude: 53.184451129908986,
       longitude: -6.186072170673118,
       waterfallid: "->waterfalls.powerscourt",
-      img: "/images/powerscourt-house-gardens.jpg",
+      imagefile: "/images/powerscourt-house-gardens.jpg",
     },
 
     attractionGargantaDoDiabo: {
       type: "Attraction",
+      group: "Attractions & Activities",
       description: "The Garganta do Diabo (Devil’s Throat): Location: Accessible from both sides, but superior from Argentina. Type: Natural Feature.",
       latitude: -25.695225872631873,
       longitude: -54.43660026853571,
       waterfallid: "->waterfalls.iguazu",
-      img: "/images/devilstroat.jpg",
+      imagefile: "/images/devilstroat.jpg",
     },
     hospitalTuristico: {
       type: "Hospital",
+      group: "Safety & Emergency",
       description: "Hospital Turistico (Puerto Iguazú, Argentina): Location: Av. Victoria Aguirre 125, Puerto Iguazú. Hours: Open 8am-8pm. Type: Public Hospital.",
       latitude: -25.595943473868985,
       longitude: -54.573262479584095,
       waterfallid: "->waterfalls.iguazu",
-      img: "/images/hospital-turistico.jpeg",
+      imagefile: "/images/hospital-turistico.jpeg",
     },
     restaurantLaRueda: {
       type: "Restaurant",
+      group: "Food & Drink",
       description: "La Rueda 1975 (Puerto Iguazú, Argentina): Location: Av. Victoria Aguirre 1975, Puerto Iguazú. Hours: 12:00 PM - 11:00 PM. Type: Casual Dining.",
       latitude: -25.60118509457849,
       longitude: -54.57171175176343,
       waterfallid: "->waterfalls.iguazu",
-      img: "/images/RestauranteLaRueda1975.jpg",
+      imagefile: "/images/RestauranteLaRueda1975.jpg",
     },
   },
 };

@@ -23,12 +23,6 @@ suite("POI API tests", () => {
     powerscourt = await waterfallService.createWaterfall(powerscourtWaterfall);
   });
 
-  teardown(async () => {
-    await waterfallService.deleteAllWaterfalls();
-    await waterfallService.deleteAllPOIs();
-    testPOIs = [];
-  });
-
   test("create POI", async () => {
     const returnedPOI = await waterfallService.createPOI(powerscourt._id, powerscourtHouseGarden);
     assertSubset(powerscourtHouseGarden, returnedPOI);

@@ -42,4 +42,8 @@ export const waterfallMongoStore = {
   async deleteAllWaterfalls() {
     await WaterfallSchema.deleteMany({});
   },
+
+  async updateWaterfall(id, updatedFields) {
+    return WaterfallSchema.findByIdAndUpdate(id, updatedFields, { returnDocument: "after" });
+  },
 };

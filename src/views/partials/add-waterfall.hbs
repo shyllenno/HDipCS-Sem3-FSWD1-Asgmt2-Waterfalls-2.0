@@ -1,3 +1,5 @@
+<h1 class="title">Add a waterfall</h1>
+
 <form action="/dashboard/addwaterfall" method="POST" enctype="multipart/form-data">
 
   <div class="field is-horizontal">
@@ -40,34 +42,11 @@
       </div>
 
       <div class="field">
-        <label class="label">Image</label>
-        <div class="file has-name is-fullwidth">
-          <label class="file-label">
-            <input class="file-input" type="file" name="imagefile" accept="image/png, image/jpeg">
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
-              </span>
-              <span class="file-label">
-                Choose an image…
-              </span>
-            </span>
-            <span class="file-name"></span>
-          </label>
-        </div>
+        <label class="label">Photo</label>
+        {{> image-selection-button }}
       </div>
     </div>
   </div>
 
   <button class="button is-link">Add Waterfall</button>
 </form>
-
-<script>
-  const fileInput = document.querySelector(".file-input");
-  fileInput.onchange = () => {
-    if (fileInput.files.length > 0) {
-      const fileName = document.querySelector(".file-name");
-      fileName.textContent = fileInput.files[0].name;
-    }
-  };
-</script>

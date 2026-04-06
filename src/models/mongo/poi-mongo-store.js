@@ -38,4 +38,8 @@ export const poiMongoStore = {
   async deleteAllPOIs() {
     await POISchema.deleteMany({});
   },
+
+  async updatePOI(id, updatedFields) {
+    return POISchema.findByIdAndUpdate(id, updatedFields, { returnDocument: "after" });
+  },
 };

@@ -3,6 +3,7 @@ import { waterfallService } from "./waterfall-service.js";
 import { decodeToken } from "../../src/api/jwt-utils.js";
 import { maggie, maggieCredentials } from "../fixtures.js";
 
+
 suite("Authentication API tests", async () => {
   setup(async () => {
     waterfallService.clearAuth();

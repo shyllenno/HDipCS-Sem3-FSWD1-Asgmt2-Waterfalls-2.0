@@ -1,16 +1,28 @@
+<h1 class="title">Add Point of Interest</h1>
 <form class="box" action="/waterfall/{{waterfall._id}}/addpoi" method="POST" enctype="multipart/form-data">
-  <label>Enter Point of Interest Details:</label>
-
+  
   <div class="columns is-multiline">
-    <div class="column is-half">
+    <div class="column is-one-third">
       <div class="field">
-        <input class="input" type="text" placeholder="Type (e.g., Hospital, Police Station, Restaurant, Grocery, etc.)"
-          name="type" value="{{values.type}}">
+        <input type="hidden" name="type" id="POICategoryType" value="{{values.type}}">
+        <input type="hidden" name="group" id="POICategoryGroup" value="{{values.group}}">
+        <div class="control">
+          <label class="label">Category</label>
+          {{> poi-category-dropdown }}
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-two-thirds">
+      <div class="field">
+        <label class="label">Description</label>
+        <input class="input" type="text" placeholder="Description" name="description" value="{{values.description}}">
       </div>
     </div>
 
     <div class="column is-one-fourth">
       <div class="field">
+        <label class="label">Latitude</label>
         <input class="input" type="number" placeholder="Latitude" name="latitude" value="{{values.latitude}}" min="-90"
           max="90" step="any">
       </div>
@@ -18,43 +30,19 @@
 
     <div class="column is-one-fourth">
       <div class="field">
+        <label class="label">Longitude</label>
         <input class="input" type="number" placeholder="Longitude" name="longitude" value="{{values.longitude}}"
           min="-180" max="180" step="any">
       </div>
     </div>
 
-    <div class="column is-half">
+    <div class="column is-two-thirds">
       <div class="field">
-        <input class="input" type="text" placeholder="Description" name="description" value="{{values.description}}">
-      </div>
-    </div>
-
-    <div class="column is-half">
-      <div class="file has-name is-fullwidth">
-        <label class="file-label">
-          <input class="file-input" type="file" name="imagefile" accept="image/png, image/jpeg">
-          <span class="file-cta">
-            <span class="file-icon">
-              <i class="fas fa-upload"></i>
-            </span>
-            <span class="file-label">
-              Choose an image…
-            </span>
-          </span>
-          <span class="file-name"></span>
-        </label>
+        <label class="label">Photo</label>
+        {{> image-selection-button }}
       </div>
     </div>
   </div>
 
   <button class="button is-primary">Add POI</button>
 </form>
-<script>
-  const fileInput = document.querySelector(".file-input");
-  fileInput.onchange = () => {
-    if (fileInput.files.length > 0) {
-      const fileName = document.querySelector(".file-name");
-      fileName.textContent = fileInput.files[0].name;
-    }
-  };
-</script>
