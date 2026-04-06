@@ -13,36 +13,12 @@ export const webRoutes = [
 
   { method: "GET", path: "/dashboard", config: dashboardController.index },
 
-  {
-    method: "POST",
-    path: "/dashboard/addwaterfall",
-    options: {
-      payload: {
-        output: "data",
-        parse: true,
-        multipart: true,
-        maxBytes: 209715200,
-      },
-      handler: dashboardController.addWaterfall.handler,
-    },
-  },
+  { method: "POST", path: "/dashboard/addwaterfall", config: dashboardController.addWaterfall },
 
   { method: "GET", path: "/about", config: aboutController.index },
 
   { method: "GET", path: "/waterfall/{id}", config: waterfallController.index },
-  {
-    method: "POST",
-    path: "/waterfall/{id}/addpoi",
-    options: {
-      payload: {
-        output: "data",
-        parse: true,
-        multipart: true,
-        maxBytes: 209715200,
-      },
-      handler: waterfallController.addPOI.handler,
-    },
-  },
+  { method: "POST", path: "/waterfall/{id}/addpoi", config: waterfallController.addPOI },
 
   { method: "GET", path: "/dashboard/deletewaterfall/{id}", config: dashboardController.deleteWaterfall },
   { method: "GET", path: "/waterfall/{id}/deletepoi/{poiId}", config: waterfallController.deletePOI },
@@ -52,4 +28,8 @@ export const webRoutes = [
   { method: "GET", path: "/user-profile", config: accountsController.profile },
   { method: "POST", path: "/user-profile/update/{id}", config: accountsController.update },
   { method: "POST", path: "/user-profile/delete/{id}", config: accountsController.delete },
+
+  // {method: "GET", path: "/view-waterfall", config: dashboardController.viewWaterfall },
+  { method: "GET", path: "/waterfall/{id}/viewpoi/{poiId}", config: waterfallController.viewPOI },
+  { method: "POST", path: "/waterfall/{id}/viewpoi/{poiId}/update", config: waterfallController.updatePOI },
 ];

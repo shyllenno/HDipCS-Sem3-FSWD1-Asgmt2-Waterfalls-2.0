@@ -1,0 +1,12 @@
+{{> menu}}
+
+<section class="section">
+  <div class="title">
+    {{#if isPOI}}
+    {{> edit-points-of-interest}}
+    {{else if isWaterfall}}
+    {{> waterfallFields}}
+    {{/if}}
+  </div>
+
+</section>

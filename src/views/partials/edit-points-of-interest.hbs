@@ -1,0 +1,63 @@
+<h1 class="title">Edit Point of Interest</h1>
+<form class="box" action="/waterfall/{{waterfall._id}}/viewpoi/{{poi._id}}/update" method="POST" enctype="multipart/form-data">
+
+  <div class="columns is-multiline">
+    <div class="column is-one-third">
+      <div class="field">
+        <label class="label">Category</label>
+
+        <input class="input" type="text" name="type" id="POICategoryType" value="{{poi.type}}" readonly>
+        <input type="hidden" name="group" id="POICategoryGroup" value="{{poi.group}}">
+        <div class="control">
+          {{> poi-category-dropdown }}
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-two-thirds">
+      <div class="field">
+        <label class="label">Description</label>
+        <input class="input" type="text" placeholder="Description" name="description" value="{{poi.description}}">
+      </div>
+    </div>
+
+    <div class="column is-one-fourth">
+      <div class="field">
+        <label class="label">Latitude</label>
+        <input class="input" type="number" placeholder="Latitude" name="latitude" value="{{poi.latitude}}" min="-90"
+          max="90" step="any">
+      </div>
+    </div>
+
+    <div class="column is-one-fourth">
+      <div class="field">
+        <label class="label">Longitude</label>
+        <input class="input" type="number" placeholder="Longitude" name="longitude" value="{{poi.longitude}}" min="-180"
+          max="180" step="any">
+      </div>
+    </div>
+
+    <div class="column is-two-thirds">
+      <div class="field">
+        <label class="label">Photo (The old photo will be overwritten by this one)</label>
+        {{> image-selection-button }}
+
+        {{#if poi.imagefile}}
+        <figure class="image">
+          <img src="{{poi.imagefile}}" alt="Current POI photo">
+        </figure>
+        {{/if}}
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="buttons">
+    <button class="button is-primary">Update POI</button>
+
+    <a class="button is-light" href="/waterfall/{{waterfall._id}}">
+      Cancel
+    </a>
+  </div>
+</form>

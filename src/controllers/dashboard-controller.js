@@ -24,6 +24,14 @@ export const dashboardController = {
         return h.view("dashboard-view", { title: "Add Waterfall error", errors: error.details, values: request.payload }).takeover().code(400);
       },
     },
+
+    payload: {
+      output: "data",
+      parse: true,
+      multipart: true,
+      maxBytes: 209715200,
+    },
+
     handler: async function (request, h) {
       const loogedInUser = request.auth.credentials;
 
@@ -39,7 +47,7 @@ export const dashboardController = {
         description: request.payload.description,
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
-        img: imageUrl,
+        imagefile: imageUrl,
       };
       await db.waterfallStore.addWaterfall(newWaterfall);
       return h.redirect("/dashboard");

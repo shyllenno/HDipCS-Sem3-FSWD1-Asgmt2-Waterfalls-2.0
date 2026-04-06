@@ -1,12 +1,13 @@
+<h1 class="title">Add Point of Interest</h1>
 <form class="box" action="/waterfall/{{waterfall._id}}/addpoi" method="POST" enctype="multipart/form-data">
-  <label>Enter Point of Interest Details:</label>
-
+  
   <div class="columns is-multiline">
     <div class="column is-one-third">
       <div class="field">
         <input type="hidden" name="type" id="POICategoryType" value="{{values.type}}">
         <input type="hidden" name="group" id="POICategoryGroup" value="{{values.group}}">
         <div class="control">
+          <label class="label">Category</label>
           {{> poi-category-dropdown }}
         </div>
       </div>
@@ -14,12 +15,14 @@
 
     <div class="column is-two-thirds">
       <div class="field">
+        <label class="label">Description</label>
         <input class="input" type="text" placeholder="Description" name="description" value="{{values.description}}">
       </div>
     </div>
 
     <div class="column is-one-fourth">
       <div class="field">
+        <label class="label">Latitude</label>
         <input class="input" type="number" placeholder="Latitude" name="latitude" value="{{values.latitude}}" min="-90"
           max="90" step="any">
       </div>
@@ -27,12 +30,18 @@
 
     <div class="column is-one-fourth">
       <div class="field">
+        <label class="label">Longitude</label>
         <input class="input" type="number" placeholder="Longitude" name="longitude" value="{{values.longitude}}"
           min="-180" max="180" step="any">
       </div>
     </div>
 
-    {{> image-selection-button }}
+    <div class="column is-two-thirds">
+      <div class="field">
+        <label class="label">Photo</label>
+        {{> image-selection-button }}
+      </div>
+    </div>
   </div>
 
   <button class="button is-primary">Add POI</button>
