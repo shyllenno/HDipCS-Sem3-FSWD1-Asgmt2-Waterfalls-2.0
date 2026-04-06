@@ -61,4 +61,65 @@ export const dashboardController = {
       return h.redirect("/dashboard");
     },
   },
+
+  editWaterfall: {
+    handler: async function (request, h) {
+      const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
+      const viewData = {
+        isWaterfall: true,
+        title: "Edit Waterfall",
+        waterfall: waterfall,
+      };
+      return h.view("edit-view", viewData);
+    },
+  },
+
+  updateWaterfall: {
+    validate: {
+      payload: WaterfallSpec,
+      options: { abortEarly: false },
+      failAction: async function (request, h, error) {
+        const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
+
+        return h
+          .view("edit-view", {
+            isWaterfall: true,
+            title: "Update Waterfall Error",
+            waterfall: waterfall,
+            errors: error.details,
+            values: request.payload,
+          })
+          .takeover()
+          .code(400);
+      },
+    },
+
+    payload: {
+      multipart: true,
+      output: "data",
+      parse: true,
+      maxBytes: 209715200,
+    },
+
+    handler: async function (request, h) {
+      const waterfallId = request.params.id;
+      const imageFile = request.payload.imagefile;
+      let imageUrl;
+
+      if (imageFile && Object.keys(imageFile).length > 0) {
+        imageUrl = await imageStore.uploadImage(imageFile);
+      }
+
+      const updatedWaterfall = {
+        name: request.payload.name,
+        description: request.payload.description,
+        latitude: parseFloat(request.payload.latitude),
+        longitude: parseFloat(request.payload.longitude),
+        imagefile: imageUrl,
+      };
+
+      await db.waterfallStore.updateWaterfall(waterfallId, updatedWaterfall);
+      return h.redirect("/dashboard");
+    },
+  },
 };

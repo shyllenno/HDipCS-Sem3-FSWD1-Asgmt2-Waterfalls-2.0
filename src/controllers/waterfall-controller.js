@@ -67,7 +67,6 @@ export const waterfallController = {
     handler: async function (request, h) {
       const POI = await db.POIStore.getPOIById(request.params.poiId);
       const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
-      console.log(POI);
       const viewData = {
         isPOI: true,
         title: "Edit POI",
@@ -108,10 +107,9 @@ export const waterfallController = {
     },
 
     handler: async function (request, h) {
-      const { poiId } = request.params;
-
+      const poiId = request.params.id;
       const imageFile = request.payload.imagefile;
-      let imageUrl = request.payload.existingImage;
+      let imageUrl;
 
       if (imageFile && Object.keys(imageFile).length > 0) {
         imageUrl = await imageStore.uploadImage(imageFile);

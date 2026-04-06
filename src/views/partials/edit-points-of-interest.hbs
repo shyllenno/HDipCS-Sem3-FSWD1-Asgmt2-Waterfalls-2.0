@@ -1,5 +1,6 @@
 <h1 class="title">Edit Point of Interest</h1>
-<form class="box" action="/waterfall/{{waterfall._id}}/viewpoi/{{poi._id}}/update" method="POST" enctype="multipart/form-data">
+<form class="box" action="/waterfall/{{waterfall._id}}/viewpoi/{{poi._id}}/update" method="POST"
+  enctype="multipart/form-data">
 
   <div class="columns is-multiline">
     <div class="column is-one-third">
@@ -41,10 +42,10 @@
       <div class="field">
         <label class="label">Photo (The old photo will be overwritten by this one)</label>
         {{> image-selection-button }}
-
+        <br>
         {{#if poi.imagefile}}
-        <figure class="image">
-          <img src="{{poi.imagefile}}" alt="Current POI photo">
+        <figure class="image" style="height: 40vh;">
+          <img src="{{poi.imagefile}}" alt="Current POI photo" style=" height:100%; width: 100%; object-fit:contain;">
         </figure>
         {{/if}}
 

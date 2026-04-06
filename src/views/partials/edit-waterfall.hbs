@@ -1,0 +1,68 @@
+<h1 class="title">Edit waterfall</h1>
+
+<form action="/dashboard/editwaterfall/{{waterfall._id}}/update" method="POST" enctype="multipart/form-data">
+
+  <div class="columns is-multiline">
+    <div class="column is-one-third">
+
+      <div class="field">
+        <label class="label">Waterfall</label>
+        <div class="control">
+          <input class="input" type="text" name="name" placeholder="Enter waterfall name" value="{{waterfall.name}}">
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-one-third">
+      <div class="field">
+        <label class="label">Latitude</label>
+        <div class="control">
+          <input class="input" type="number" name="latitude" placeholder="Enter Latitude" value="{{waterfall.latitude}}"
+            min="-90" max="90" step="any">
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-one-third">
+      <div class="field">
+        <label class="label">Longitude</label>
+        <div class="control">
+          <input class="input" type="number" name="longitude" placeholder="Enter Longitude"
+            value="{{waterfall.longitude}}" min="-180" max="180" step="any">
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-12">
+      <div class="field">
+        <label class="label">Description</label>
+        <div class="control">
+          <input class="input" type="text" name="description" placeholder="Enter the description"
+            value="{{waterfall.description}}">
+        </div>
+      </div>
+    </div>
+    <div class="column">
+
+      <div class="field">
+        <label class="label">Photo (The old photo will be overwritten by this one)</label>
+
+        {{> image-selection-button }}
+        <br>
+        {{#if waterfall.imagefile}}
+        <figure class="image" style="height: 40vh;">
+          <img src="{{waterfall.imagefile}}" alt="Current Waterfall photo" style="height: 100%; width: 100%; object-fit: contain;">
+        </figure>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons">
+
+    <button class="button is-link">Update Waterfall</button>
+    <a class="button is-light" href="/dashboard">
+      Cancel
+    </a>
+  </div>
+</form>
