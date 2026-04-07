@@ -53,7 +53,28 @@ export const waterfallMongoStore = {
   async searchEverywhere(userId, query) {
     return WaterfallSchema.find({
       userid: userId,
-      $or: [{ name: { $regex: query, $options: "i" } }, { description: { $regex: query, $options: "i" } }],
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { description: { $regex: query, $options: "i" } },
+        {
+          $expr: {
+            $regexMatch: {
+              input: { $toString: "$latitude" },
+              regex: query,
+              options: "i",
+            },
+          },
+        },
+        {
+          $expr: {
+            $regexMatch: {
+              input: { $toString: "$longitude" },
+              regex: query,
+              options: "i",
+            },
+          },
+        },
+      ],
     }).lean();
   },
 };
