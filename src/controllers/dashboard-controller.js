@@ -12,6 +12,7 @@ export const dashboardController = {
         title: "Waterfall Dashboard",
         waterfalls: waterfalls,
         searchMode: false,
+        addressPath: "/dashboard",
       };
       return h.view("dashboard-view", viewData);
     },
@@ -136,6 +137,7 @@ export const dashboardController = {
         waterfalls: waterfalls,
         query: query,
         searchMode: true,
+        addressPath: "/dashboard",
       });
     },
   },

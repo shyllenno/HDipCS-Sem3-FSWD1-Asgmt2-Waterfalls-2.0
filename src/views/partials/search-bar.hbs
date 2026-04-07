@@ -1,4 +1,4 @@
-<form action="/dashboard/search" method="get" class="field has-addons">
+<form action="{{addressPath}}/search" method="get" class="field has-addons">
   <div class="control">
     <input class="input" type="text" name="question" placeholder="Search waterfalls...">
   </div>
@@ -8,7 +8,7 @@
   <br>
   {{#if searchMode}}
   <div class="control is-flex is-align-items-center">
-    <a href="/dashboard" class="delete is-large" style="margin-left: 0.5rem;"></a>
+    <a href="{{addressPath}}" class="delete is-large" style="margin-left: 0.5rem;"></a>
   </div>
   {{/if}}
 </form>
