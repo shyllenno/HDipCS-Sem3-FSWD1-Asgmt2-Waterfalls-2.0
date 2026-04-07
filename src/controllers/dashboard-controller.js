@@ -11,6 +11,8 @@ export const dashboardController = {
         user: loggedInUser,
         title: "Waterfall Dashboard",
         waterfalls: waterfalls,
+        searchMode: false,
+        addressPath: "/dashboard",
       };
       return h.view("dashboard-view", viewData);
     },
@@ -120,6 +122,23 @@ export const dashboardController = {
 
       await db.waterfallStore.updateWaterfall(waterfallId, updatedWaterfall);
       return h.redirect("/dashboard");
+    },
+  },
+
+  searchWaterfalls: {
+    handler: async function (request, h) {
+      const loggedInUser = request.auth.credentials;
+
+      const query = request.query.question;
+      const waterfalls = await db.waterfallStore.searchEverywhere(loggedInUser, query);
+
+      return h.view("dashboard-view", {
+        title: "Search Results",
+        waterfalls: waterfalls,
+        query: query,
+        searchMode: true,
+        addressPath: "/dashboard",
+      });
     },
   },
 };
