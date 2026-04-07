@@ -46,4 +46,14 @@ export const waterfallMongoStore = {
   async updateWaterfall(id, updatedFields) {
     return WaterfallSchema.findByIdAndUpdate(id, updatedFields, { returnDocument: "after" });
   },
+
+  // References:
+  // https://www.mongodb.com/docs/manual/reference/operator/query/regex/
+  // https://www.mongodb.com/community/forums/t/searching-multiple-fields/1457/6
+  async searchEverywhere(userId, query) {
+    return WaterfallSchema.find({
+      userid: userId,
+      $or: [{ name: { $regex: query, $options: "i" } }, { description: { $regex: query, $options: "i" } }],
+    }).lean();
+  },
 };

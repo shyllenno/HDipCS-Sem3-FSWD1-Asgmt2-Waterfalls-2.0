@@ -34,4 +34,6 @@ export const webRoutes = [
 
   { method: "GET", path: "/dashboard/editwaterfall/{id}", config: dashboardController.editWaterfall },
   { method: "POST", path: "/dashboard/editwaterfall/{id}/update", config: dashboardController.updateWaterfall },
+
+  { method: "GET", path: "/dashboard/search", config: dashboardController.searchWaterfalls },
 ];
