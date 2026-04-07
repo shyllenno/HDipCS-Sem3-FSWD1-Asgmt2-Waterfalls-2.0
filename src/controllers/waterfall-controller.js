@@ -1,6 +1,7 @@
 import { db } from "../models/db.js";
 import { POISpec } from "../models/joi-schemas.js";
 import { imageStore } from "../models/image-store.js";
+import { POISchema } from "../models/mongo/mongoSchemas.js";
 
 export const waterfallController = {
   index: {
@@ -9,6 +10,7 @@ export const waterfallController = {
       const viewData = {
         title: "Waterfall",
         waterfall: waterfall,
+        addressPath: `/waterfall/${waterfall._id}`,
       };
       return h.view("waterfall-view", viewData);
     },
@@ -127,6 +129,26 @@ export const waterfallController = {
       await db.POIStore.updatePOI(poiId, updatedPOI);
 
       return h.redirect(`/waterfall/${request.params.id}`);
+    },
+  },
+
+  searchPOIs: {
+    handler: async function (request, h) {
+      const waterfallId = request.params.id;
+
+      const query = request.query.question;
+      const POIs = await db.POIStore.searchEverywhere(waterfallId, query);
+
+      return h.view("waterfall-view",{
+        title: "Search Results",
+        waterfall: {
+          _id: waterfallId,
+          POIs: POIs,
+        },
+        query: query,
+        searchMode: true,
+        addressPath: `/waterfall/${waterfallId}`
+      });
     },
   },
 };

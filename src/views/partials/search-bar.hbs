@@ -1,0 +1,14 @@
+<form action="{{addressPath}}/search" method="get" class="field has-addons">
+  <div class="control">
+    <input class="input" type="text" name="question" placeholder="Search...">
+  </div>
+  <div class="control">
+    <button class="button is-info">Search</button>
+  </div>
+  <br>
+  {{#if searchMode}}
+  <div class="control is-flex is-align-items-center">
+    <a href="{{addressPath}}" class="delete is-large" style="margin-left: 0.5rem;"></a>
+  </div>
+  {{/if}}
+</form>

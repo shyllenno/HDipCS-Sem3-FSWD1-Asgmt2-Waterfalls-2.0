@@ -2,7 +2,7 @@
 
 <section class="section">
   <h1 class="title">Edit your Profile</h1>
-  <form action="/user-profile/update/{{user._id}}" method="POST">
+  <form action="/userprofile/update/{{user._id}}" method="POST">
     <label class="label">Name</label>
     <div class="field is-horizontal">
       <div class="field-body">
@@ -52,7 +52,7 @@
       <h2 class="title is-4">Are you sure?</h2>
       <p class="mb-4">This action is permanent and cannot be undone.</p>
       <div class="buttons is-centered">
-        <form action="/user-profile/delete/{{user._id}}" method="POST">
+        <form action="/userprofile/delete/{{user._id}}" method="POST">
           <button class="button is-danger">Yes, Delete My Account</button>
         </form>
         <button class="button" id="cancel-delete">Cancel</button>

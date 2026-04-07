@@ -42,4 +42,36 @@ export const poiMongoStore = {
   async updatePOI(id, updatedFields) {
     return POISchema.findByIdAndUpdate(id, updatedFields, { returnDocument: "after" });
   },
+
+  // References:
+  // https://stackoverflow.com/questions/2908100/mongodb-regex-search-on-integer-value
+
+  async searchEverywhere(waterfallId, query) {
+    return POISchema.find({
+      waterfallid: waterfallId,
+      $or: [
+        { group: { $regex: query, $options: "i" } },
+        { type: { $regex: query, $options: "i" } },
+        { description: { $regex: query, $options: "i" } },
+        {
+          $expr: {
+            $regexMatch: {
+              input: { $toString: "$latitude" },
+              regex: query,
+              options: "i",
+            },
+          },
+        },
+        {
+          $expr: {
+            $regexMatch: {
+              input: { $toString: "$longitude" },
+              regex: query,
+              options: "i",
+            },
+          },
+        },
+      ],
+    }).lean();
+  },
 };

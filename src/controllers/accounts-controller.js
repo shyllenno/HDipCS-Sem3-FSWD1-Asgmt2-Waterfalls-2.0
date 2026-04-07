@@ -123,7 +123,7 @@ export const accountsController = {
 
       await db.userStore.updateUser(userId, updatedUser);
 
-      return h.redirect("/user-profile?status=updatesuccessful");
+      return h.redirect("/userprofile?status=updatesuccessful");
     },
   },
   delete: {
