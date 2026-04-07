@@ -1,7 +1,7 @@
 {
   "name": "waterfalls-1.0",
-  "version": "0.9.0",
-  "description": "Waterfalls App 1.0: Add Update methods for Waterfalls and POIs, improve UX by adding a category dropdown menu",
+  "version": "0.10.0",
+  "description": "Waterfalls App 1.0: Add search bar in dashboard and waterfall views, allow search everywhere",
   "homepage": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt1-Waterfalls-1.0#readme",
   "bugs": {
     "url": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt1-Waterfalls-1.0/issues"
