@@ -25,9 +25,9 @@ export const webRoutes = [
 
   { method: "GET", path: "/{param*}", handler: { directory: { path: "./public" } }, options: { auth: false } },
 
-  { method: "GET", path: "/user-profile", config: accountsController.profile },
-  { method: "POST", path: "/user-profile/update/{id}", config: accountsController.update },
-  { method: "POST", path: "/user-profile/delete/{id}", config: accountsController.delete },
+  { method: "GET", path: "/userprofile", config: accountsController.profile },
+  { method: "POST", path: "/userprofile/update/{id}", config: accountsController.update },
+  { method: "POST", path: "/userprofile/delete/{id}", config: accountsController.delete },
 
   { method: "GET", path: "/waterfall/{id}/viewpoi/{poiId}", config: waterfallController.viewPOI },
   { method: "POST", path: "/waterfall/{id}/viewpoi/{poiId}/update", config: waterfallController.updatePOI },
