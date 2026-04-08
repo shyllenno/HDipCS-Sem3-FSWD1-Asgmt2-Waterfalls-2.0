@@ -1,0 +1,31 @@
+{{> menu}}
+
+<section>
+
+  <div class="title">
+    {{waterfall.name}} POIs grouped by Category
+  </div>
+
+  {{#each groupedPOIs}}
+  <h2 class="title is-4">{{_id}}</h2>
+
+  <div class="columns is-multiline">
+    {{#each items}}
+    <div class="column is-one-third">
+      <div class="box">
+        <strong>{{type}}</strong>
+        <br>
+        {{description}}
+        <br>
+        Latitude: {{latitude}}
+        <br>
+        Longitude: {{longitude}}
+        <img src="{{imagefile}}" alt="Image of a {{type}}" style="margin-top: 1rem;">
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  {{/each}}
+
+
+</section>
