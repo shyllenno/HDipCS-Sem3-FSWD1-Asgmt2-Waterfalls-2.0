@@ -62,7 +62,8 @@ export const testWaterfalls = [
 ];
 
 export const powerscourtHouseGarden = {
-  type: "Attraction",
+  type: "Historical Site",
+  group: "Attractions & Activities",
   description: "Powerscourt House and Gardens features beautiful gardens",
   latitude: 53.1911,
   longitude: -6.1178,
@@ -70,19 +71,22 @@ export const powerscourtHouseGarden = {
 
 export const testPOIs = [
   {
-    type: "Attraction",
+    type: "Waterfall Viewpoint",
+    group: "Waterfall-Specific",
     description: "The Garganta do Diabo (Devil’s Throat): Location: Accessible from both sides, but superior from Argentina. Type: Natural Feature.",
     latitude: -25.6953,
     longitude: -54.4367,
   },
   {
     type: "Hospital",
+    group: "Safety & Emergency",
     description: "Hospital Dra. Marta T. Schwarz (Puerto Iguazú, Argentina): Location: Av. Victoria Aguirre 131, Puerto Iguazú. Hours: Open 24 hours. Type: Public Hospital.",
     latitude: -25.5971159,
     longitude: -54.5778447,
   },
   {
     type: "Restaurant",
+    group: "Food & Drink",
     description: "La Rueda 1975 (Puerto Iguazú, Argentina): Location: Av. Victoria Aguirre 1975, Puerto Iguazú. Hours: 12:00 PM - 11:00 PM. Type: Casual Dining.",
     latitude: -25.5958,
     longitude: -54.5772,
