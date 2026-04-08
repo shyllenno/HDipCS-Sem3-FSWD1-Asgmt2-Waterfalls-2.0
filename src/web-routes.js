@@ -37,4 +37,6 @@ export const webRoutes = [
 
   { method: "GET", path: "/dashboard/search", config: dashboardController.searchWaterfalls },
   { method: "GET", path: "/waterfall/{id}/search", config: waterfallController.searchPOIs },
+
+  { method: "GET", path: "/waterfall/group/{id}", config: waterfallController.groupPOIs},
 ];

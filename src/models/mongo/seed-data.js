@@ -74,8 +74,8 @@ export const seedData = {
     },
 
     attractionGargantaDoDiabo: {
-      type: "Attraction",
-      group: "Attractions & Activities",
+      type: "Waterfall Viewpoint",
+      group: "Waterfall-Specific",
       description: "The Garganta do Diabo (Devil’s Throat): Location: Accessible from both sides, but superior from Argentina. Type: Natural Feature.",
       latitude: -25.695225872631873,
       longitude: -54.43660026853571,

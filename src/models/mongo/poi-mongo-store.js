@@ -74,4 +74,16 @@ export const poiMongoStore = {
       ],
     }).lean();
   },
+
+  // References:
+  // https://www.geeksforgeeks.org/mongodb/mongoose-aggregate-aggregate-api/
+  // https://stackoverflow.com/questions/22150205/mongo-group-and-push-pushing-all-fields
+
+  async groupPOIsByCategory(waterfallId) {
+    return POISchema.aggregate([
+      {$match: { waterfallid: new Mongoose.Types.ObjectId(waterfallId) }},
+      {$group: {_id: "$type", items: { $push: "$$ROOT" }}},
+      {$sort: {_id: 1}},
+    ]);
+  },
 };
