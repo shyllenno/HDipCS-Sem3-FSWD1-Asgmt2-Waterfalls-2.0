@@ -1,0 +1,42 @@
+{{> menu active="admin"}}
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">Admin Dashboard</h1>
+    <h2 class="subtitle">Manage all users</h2>
+
+    <table class="table is-fullwidth is-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th style="width: 150px;">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each users}}
+        <tr>
+          <td>{{firstName}} {{lastName}}</td>
+          <td>{{email}}</td>
+          <td>
+            {{!-- References:
+            https://code-maven.com/handlebars-conditionals
+            --}}
+            {{#if (if_eq role "admin")}}
+            <span class="tag is-danger">Admin</span>
+            {{else}}
+            <span class="tag is-info">User</span>
+            {{/if}}
+          </td>
+          <td>
+            <a href="/userprofile/{{_id}}" class="button is-small is-link">View</a>
+            {{!-- <a href="/userprofile/delete/{{_id}}" class="button is-small is-danger">Delete</a> --}}
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>
