@@ -6,24 +6,28 @@ export const seedData = {
       lastName: "Simpson",
       email: "homer@simpson.com",
       password: "secret",
+      role: "user",
     },
     marge: {
       firstName: "Marge",
       lastName: "Simpson",
       email: "marge@simpson.com",
       password: "secret",
+      role: "user",
     },
     bart: {
       firstName: "Bart",
       lastName: "Simpson",
       email: "bart@simpson.com",
       password: "secret",
+      role: "user",
     },
     a: {
       firstName: "A",
       lastName: "A",
       email: "a@a.ie",
       password: "a",
+      role: "admin",
     },
   },
   waterfalls: {

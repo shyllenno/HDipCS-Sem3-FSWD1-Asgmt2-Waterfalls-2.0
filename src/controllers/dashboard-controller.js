@@ -6,13 +6,33 @@ export const dashboardController = {
   index: {
     handler: async function (request, h) {
       const loggedInUser = request.auth.credentials;
-      const waterfalls = await db.waterfallStore.getUserWaterfalls(loggedInUser._id);
+
+      let waterfalls;
+
+      if (loggedInUser.role === "admin") {
+        waterfalls = await db.waterfallStore.getAllWaterfalls();
+
+        // References
+        // https://stackoverflow.com/questions/9329446/loop-for-each-over-an-array-in-javascript
+        // eslint-disable-next-line no-restricted-syntax
+        for (const waterfall of waterfalls) {
+          // eslint-disable-next-line no-await-in-loop
+          const belongsTo = await db.userStore.getUserById(waterfall.userid);
+          waterfall.userEmail = belongsTo.email;
+          waterfall.firstName = belongsTo.firstName;
+          waterfall.lastName = belongsTo.lastName;
+        }
+      } else {
+        waterfalls = await db.waterfallStore.getUserWaterfalls(loggedInUser._id);
+      }
+
       const viewData = {
         user: loggedInUser,
         title: "Waterfall Dashboard",
         waterfalls: waterfalls,
         searchMode: false,
         addressPath: "/dashboard",
+        isAdmin: loggedInUser.role === "admin",
       };
       return h.view("dashboard-view", viewData);
     },

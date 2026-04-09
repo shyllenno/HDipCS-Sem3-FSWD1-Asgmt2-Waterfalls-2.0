@@ -33,16 +33,15 @@ const swaggerOptions = {
     jwt: {
       type: "apiKey",
       name: "Authorization",
-      in: "header"
-    }
+      in: "header",
+    },
   },
   security: [{ jwt: [] }],
-
 };
 
 async function init() {
   const server = Hapi.server({
-    port: process.env.PORT ||3000,
+    port: process.env.PORT || 3000,
     host: "0.0.0.0",
   });
 
@@ -54,6 +53,10 @@ async function init() {
     options: swaggerOptions,
   });
   await server.register(jwt);
+
+  // References:
+  // https://code-maven.com/handlebars-conditionals
+  Handlebars.registerHelper("if_eq", (a, b) => a === b);
 
   server.validator(Joi);
 

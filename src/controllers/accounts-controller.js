@@ -25,6 +25,7 @@ export const accountsController = {
     },
     handler: async function (request, h) {
       const user = request.payload;
+      user.role = "user";
       await db.userStore.addUser(user);
       return h.redirect("/login");
     },
@@ -91,8 +92,9 @@ export const accountsController = {
   },
   profile: {
     auth: "session",
-    handler: function (request, h) {
-      const user = request.auth.credentials;
+    handler: async function (request, h) {
+      const userId = request.params.id;
+      const user = await db.userStore.getUserById(userId);
       return h.view("user-profile-view", {
         title: "User Profile",
         user: user,
@@ -118,21 +120,50 @@ export const accountsController = {
       },
     },
     handler: async function (request, h) {
+      // eslint-disable-next-line prefer-destructuring
+      const role = request.auth.credentials.role;
       const userId = request.params.id;
       const updatedUser = request.payload;
 
       await db.userStore.updateUser(userId, updatedUser);
 
-      return h.redirect("/userprofile?status=updatesuccessful");
+      if (role === "admin") {
+        return h.redirect("/admin");
+      }
+      return h.redirect(`/userprofile/${userId}?status=updatesuccessful`);
     },
   },
   delete: {
     auth: "session",
-    handler: async function (request, h){
+    handler: async function (request, h) {
+      // eslint-disable-next-line prefer-destructuring
+      const role = request.auth.credentials.role;
       const userId = request.params.id;
       await db.userStore.deleteUserById(userId);
+      if (role === "admin") {
+        return h.redirect("/admin");
+      }
       request.cookieAuth.clear();
       return h.redirect("/?status=deletesuccessful");
+    },
+  },
+
+  adminDashboard: {
+    auth: "session",
+    handler: async function (request, h) {
+      const user = request.auth.credentials;
+
+      if (user.role !== "admin") {
+        return h.response("Access denied").code(403);
+      }
+
+      const users = await db.userStore.getAllUsers();
+
+      return h.view("admin-dashboard-view", {
+        title: "Admin Dashboard",
+        admin: user,
+        users: users,
+      });
     },
   },
 };
