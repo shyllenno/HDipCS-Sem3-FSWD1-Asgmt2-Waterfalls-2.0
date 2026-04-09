@@ -5,6 +5,12 @@
       <header class="card-header">
         <p class="card-header-title">
           {{name}}
+          {{!-- References: --}}
+          {{!-- https://stackoverflow.com/questions/12297959/access-properties-of-the-parent-with-a-handlebars-each-loop --}}
+          {{#if ../isAdmin}}
+          <br>
+          {{firstName}} {{lastName}} ({{userEmail}})
+          {{/if }}
         </p>
       </header>
 
