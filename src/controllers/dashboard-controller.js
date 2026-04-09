@@ -6,7 +6,15 @@ export const dashboardController = {
   index: {
     handler: async function (request, h) {
       const loggedInUser = request.auth.credentials;
-      const waterfalls = await db.waterfallStore.getUserWaterfalls(loggedInUser._id);
+
+      let waterfalls;
+
+      if (loggedInUser.role === "admin") {
+        waterfalls = await db.waterfallStore.getAllWaterfalls();
+      } else {
+        waterfalls = await db.waterfallStore.getUserWaterfalls(loggedInUser._id);
+      }
+
       const viewData = {
         user: loggedInUser,
         title: "Waterfall Dashboard",
