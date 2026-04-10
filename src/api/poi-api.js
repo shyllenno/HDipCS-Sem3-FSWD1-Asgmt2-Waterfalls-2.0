@@ -121,7 +121,7 @@ export const POIApi = {
         const updatedPOI = await db.POIStore.updatePOI(request.params.id, request.payload);
 
         if (!updatedPOI) {
-          return Boom.badImplementation("Error updating waterfall");
+          return Boom.badImplementation("Error updating POI");
         }
 
         return updatedPOI.toObject();
