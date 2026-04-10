@@ -25,7 +25,7 @@ export const webRoutes = [
 
   { method: "GET", path: "/{param*}", handler: { directory: { path: "./public" } }, options: { auth: false } },
 
-  { method: "GET", path: "/userprofile", config: accountsController.profile },
+  { method: "GET", path: "/userprofile/{id}", config: accountsController.profile },
   { method: "POST", path: "/userprofile/update/{id}", config: accountsController.update },
   { method: "POST", path: "/userprofile/delete/{id}", config: accountsController.delete },
 
@@ -37,4 +37,8 @@ export const webRoutes = [
 
   { method: "GET", path: "/dashboard/search", config: dashboardController.searchWaterfalls },
   { method: "GET", path: "/waterfall/{id}/search", config: waterfallController.searchPOIs },
+
+  { method: "GET", path: "/waterfall/group/{id}", config: waterfallController.groupPOIs },
+
+  { method: "GET", path: "/admin", config: accountsController.adminDashboard },
 ];

@@ -86,4 +86,19 @@ export const waterfallService = {
     // eslint-disable-next-line dot-notation
     axios.defaults.headers.common["Authorization"] = "";
   },
+
+  async updateWaterfall(id, updatedFields) {
+    const response = await axios.put(`${this.waterfallUrl}/api/waterfalls/${id}`, updatedFields);
+    return response.data;
+  },
+
+  async updatePOI(id, updatedFields) {
+    const response = await axios.put(`${this.waterfallUrl}/api/pois/${id}`, updatedFields);
+    return response.data;
+  },
+
+  async updateUser(id, updatedFields) {
+    const response = await axios.put(`${this.waterfallUrl}/api/users/${id}`, updatedFields);
+    return response.data;
+  },
 };

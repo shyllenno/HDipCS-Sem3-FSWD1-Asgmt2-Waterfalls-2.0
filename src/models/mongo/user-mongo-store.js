@@ -46,6 +46,9 @@ export const userMongoStore = {
   // Changed from new: true to returnDocument: after as requested by deprecation warning message
 
   async updateUser(id, updatedFields) {
+    if (!Mongoose.Types.ObjectId.isValid(id)) {
+      return null;
+    }
     return UserSchema.findByIdAndUpdate(id, updatedFields, { returnDocument: "after" });
   },
 };

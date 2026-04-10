@@ -42,10 +42,15 @@ export const POIApi = {
 
   create: {
     auth: { strategy: "jwt" },
+    validate: { 
+      params: {id: IdSpec},
+      payload: POISpecPlus,
+      failAction: validationError
+    },
     handler: async function (request, h) {
       try {
         const poiData = request.payload;
-        // poiData.waterfallid = request.params.id;
+        poiData.waterfallid = request.params.id;
 
         const poi = await db.POIStore.addPOI(poiData);
         if (poi) {
@@ -59,7 +64,6 @@ export const POIApi = {
     tags: ["api"],
     description: "Create a POI",
     notes: "Returns the newly created POI",
-    validate: { payload: POISpec },
     response: { schema: POISpecPlus, failAction: validationError },
   },
 
@@ -94,5 +98,40 @@ export const POIApi = {
     tags: ["api"],
     description: "Delete a POI",
     validate: { params: { id: IdSpec }, failAction: validationError },
+  },
+
+  update: {
+    auth: { strategy: "jwt" },
+    validate: {
+      params: { id: IdSpec },
+      failAction: validationError,
+    },
+    handler: async function (request, h) {
+      try {
+        const existing = await db.POIStore.getPOIById(request.params.id);
+        if (!existing) {
+          return Boom.notFound("No POI with this id");
+        }
+
+        const { error } = POISpecPlus.validate(request.payload);
+        if (error) {
+          return Boom.badRequest(error.message);
+        }
+
+        const updatedPOI = await db.POIStore.updatePOI(request.params.id, request.payload);
+
+        if (!updatedPOI) {
+          return Boom.badImplementation("Error updating POI");
+        }
+
+        return updatedPOI.toObject();
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
+    },
+    tags: ["api"],
+    description: "Update a POI",
+    notes: "Updates a POI and returns the updated object",
+    response: { schema: POISpecPlus, failAction: validationError },
   },
 };

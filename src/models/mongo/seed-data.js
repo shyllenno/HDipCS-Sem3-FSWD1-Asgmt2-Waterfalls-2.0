@@ -6,24 +6,28 @@ export const seedData = {
       lastName: "Simpson",
       email: "homer@simpson.com",
       password: "secret",
+      role: "user",
     },
     marge: {
       firstName: "Marge",
       lastName: "Simpson",
       email: "marge@simpson.com",
       password: "secret",
+      role: "user",
     },
     bart: {
       firstName: "Bart",
       lastName: "Simpson",
       email: "bart@simpson.com",
       password: "secret",
+      role: "user",
     },
     a: {
       firstName: "A",
       lastName: "A",
       email: "a@a.ie",
       password: "a",
+      role: "admin",
     },
   },
   waterfalls: {
@@ -74,8 +78,8 @@ export const seedData = {
     },
 
     attractionGargantaDoDiabo: {
-      type: "Attraction",
-      group: "Attractions & Activities",
+      type: "Waterfall Viewpoint",
+      group: "Waterfall-Specific",
       description: "The Garganta do Diabo (Devil’s Throat): Location: Accessible from both sides, but superior from Argentina. Type: Natural Feature.",
       latitude: -25.695225872631873,
       longitude: -54.43660026853571,

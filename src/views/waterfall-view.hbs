@@ -6,7 +6,19 @@
   </div>
   <div id="map"></div>
   <br>
-  {{> search-bar}}
+
+  <div class="columns is-vcentered">
+    <div class="column is-one-third">
+      {{> search-bar}}
+    </div>
+
+    <div class="column has-text-left">
+      <a href="/waterfall/group/{{waterfall._id}}" class="button is-warning">
+        See POIs grouped by category
+      </a>
+    </div>
+  </div>
+
   {{> list-points-of-interest}}
   {{> gallery-points-of-interest}}
   {{> add-points-of-interest}}
@@ -40,7 +52,7 @@
       const POILongitude = rows[i].querySelector(".coordinates").innerText.split(",")[1].trim()
 
       L.marker([POILatitude, POILongitude]).addTo(map).bindPopup(`${POIType}: ${POIDescription}`);
-      map.setView([POILatitude, POILongitude],10);
+      map.setView([POILatitude, POILongitude], 10);
     }
   })
 </script>

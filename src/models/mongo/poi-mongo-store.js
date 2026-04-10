@@ -40,6 +40,9 @@ export const poiMongoStore = {
   },
 
   async updatePOI(id, updatedFields) {
+    if (!Mongoose.Types.ObjectId.isValid(id)) {
+      return null;
+    }
     return POISchema.findByIdAndUpdate(id, updatedFields, { returnDocument: "after" });
   },
 
@@ -73,5 +76,17 @@ export const poiMongoStore = {
         },
       ],
     }).lean();
+  },
+
+  // References:
+  // https://www.geeksforgeeks.org/mongodb/mongoose-aggregate-aggregate-api/
+  // https://stackoverflow.com/questions/22150205/mongo-group-and-push-pushing-all-fields
+
+  async groupPOIsByCategory(waterfallId) {
+    return POISchema.aggregate([
+      { $match: { waterfallid: new Mongoose.Types.ObjectId(waterfallId) } },
+      { $group: { _id: "$type", items: { $push: "$$ROOT" } } },
+      { $sort: { _id: 1 } },
+    ]);
   },
 };

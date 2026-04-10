@@ -151,4 +151,17 @@ export const waterfallController = {
       });
     },
   },
+
+  groupPOIs: {
+    handler: async function (request, h) {
+      const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
+      const groupedPOIs = await db.POIStore.groupPOIsByCategory(request.params.id);
+
+      return h.view("waterfall-group", {
+        title: waterfall.name,
+        waterfall: waterfall,
+        groupedPOIs: groupedPOIs,
+      });
+    }
+  },
 };
