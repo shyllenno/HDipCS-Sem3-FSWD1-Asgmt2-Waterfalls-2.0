@@ -13,12 +13,14 @@ export const apiRoutes = [
   { method: "GET", path: "/api/waterfalls", config: waterfallApi.find },
   { method: "GET", path: "/api/waterfalls/{id}", config: waterfallApi.findOne },
   { method: "DELETE", path: "/api/waterfalls/{id}", config: waterfallApi.deleteOne },
+  { method: "PUT", path: "/api/waterfalls/{id}", config: waterfallApi.update },
 
   { method: "GET", path: "/api/pois", config: POIApi.find },
   { method: "GET", path: "/api/pois/{id}", config: POIApi.findOne },
   { method: "POST", path: "/api/waterfalls/{id}/pois", config: POIApi.create },
   { method: "DELETE", path: "/api/pois", config: POIApi.deleteAll },
   { method: "DELETE", path: "/api/pois/{id}", config: POIApi.deleteOne },
+  { method: "PUT", path: "/api/pois/{id}", config: POIApi.update },
 
   { method: "POST", path: "/api/users/authenticate", config: userApi.authenticate },
 ];

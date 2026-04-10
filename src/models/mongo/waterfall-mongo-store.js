@@ -44,6 +44,10 @@ export const waterfallMongoStore = {
   },
 
   async updateWaterfall(id, updatedFields) {
+    if (!Mongoose.Types.ObjectId.isValid(id)) {
+      return null;
+    }
+
     return WaterfallSchema.findByIdAndUpdate(id, updatedFields, { returnDocument: "after" });
   },
 

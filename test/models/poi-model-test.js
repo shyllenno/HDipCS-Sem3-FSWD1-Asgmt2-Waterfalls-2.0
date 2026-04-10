@@ -1,5 +1,6 @@
 import { assert } from "chai";
 import Joi from "joi";
+import Mongoose from "mongoose";
 import { db } from "../../src/models/db.js";
 import { testPOIs as base } from "../fixtures.js";
 import { POISpec } from "../../src/models/joi-schemas.js";
@@ -16,7 +17,6 @@ suiteTeardown(async () => {
 });
 
 suite("POI Model tests", () => {
-
   setup(async () => {
     await db.POIStore.deleteAllPOIs();
 
@@ -189,6 +189,7 @@ suite("POI Model tests", () => {
   test("create a POI - valid coordinates", async () => {
     const goodCoordinates = {
       type: "Good POI",
+      group: "Good group",
       description: "A good POI, it should pass",
       latitude: 52.3,
       longitude: -7.5,
@@ -217,5 +218,47 @@ suite("POI Model tests", () => {
 
     assert.equal(updatedPOI.latitude, 52.0);
     assert.equal(updatedPOI.longitude, -7.0);
+  });
+
+  test("update a POI - success", async () => {
+    const poi = await db.POIStore.addPOI({
+      type: "Old Type",
+      group: "Old Group",
+      description: "Old Desc",
+      latitude: 10,
+      longitude: 20,
+    });
+
+    const updated = await db.POIStore.updatePOI(poi._id, {
+      type: "New Type",
+      group: "New Group",
+      description: "New Desc",
+      latitude: 11,
+      longitude: 22,
+    });
+
+    assert.equal(updated.type, "New Type");
+    assert.equal(updated.group, "New Group");
+    assert.equal(updated.description, "New Desc");
+    assert.equal(updated.latitude, 11);
+    assert.equal(updated.longitude, 22);
+  });
+
+  test("update a POI - valid but non-existent id", async () => {
+    const fakeId = new Mongoose.Types.ObjectId();
+
+    const updated = await db.POIStore.updatePOI(fakeId, {
+      type: "Should Not Work",
+    });
+
+    assert.isNull(updated);
+  });
+
+  test("update a POI - invalid id", async () => {
+    const updated = await db.POIStore.updatePOI("bad-id", {
+      type: "Should Not Work",
+    });
+
+    assert.isNull(updated);
   });
 });

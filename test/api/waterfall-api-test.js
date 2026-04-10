@@ -8,7 +8,6 @@ EventEmitter.setMaxListeners(25);
 
 let testWaterfalls = [];
 
-
 suite("Waterfall API tests", () => {
   let user = null;
 
@@ -62,5 +61,46 @@ suite("Waterfall API tests", () => {
     } catch (error) {
       assert(error.response.data.message === "No Waterfall with this id", "Incorrect Response Message");
     }
+  });
+
+  test("update a waterfall via API", async () => {
+    const waterfall = await waterfallService.createWaterfall(powerscourtWaterfall);
+
+    const updatedFields = {
+      name: "Updated API Name",
+      description: "Updated API Description",
+      latitude: 50.0,
+      longitude: -5.0,
+    };
+
+    const updated = await waterfallService.updateWaterfall(waterfall._id, updatedFields);
+
+    assert.equal(updated.name, updatedFields.name);
+    assert.equal(updated.description, updatedFields.description);
+    assert.equal(updated.latitude, updatedFields.latitude);
+    assert.equal(updated.longitude, updatedFields.longitude);
+  });
+
+  test("update non-existent waterfall via API", async () => {
+    try {
+      await waterfallService.updateWaterfall("bad-id", { name: "Nope" });
+      assert.fail("Should not succeed");
+    } catch (error) {
+      assert.equal(error.response.data.message, "No Waterfall with this id");
+    }
+  });
+
+  test("partial update via API", async () => {
+    const waterfall = await waterfallService.createWaterfall(powerscourtWaterfall);
+
+    // References:
+    // https://stackoverflow.com/questions/122102/what-is-the-most-efficient-way-to-deep-clone-an-object-in-javascript
+    const updatedWaterfall = structuredClone(waterfall);
+    updatedWaterfall.name = "Partial";
+
+    const updated = await waterfallService.updateWaterfall(waterfall._id, updatedWaterfall);
+
+    assert.equal(updated.name, "Partial");
+    assert.equal(updated.description, waterfall.description);
   });
 });
