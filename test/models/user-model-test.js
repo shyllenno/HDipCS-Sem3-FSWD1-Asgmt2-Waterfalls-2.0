@@ -14,7 +14,6 @@ suiteTeardown(async () => {
 });
 
 suite("User Model tests", () => {
-
   setup(async () => {
     await db.userStore.deleteAll();
 
@@ -75,5 +74,45 @@ suite("User Model tests", () => {
     await db.userStore.deleteUserById("bad-id");
     const allUsers = await db.userStore.getAllUsers();
     assert.equal(testUsers.length, allUsers.length);
+  });
+
+  test("update a user - success", async () => {
+    const user = await db.userStore.addUser({
+      firstName: "Old",
+      lastName: "Name",
+      email: "old@example.com",
+      password: "secret",
+    });
+
+    const updated = await db.userStore.updateUser(user._id, {
+      firstName: "New",
+      lastName: "Name",
+      email: "new@example.com",
+      password: "secret",
+    });
+
+    assert.equal(updated.firstName, "New");
+    assert.equal(updated.email, "new@example.com");
+  });
+
+  test("update a user - invalid id", async () => {
+    const updated = await db.userStore.updateUser("bad-id", {
+      firstName: "Should Not Work",
+    });
+
+    assert.isNull(updated);
+  });
+
+  test("partial update - success", async () => {
+    const user = await db.userStore.addUser(maggie);
+
+    const updateUser = {
+      firstName: "Partial",
+    };
+
+    const updated = await db.userStore.updateUser(user._id, updateUser);
+
+    assert.equal(updated.firstName, "Partial");
+    assert.equal(updated.email, user.email);
   });
 });

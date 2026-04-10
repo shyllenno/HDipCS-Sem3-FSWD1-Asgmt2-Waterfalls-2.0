@@ -19,7 +19,6 @@ suiteTeardown(async () => {
 let testWaterfalls = [];
 
 suite("Waterfall Model tests", () => {
-
   setup(async () => {
     await db.waterfallStore.deleteAllWaterfalls();
 
@@ -220,5 +219,41 @@ suite("Waterfall Model tests", () => {
 
     assert.equal(updatedWaterfall.latitude, 52.0);
     assert.equal(updatedWaterfall.longitude, -7.0);
+  });
+
+  test("update a waterfall - success", async () => {
+    const waterfall = testWaterfalls[0];
+
+    const updatedFields = {
+      name: "Updated Name",
+      description: "Updated Description",
+      latitude: 51.9,
+      longitude: -8.4,
+    };
+
+    const updatedWaterfall = await db.waterfallStore.updateWaterfall(waterfall._id, updatedFields);
+    const returnedWaterfall = await db.waterfallStore.getWaterfallById(waterfall._id);
+
+    assert.equal(returnedWaterfall.name, updatedFields.name);
+    assert.equal(returnedWaterfall.description, updatedFields.description);
+    assert.equal(returnedWaterfall.latitude, updatedFields.latitude);
+    assert.equal(returnedWaterfall.longitude, updatedFields.longitude);
+  });
+
+  test("update a waterfall - non-existent id", async () => {
+    const updated = await db.waterfallStore.updateWaterfall("bad-id", { name: "Should Not Work" });
+    assert.isNull(updated);
+  });
+
+  test("update a waterfall - partial update", async () => {
+    const waterfall = testWaterfalls[1];
+
+    const updatedFields = { name: "Partially Updated" };
+
+    await db.waterfallStore.updateWaterfall(waterfall._id, updatedFields);
+    const returned = await db.waterfallStore.getWaterfallById(waterfall._id);
+
+    assert.equal(returned.name, "Partially Updated");
+    assert.equal(returned.description, waterfall.description);
   });
 });

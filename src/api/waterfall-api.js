@@ -26,10 +26,13 @@ export const waterfallApi = {
       try {
         const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
         if (!waterfall) {
+          console.log("UPDATE ERROR:", err); // <-- TEMP DEBUG
+
           return Boom.notFound("No Waterfall with this id");
         }
         return waterfall;
       } catch (err) {
+        console.log("UPDATE ERROR:", err); // <-- TEMP DEBUG
         return Boom.serverUnavailable("No Waterfall with this id");
       }
     },
@@ -94,5 +97,44 @@ export const waterfallApi = {
     },
     tags: ["api"],
     description: "Delete all WaterfallApi",
+  },
+
+  update: {
+    auth: { strategy: "jwt" },
+    validate: {
+      params: { id: IdSpec },
+      failAction: validationError,
+    },
+    handler: async function (request, h) {
+      try {
+        const waterfallId = request.params.id;
+
+        const existing = await db.waterfallStore.getWaterfallById(waterfallId);
+        if (!existing) {
+          return Boom.notFound("No Waterfall with this id");
+        }
+
+        // Reference:
+        // https://joi.dev/api/18.x.x
+        const { error } = WaterfallSpecPlus.validate(request.payload);
+        if(error){
+          return Boom.badRequest(error.message);
+        }
+
+        const updatedWaterfall = await db.waterfallStore.updateWaterfall(waterfallId, request.payload);
+
+        if (!updatedWaterfall) {
+          return Boom.badImplementation("Error updating waterfall");
+        }
+
+        return updatedWaterfall.toObject();
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
+    },
+    tags: ["api"],
+    description: "Update a Waterfall",
+    notes: "Updates an existing waterfall and returns the updated object",
+    response: { schema: WaterfallSpecPlus, failAction: validationError },
   },
 };

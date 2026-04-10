@@ -40,6 +40,9 @@ export const poiMongoStore = {
   },
 
   async updatePOI(id, updatedFields) {
+    if (!Mongoose.Types.ObjectId.isValid(id)) {
+      return null;
+    }
     return POISchema.findByIdAndUpdate(id, updatedFields, { returnDocument: "after" });
   },
 
@@ -81,9 +84,9 @@ export const poiMongoStore = {
 
   async groupPOIsByCategory(waterfallId) {
     return POISchema.aggregate([
-      {$match: { waterfallid: new Mongoose.Types.ObjectId(waterfallId) }},
-      {$group: {_id: "$type", items: { $push: "$$ROOT" }}},
-      {$sort: {_id: 1}},
+      { $match: { waterfallid: new Mongoose.Types.ObjectId(waterfallId) } },
+      { $group: { _id: "$type", items: { $push: "$$ROOT" } } },
+      { $sort: { _id: 1 } },
     ]);
   },
 };
