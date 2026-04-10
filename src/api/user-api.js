@@ -99,4 +99,39 @@ export const userApi = {
     validate: { payload: UserCredentialsSpec, failAction: validationError },
     response: { schema: JwtAuth, failAction: validationError },
   },
+
+  update: {
+    auth: { strategy: "jwt" },
+    validate: {
+      params: { id: IdSpec },
+      // payload: UserSpec,
+      failAction: validationError,
+    },
+    handler: async function (request, h) {
+      try {
+        const user = await db.userStore.getUserById(request.params.id);
+        if (!user) {
+          return Boom.notFound("No user with this id");
+        }
+
+        const { error } = UserSpecPlus.validate(request.payload);
+        if (error) {
+          return Boom.badRequest(error.message);
+        }
+
+        const updated = await db.userStore.updateUser(request.params.id, request.payload);
+        if (!updated) {
+          return Boom.badImplementation("Error updating user");
+        }
+
+        return updated.toObject();
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
+    },
+    tags: ["api"],
+    description: "Update a user",
+    notes: "Updates a user and returns the updated object",
+    response: { schema: UserSpecPlus, failAction: validationError },
+  },
 };

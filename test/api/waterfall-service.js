@@ -96,4 +96,9 @@ export const waterfallService = {
     const response = await axios.put(`${this.waterfallUrl}/api/pois/${id}`, updatedFields);
     return response.data;
   },
+
+  async updateUser(id, updatedFields) {
+    const response = await axios.put(`${this.waterfallUrl}/api/users/${id}`, updatedFields);
+    return response.data;
+  },
 };

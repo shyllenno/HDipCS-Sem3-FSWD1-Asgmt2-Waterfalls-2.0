@@ -76,4 +76,60 @@ suite("User API tests", () => {
       assert.equal(error.response.data.statusCode, 404);
     }
   });
+
+  test("update a user via API", async () => {
+    const user = await waterfallService.createUser({
+      firstName: "Old",
+      lastName: "Name",
+      email: "old@example.com",
+      password: "secret",
+    });
+
+    await waterfallService.authenticate({
+      email: user.email,
+      password: user.password,
+    });
+
+    const updated = await waterfallService.updateUser(user._id, {
+      firstName: "New",
+      lastName: "Name",
+      email: "new@example.com",
+      password: "secret",
+    });
+
+    assert.equal(updated.firstName, "New");
+    assert.equal(updated.email, "new@example.com");
+  });
+
+  test("update user - invalid id", async () => {
+    const newUser = await waterfallService.createUser(maggie);
+    await waterfallService.authenticate({
+      email: newUser.email,
+      password: newUser.password,
+    });
+    try {
+      await waterfallService.updateUser("bad-id", {
+        firstName: "Nope",
+      });
+      assert.fail("Should not succeed");
+    } catch (error) {
+      assert.equal(error.response.data.message, "No user with this id");
+    }
+  });
+
+  test("partial update via API", async () => {
+    const newUser = await waterfallService.createUser(maggie);
+    await waterfallService.authenticate({
+      email: newUser.email,
+      password: newUser.password,
+    });
+
+    const updatedUser = structuredClone(newUser);
+    updatedUser.firstName = "Partial";
+
+    const updated = await waterfallService.updateUser(newUser._id, updatedUser);
+
+    assert.equal(updated.firstName, "Partial");
+    assert.equal(updated.email, newUser.email);
+  });
 });
