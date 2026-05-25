@@ -70,7 +70,7 @@ export const dashboardController = {
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
         imagefile: imageUrl,
-        POIvisibility: request.payload.POIvisibility,
+        visibility: request.payload.visibility,
       };
       await db.waterfallStore.addWaterfall(newWaterfall);
       return h.redirect("/dashboard");
@@ -88,6 +88,7 @@ export const dashboardController = {
   editWaterfall: {
     handler: async function (request, h) {
       const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
+      console.log(waterfall);
       const viewData = {
         isWaterfall: true,
         title: "Edit Waterfall",
@@ -139,6 +140,7 @@ export const dashboardController = {
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
         imagefile: imageUrl,
+        visibility: request.payload.visibility,
       };
 
       await db.waterfallStore.updateWaterfall(waterfallId, updatedWaterfall);

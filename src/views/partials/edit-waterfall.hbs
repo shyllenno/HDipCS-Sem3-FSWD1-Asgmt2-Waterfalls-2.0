@@ -44,12 +44,12 @@
     </div>
 
     <div class="field column is-narrow">
-      <label class="label" for="POIvisibility">Visibility</label>
+      <label class="label" for="visibility">Visibility</label>
       <div class="control">
         <div class="select">
-          <select id="POIvisibility" name="POIvisibility">
-            <option value="Private" {{#if (if_eq values.POIvisibility "Private" )}}selected{{/if}}>Private</option>
-            <option value="Public" {{#if (if_eq values.POIvisibility "Public" )}}selected{{/if}}>Public</option>
+          <select id="visibility" name="visibility">
+            <option value="Private" {{#if (if_eq waterfall.visibility "Private" )}}selected{{/if}}>Private</option>
+            <option value="Public" {{#if (if_eq waterfall.visibility "Public" )}}selected{{/if}}>Public</option>
           </select>
         </div>
       </div>
