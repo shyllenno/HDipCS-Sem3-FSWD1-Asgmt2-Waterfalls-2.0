@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <div class="column is-12">
+    <div class="column is-10">
       <div class="field">
         <label class="label">Description</label>
         <div class="control">
@@ -42,6 +42,20 @@
         </div>
       </div>
     </div>
+
+    <div class="field column is-narrow">
+      <label class="label" for="POIvisibility">Visibility</label>
+      <div class="control">
+        <div class="select">
+          <select id="POIvisibility" name="POIvisibility">
+            <option value="Private" {{#if (if_eq values.POIvisibility "Private" )}}selected{{/if}}>Private</option>
+            <option value="Public" {{#if (if_eq values.POIvisibility "Public" )}}selected{{/if}}>Public</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
     <div class="column">
 
       <div class="field">
@@ -51,7 +65,8 @@
         <br>
         {{#if waterfall.imagefile}}
         <figure class="image" style="height: 40vh;">
-          <img src="{{waterfall.imagefile}}" alt="Current Waterfall photo" style="height: 100%; width: 100%; object-fit: contain;">
+          <img src="{{waterfall.imagefile}}" alt="Current Waterfall photo"
+            style="height: 100%; width: 100%; object-fit: contain;">
         </figure>
         {{/if}}
       </div>

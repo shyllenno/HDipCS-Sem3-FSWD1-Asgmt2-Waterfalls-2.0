@@ -70,6 +70,7 @@ export const dashboardController = {
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
         imagefile: imageUrl,
+        POIvisibility: request.payload.POIvisibility,
       };
       await db.waterfallStore.addWaterfall(newWaterfall);
       return h.redirect("/dashboard");

@@ -32,8 +32,12 @@
   </div>
 
   <div class="field is-horizontal">
+
     <div class="field-body">
-      <div class="field">
+
+      <div class="columns">
+
+      <div class="field column is-10">
         <label class="label">Description</label>
         <div class="control">
           <input class="input" type="text" name="description" placeholder="Enter the description"
@@ -41,10 +45,25 @@
         </div>
       </div>
 
-      <div class="field">
+
+      <div class="field column is-narrow">
+        <label class="label" for="POIvisibility">Visibility</label>
+        <div class="control">
+          <div class="select">
+            <select id="POIvisibility" name="POIvisibility">
+              <option value="Private" {{#if (if_eq values.POIvisibility "Private" )}}selected{{/if}}>Private</option>
+              <option value="Public" {{#if (if_eq values.POIvisibility "Public" )}}selected{{/if}}>Public</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field column is-11">
         <label class="label">Photo</label>
         {{> image-selection-button }}
       </div>
+    </div>
+
     </div>
   </div>
 
