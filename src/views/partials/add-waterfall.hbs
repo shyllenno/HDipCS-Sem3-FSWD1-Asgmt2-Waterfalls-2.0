@@ -33,6 +33,7 @@
 
   <div class="field is-horizontal">
     <div class="field-body">
+
       <div class="field">
         <label class="label">Description</label>
         <div class="control">
@@ -45,7 +46,22 @@
         <label class="label">Photo</label>
         {{> image-selection-button }}
       </div>
+
+      <div class="field">
+        <label class="label" for="visibility">Visibility</label>
+        <div class="control">
+          <div class="select">
+            <select id="visibility" name="visibility">
+              <option value="Private" {{#if (if_eq values.visibility "Private" )}}selected{{/if}}>Private</option>
+              <option value="Public" {{#if (if_eq values.visibility "Public" )}}selected{{/if}}>Public</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
     </div>
+
   </div>
 
   <button class="button is-link">Add Waterfall</button>

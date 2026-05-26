@@ -32,6 +32,7 @@ const waterfallSchema = new Schema({
   longitude: Number,
   userid: { type: Mongoose.Schema.Types.ObjectId, ref: "Users" },
   imagefile: String,
+  visibility: String,
 });
 
 export const WaterfallSchema = Mongoose.model("Waterfalls", waterfallSchema);
