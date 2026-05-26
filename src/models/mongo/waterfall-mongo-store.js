@@ -25,9 +25,13 @@ export const waterfallMongoStore = {
   },
 
   async addWaterfall(waterfall) {
+
+    console.log(waterfall);
     const newWaterfall = new WaterfallSchema(waterfall);
+    console.log(newWaterfall);
     const waterfallObj = await newWaterfall.save();
     const w = await this.getWaterfallById(waterfallObj._id);
+    console.log(w);
     return w;
   },
 

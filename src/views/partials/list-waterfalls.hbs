@@ -6,11 +6,18 @@
         <p class="card-header-title">
           {{name}}
           {{!-- References: --}}
-          {{!-- https://stackoverflow.com/questions/12297959/access-properties-of-the-parent-with-a-handlebars-each-loop --}}
-          {{#if ../isAdmin}}
+          {{!-- https://stackoverflow.com/questions/12297959/access-properties-of-the-parent-with-a-handlebars-each-loop
+          --}}
+          {{#if (and (or ../isAdmin isPublic) (not isOwner))}}
           <br>
           {{firstName}} {{lastName}} ({{userEmail}})
           {{/if }}
+
+          {{#if isPublic}}
+          <span class="tag is-link is-light">🌍 Public</span>
+          {{else}}
+          <span class="tag is-warning is-light">🔒 Private</span>
+          {{/if}}
         </p>
       </header>
 
@@ -38,6 +45,7 @@
           &nbsp; View
         </a>
 
+        {{#if canModify}}
         <a href="/dashboard/editwaterfall/{{_id}}" class="card-footer-item">
           <span class="icon">
             <i class="fas fa-edit"></i>
@@ -51,6 +59,8 @@
           </span>
           &nbsp; Delete
         </a>
+        {{/if}}
+
       </footer>
     </div>
   </div>

@@ -12,18 +12,32 @@ export const dashboardController = {
       if (loggedInUser.role === "admin") {
         waterfalls = await db.waterfallStore.getAllWaterfalls();
 
-        // References
-        // https://stackoverflow.com/questions/9329446/loop-for-each-over-an-array-in-javascript
-        // eslint-disable-next-line no-restricted-syntax
-        for (const waterfall of waterfalls) {
-          // eslint-disable-next-line no-await-in-loop
-          const belongsTo = await db.userStore.getUserById(waterfall.userid);
-          waterfall.userEmail = belongsTo.email;
-          waterfall.firstName = belongsTo.firstName;
-          waterfall.lastName = belongsTo.lastName;
-        }
       } else {
-        waterfalls = await db.waterfallStore.getUserWaterfalls(loggedInUser._id);
+        const myWaterfalls = await db.waterfallStore.getUserWaterfalls(loggedInUser._id);
+        const allWaterfalls = await db.waterfallStore.getAllWaterfalls();
+        const publicWaterfalls = allWaterfalls.filter(waterfall => waterfall.visibility === "Public");
+
+        // References
+        // https://stackoverflow.com/questions/37057746/javascript-merge-two-arrays-of-objects-and-de-duplicate-based-on-property-valu
+        const combined = [...myWaterfalls, ...publicWaterfalls];
+        const uniqueMap = new Map();
+        // Remove duplicates by checking the waterfall ID
+        combined.forEach(waterfall => uniqueMap.set(waterfall._id.toString(), waterfall));
+        waterfalls = Array.from(uniqueMap.values());
+      }
+
+      // References
+      // https://stackoverflow.com/questions/9329446/loop-for-each-over-an-array-in-javascript
+      // eslint-disable-next-line no-restricted-syntax
+      for (const waterfall of waterfalls) {
+        // eslint-disable-next-line no-await-in-loop
+        const belongsTo = await db.userStore.getUserById(waterfall.userid);
+        waterfall.userEmail = belongsTo.email;
+        waterfall.firstName = belongsTo.firstName;
+        waterfall.lastName = belongsTo.lastName;
+        waterfall.isOwner = waterfall.userid.toString() === loggedInUser._id.toString();
+        waterfall.canModify = loggedInUser.role === "admin" || waterfall.isOwner;
+        waterfall.isPublic = waterfall.visibility === "Public";
       }
 
       const viewData = {
@@ -55,7 +69,7 @@ export const dashboardController = {
     },
 
     handler: async function (request, h) {
-      const loogedInUser = request.auth.credentials;
+      const loggedInUser = request.auth.credentials;
 
       const imageFile = request.payload.imagefile;
       let imageUrl = "";
@@ -64,12 +78,13 @@ export const dashboardController = {
       }
 
       const newWaterfall = {
-        userid: loogedInUser._id,
+        userid: loggedInUser._id,
         name: request.payload.name,
         description: request.payload.description,
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
         imagefile: imageUrl,
+        visibility: request.payload.visibility,
       };
       await db.waterfallStore.addWaterfall(newWaterfall);
       return h.redirect("/dashboard");
@@ -138,6 +153,7 @@ export const dashboardController = {
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
         imagefile: imageUrl,
+        visibility: request.payload.visibility,
       };
 
       await db.waterfallStore.updateWaterfall(waterfallId, updatedWaterfall);
