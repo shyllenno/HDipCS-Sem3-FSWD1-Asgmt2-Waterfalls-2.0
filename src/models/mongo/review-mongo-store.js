@@ -26,6 +26,15 @@ export const reviewMongoStore = {
     return reviewObj;
   },
 
+  async getAverageRating(waterfallid) {
+    const result = await ReviewSchema.aggregate([
+      { $match: { waterfallid: new Mongoose.Types.ObjectId(waterfallid) } },
+      { $group: { _id: null, avg: { $avg: "$rating" }, count: { $sum: 1 } } }
+    ]);
+
+    return result.length ? result[0] : { avg: 0, count: 0 };
+  },
+
 }
 
 

@@ -14,10 +14,15 @@
           {{/if }}
 
           {{#if isPublic}}
-          <span class="tag is-link is-light">🌍 Public</span>
+          <span class="tag is-link is-light"><i class="fas fa-globe-americas"></i>Public</span>
           {{else}}
-          <span class="tag is-warning is-light">🔒 Private</span>
+          <span class="tag is-warning is-light"><i class="fas fa-lock"></i>Private</span>
           {{/if}}
+
+
+          <span class="tag is-info is-light">
+            <i class="fas fa-star" style="color: rgb(255, 212, 59);"></i> {{averageRating}} ({{reviewCount}} reviews)
+          </span>
         </p>
       </header>
 
