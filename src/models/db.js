@@ -10,11 +10,13 @@ import { connectMongo } from "./mongo/connect.js";
 import { userMongoStore } from "./mongo/user-mongo-store.js";
 import { waterfallMongoStore } from "./mongo/waterfall-mongo-store.js";
 import { poiMongoStore } from "./mongo/poi-mongo-store.js";
+import { reviewMongoStore } from "./mongo/review-mongo-store.js";
 
 export const db = {
   userStore: null,
   waterfallStore: null,
   POIStore: null,
+  reviewStore: null,
   connection: null,
 
   async init(storeType) {
@@ -23,6 +25,7 @@ export const db = {
         this.userStore = userMongoStore;
         this.waterfallStore = waterfallMongoStore;
         this.POIStore = poiMongoStore;
+        this.reviewStore = reviewMongoStore;
         this.connection = await connectMongo();
         break;
       case "json":

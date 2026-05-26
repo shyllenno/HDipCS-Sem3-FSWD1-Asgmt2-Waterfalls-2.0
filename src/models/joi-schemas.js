@@ -71,8 +71,8 @@ export const JwtAuth = Joi.object()
   export const ReviewSpec = Joi.object().keys({
     rating: Joi.number().min(1).max(5).required(),
     comment: Joi.string().optional(),
-    waterfallid: IdSpec.required(),
-    userid: IdSpec.required(),
+    waterfallid: IdSpec,
+    userid: IdSpec,
   }).label("Review");
 
   export const ReviewSpecPlus = ReviewSpec.keys({

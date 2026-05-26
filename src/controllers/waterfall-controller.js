@@ -173,4 +173,30 @@ export const waterfallController = {
       });
     }
   },
+
+  addReview: {
+
+    validate: {
+      payload: ReviewSpec,
+      options: { abortEarly: false },
+      failAction: async function (request, h, error) {
+        const waterfallid = request.params.id;
+        const waterfall = await db.waterfallStore.getWaterfallById(waterfallid);
+        const reviews = await db.reviewStore.getReviewsByWaterfallId(waterfallid);
+        return h.view("waterfall-view", { title: "Add Review error", waterfall: waterfall, reviews: reviews, errors: error.details, values: request.payload }).takeover().code(400);
+      },
+    },
+
+    handler: async function (request, h) {
+      const newReview = {
+        rating: request.payload.rating,
+        comment: request.payload.comment,
+        waterfallid: request.params.id,
+        userid: request.auth.credentials._id,
+      };
+
+      await db.reviewStore.addReview(newReview);
+      return h.redirect(`/waterfall/${request.params.id}`);
+    }
+  },
 };

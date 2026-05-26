@@ -1,5 +1,6 @@
 import Mongoose from "mongoose";
 import { WaterfallSchema, ReviewSchema } from "./mongoSchemas.js";
+import Boom from "@hapi/boom";
 
 export const reviewMongoStore = {
 
@@ -14,6 +15,15 @@ export const reviewMongoStore = {
       return review;
     }
     return null;
+  },
+
+  async addReview(review) {
+    const waterfall = await WaterfallSchema.findById(review.waterfallid);
+    if (!waterfall) throw Boom.notFound("Waterfall not found");
+
+    const newReview = new ReviewSchema(review);
+    const reviewObj = await newReview.save();
+    return reviewObj;
   },
 
 }
