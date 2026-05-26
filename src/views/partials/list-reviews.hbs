@@ -1,0 +1,14 @@
+<h1 class="title">Reviews</h1>
+
+{{#if reviews}}
+  {{#each reviews}}
+    <div class="box">
+      <strong>{{rating}} ★</strong>
+      <p>{{comment}}</p>
+      <small>By {{userid.firstName}} {{userid.lastName}}</small>
+    </div>
+  {{/each}}
+{{else}}
+  <p class="box">No reviews yet.</p>
+
+{{/if}}

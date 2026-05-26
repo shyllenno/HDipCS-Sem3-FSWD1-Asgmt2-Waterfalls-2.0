@@ -67,3 +67,17 @@ export const JwtAuth = Joi.object()
     token: Joi.string().example("eyJhbGciOiJND.g5YmJisIjoiaGYwNTNjAOhE.gCWGmY5-YigQw0DCBo").required(),
   })
   .label("JwtAuth");
+
+  export const ReviewSpec = Joi.object().keys({
+    rating: Joi.number().min(1).max(5).required(),
+    comment: Joi.string().optional(),
+    waterfallid: IdSpec.required(),
+    userid: IdSpec.required(),
+  }).label("Review");
+
+  export const ReviewSpecPlus = ReviewSpec.keys({
+    _id: IdSpec,
+    __v: Joi.number(),
+  }).label("ReviewPlus");
+
+  export const ReviewArray = Joi.array().items(ReviewSpecPlus).label("ReviewArray");

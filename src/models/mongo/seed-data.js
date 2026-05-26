@@ -105,4 +105,19 @@ export const seedData = {
       imagefile: "/images/RestauranteLaRueda1975.jpg",
     },
   },
+  Reviews: {
+    _model: "Reviews",
+    iguazuReview1: {
+      rating: 5,
+      comment: "The most wonderfull waterfall in the world",
+      waterfallid: "->waterfalls.iguazu",
+      userid: "->users.marge",
+    },
+    iguazuReview2: {
+      rating: 5,
+      comment: "It is incredible! It should be one of the World's Wonders!",
+      waterfallid: "->waterfalls.iguazu",
+      userid: "->users.bart",
+    }
+  }
 };

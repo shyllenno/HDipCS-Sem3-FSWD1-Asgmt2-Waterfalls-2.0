@@ -1,5 +1,5 @@
 import { db } from "../models/db.js";
-import { POISpec } from "../models/joi-schemas.js";
+import { POISpec, ReviewSpec } from "../models/joi-schemas.js";
 import { imageStore } from "../models/image-store.js";
 import { POISchema } from "../models/mongo/mongoSchemas.js";
 
@@ -13,9 +13,12 @@ export const waterfallController = {
       const isOwner = waterfall.userid.toString() === loggedInUser._id.toString();
       waterfall.canModify = loggedInUser.role === "admin" || isOwner;
 
+      const reviews = await db.reviewStore.getReviewsByWaterfallId(waterfall._id);
+
       const viewData = {
         title: "Waterfall",
         waterfall: waterfall,
+        reviews: reviews,
         addressPath: `/waterfall/${waterfall._id}`,
       };
       return h.view("waterfall-view", viewData);
