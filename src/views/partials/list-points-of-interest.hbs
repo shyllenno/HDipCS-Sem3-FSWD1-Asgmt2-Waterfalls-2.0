@@ -18,12 +18,14 @@
       </td>
       <td class="coordinates" colspan="2">{{latitude}}, {{longitude}}</td>
       <td>
+        {{#if ../waterfall.canModify}}
         <a href="/waterfall/{{../waterfall._id}}/viewpoi/{{_id}}" class="ui icon button">
           <i class="fas fa-edit"></i>
         </a>
         <a href="/waterfall/{{../waterfall._id}}/deletepoi/{{_id}}" class="ui icon button">
           <i class="fas fa-trash"></i>
         </a>
+        {{/if}}
       </td>
     </tr>
     {{/each}}

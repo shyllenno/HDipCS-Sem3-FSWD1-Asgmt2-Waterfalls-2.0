@@ -6,7 +6,13 @@ import { POISchema } from "../models/mongo/mongoSchemas.js";
 export const waterfallController = {
   index: {
     handler: async function (request, h) {
+      const loggedInUser = request.auth.credentials;
+
       const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
+
+      const isOwner = waterfall.userid.toString() === loggedInUser._id.toString();
+      waterfall.canModify = loggedInUser.role === "admin" || isOwner;
+
       const viewData = {
         title: "Waterfall",
         waterfall: waterfall,
@@ -139,7 +145,7 @@ export const waterfallController = {
       const query = request.query.question;
       const POIs = await db.POIStore.searchEverywhere(waterfallId, query);
 
-      return h.view("waterfall-view",{
+      return h.view("waterfall-view", {
         title: "Search Results",
         waterfall: {
           _id: waterfallId,

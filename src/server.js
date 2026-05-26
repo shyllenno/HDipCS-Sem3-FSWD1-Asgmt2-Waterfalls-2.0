@@ -57,6 +57,9 @@ async function init() {
   // References:
   // https://code-maven.com/handlebars-conditionals
   Handlebars.registerHelper("if_eq", (a, b) => a === b);
+  Handlebars.registerHelper("or", (a, b) => a || b);
+  Handlebars.registerHelper("and", (a, b) => a && b);
+  Handlebars.registerHelper("not", (a) => !a);
 
   server.validator(Joi);
 
