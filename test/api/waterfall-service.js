@@ -101,4 +101,38 @@ export const waterfallService = {
     const response = await axios.put(`${this.waterfallUrl}/api/users/${id}`, updatedFields);
     return response.data;
   },
+
+  async createReview(waterfallId, review) {
+    const response = await axios.post(
+      `${this.waterfallUrl}/api/waterfalls/${waterfallId}/reviews`,
+      review
+    );
+    return response.data;
+  },
+
+  async getReviews(waterfallId) {
+    const response = await axios.get(
+      `${this.waterfallUrl}/api/waterfalls/${waterfallId}/reviews`
+    );
+    return response.data;
+  },
+
+  async deleteReview(reviewId) {
+    const response = await axios.delete(
+      `${this.waterfallUrl}/api/reviews/${reviewId}`
+    );
+    return response;
+  },
+
+  async getAverageRating(waterfallId) {
+    const response = await axios.get(
+      `${this.waterfallUrl}/api/waterfalls/${waterfallId}/reviews/average`
+    );
+    return response.data;
+  },
+
+  async deleteAllReviews() {
+    const response = await axios.delete(`${this.waterfallUrl}/api/reviews`);
+    return response.data;
+  },
 };
