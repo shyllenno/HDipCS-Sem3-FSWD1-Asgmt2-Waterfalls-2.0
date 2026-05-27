@@ -31,7 +31,7 @@ export const WaterfallSpec = Joi.object()
     userid: IdSpec,
     POIs: Joi.array(),
     imagefile: Joi.any().optional(),
-    visibility: Joi.string().example("Private").required(),
+    visibility: Joi.string().valid("Public", "Private").insensitive().default("Private").example("Private"),
   })
   .label("WaterfallDetails");
 

@@ -39,6 +39,7 @@ export const seedData = {
       longitude: -6.210519267263215,
       userid: "->users.homer",
       imagefile: "/images/powerscourt-waterfall.jpg",
+      visibility: "Private",
     },
     iguazu: {
       name: "Iguazu Falls",
@@ -47,6 +48,7 @@ export const seedData = {
       longitude: -54.4367,
       userid: "->users.marge",
       imagefile: "/images/iguazufalls.jpg",
+      visibility: "Public",
     },
     niagara: {
       name: "Niagara Falls",
@@ -55,6 +57,7 @@ export const seedData = {
       longitude: -79.0747,
       userid: "->users.bart",
       imagefile: "/images/niagara-falls.jpg",
+      visibility: "Private",
     },
     victoria: {
       name: "Victoria Falls",
@@ -63,6 +66,7 @@ export const seedData = {
       longitude: 25.8567,
       userid: "->users.marge",
       imagefile: "/images/victoria-falls.jpg",
+      visibility: "Private",
     },
   },
   POIs: {

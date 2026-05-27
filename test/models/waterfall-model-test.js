@@ -82,6 +82,7 @@ suite("Waterfall Model tests", () => {
       description: "Powerscourt Waterfall is the highest waterfall in Ireland",
       latitude: 53.15,
       longitude: -6.18,
+      visibility: "Private",
     };
     const newWaterfall = await db.waterfallStore.addWaterfall(waterfallData);
     assert.equal(newWaterfall.latitude, 53.15);
@@ -94,6 +95,7 @@ suite("Waterfall Model tests", () => {
       description: "A waterfall with edge case coordinates, should be created",
       latitude: 90.0,
       longitude: 180.0,
+      visibility: "Private",
     };
     let returned = await db.waterfallStore.addWaterfall(edgeCaseWaterfall);
     assert.equal(returned.latitude, 90.0);
@@ -104,6 +106,7 @@ suite("Waterfall Model tests", () => {
       description: "A waterfall with edge case coordinates, should be created",
       latitude: -90.0,
       longitude: -180.0,
+      visibility: "Private",
     };
     returned = await db.waterfallStore.addWaterfall(edgeCaseWaterfall);
     assert.equal(returned.latitude, -90.0);
@@ -114,6 +117,7 @@ suite("Waterfall Model tests", () => {
       description: "A waterfall with edge case coordinates, should be created",
       latitude: 90.0,
       longitude: -180.0,
+      visibility: "Private",
     };
     returned = await db.waterfallStore.addWaterfall(edgeCaseWaterfall);
     assert.equal(returned.latitude, 90.0);
@@ -124,6 +128,7 @@ suite("Waterfall Model tests", () => {
       description: "A waterfall with edge case coordinates, should be created",
       latitude: -90.0,
       longitude: 180.0,
+      visibility: "Private",
     };
     returned = await db.waterfallStore.addWaterfall(edgeCaseWaterfall);
     assert.equal(returned.latitude, -90.0);
@@ -136,6 +141,7 @@ suite("Waterfall Model tests", () => {
       description: "Impossible coordinates, should not be created",
       latitude: 150.0,
       longitude: -200.0,
+      visibility: "Private",
     };
     const validation = WaterfallSpec.validate(badWaterfall);
 
@@ -156,6 +162,7 @@ suite("Waterfall Model tests", () => {
       description: "Should fail",
       latitude: -91,
       longitude: 0,
+      visibility: "Private",
     };
     let validation = WaterfallSpec.validate(badMinusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude < -90");
@@ -165,6 +172,7 @@ suite("Waterfall Model tests", () => {
       description: "Should fail",
       latitude: 91,
       longitude: 0,
+      visibility: "Private",
     };
     validation = WaterfallSpec.validate(badPlusLatitude);
     assert.isDefined(validation.error, "Should have a validation error for latitude > 90");
@@ -174,6 +182,7 @@ suite("Waterfall Model tests", () => {
       description: "Should fail",
       latitude: 0,
       longitude: -181,
+      visibility: "Private",
     };
     validation = WaterfallSpec.validate(badMinusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude < -180");
@@ -183,6 +192,7 @@ suite("Waterfall Model tests", () => {
       description: "Should fail",
       latitude: -100,
       longitude: 181,
+      visibility: "Private",
     };
     validation = WaterfallSpec.validate(badPlusLongitude);
     assert.isDefined(validation.error, "Should have a validation error for longitude > 180");
@@ -194,6 +204,7 @@ suite("Waterfall Model tests", () => {
       description: "A good waterfall, it should pass",
       latitude: 52.3,
       longitude: -7.5,
+      visibility: "Private",
     };
 
     const validation = WaterfallSpec.validate(goodCoordinates);
@@ -256,4 +267,108 @@ suite("Waterfall Model tests", () => {
     assert.equal(returned.name, "Partially Updated");
     assert.equal(returned.description, waterfall.description);
   });
+
+  test("create a public waterfall", async () => {
+    const waterfallData = {
+      name: "Public Fall",
+      description: "Visible to everyone",
+      latitude: 52.1,
+      longitude: -7.2,
+      visibility: "Public",
+    };
+
+    const newWaterfall = await db.waterfallStore.addWaterfall(waterfallData);
+    assert.isTrue(newWaterfall.visibility === "Public");
+
+    const fetched = await db.waterfallStore.getWaterfallById(newWaterfall._id);
+    assert.isTrue(fetched.visibility === "Public");
+  });
+
+  test("create a private waterfall", async () => {
+    const waterfallData = {
+      name: "Private Fall",
+      description: "Hidden from public",
+      latitude: 51.9,
+      longitude: -8.1,
+      visibility: "Private"
+    };
+
+    const newWaterfall = await db.waterfallStore.addWaterfall(waterfallData);
+    assert.isFalse(newWaterfall.visibility === "Public");
+
+    const fetched = await db.waterfallStore.getWaterfallById(newWaterfall._id);
+    assert.isFalse(fetched.visibility === "Public");
+  });
+
+  test("default visibility is private", async () => {
+    const waterfallData = {
+      name: "Default Falls",
+      description: "Should default to private",
+      latitude: 50.0,
+      longitude: -6.0,
+    };
+
+    const newWaterfall = await db.waterfallStore.addWaterfall(waterfallData);
+    assert.isTrue(newWaterfall.visibility === "Private", "Default visibility should be private");
+  });
+
+  test("get only public waterfalls", async () => {
+    await db.waterfallStore.deleteAllWaterfalls();
+
+    await db.waterfallStore.addWaterfall({ ...base[0], visibility: "Public" });
+    await db.waterfallStore.addWaterfall({ ...base[1], visibility: "Private" });
+
+    const allWaterfalls = await db.waterfallStore.getAllWaterfalls();
+    const publicWaterfalls = allWaterfalls.filter(w => w.visibility === "Public");
+
+    assert.equal(publicWaterfalls.length, 1);
+    assert.isTrue(publicWaterfalls[0].visibility === "Public");
+  });
+
+  test("private waterfalls are excluded from public list", async () => {
+    await db.waterfallStore.deleteAllWaterfalls();
+
+    const privateWaterfall = await db.waterfallStore.addWaterfall({
+      ...base[0],
+      visibility: "Private",
+    });
+
+    const allWaterfalls = await db.waterfallStore.getAllWaterfalls();
+    const publicWaterfalls = allWaterfalls.filter(w => w.visibility === "Public");
+
+    assert.equal(publicWaterfalls.length, 0);
+    const fetched = await db.waterfallStore.getWaterfallById(privateWaterfall._id);
+    assert.isFalse(fetched.visibility === "Public");
+  });
+
+  test("update waterfall visibility", async () => {
+    const waterfall = await db.waterfallStore.addWaterfall({
+      ...base[0],
+      visibility: "Private",
+    });
+
+    const updated = await db.waterfallStore.updateWaterfall(waterfall._id, {
+      visibility: "Public",
+    });
+
+    assert.isTrue(updated.visibility === "Public");
+
+    const fetched = await db.waterfallStore.getWaterfallById(waterfall._id);
+    assert.isTrue(fetched.visibility === "Public");
+  });
+
+  test("invalid visibility value fails validation", async () => {
+    const badWaterfall = {
+      name: "Bad Visibility",
+      description: "Should fail",
+      latitude: 52.0,
+      longitude: -7.0,
+      visibility: "Anything Else",
+    };
+
+    const validation = WaterfallSpec.validate(badWaterfall);
+    assert.isDefined(validation.error, "Should reject visibility values rather than Public and Private");
+  });
+
+
 });

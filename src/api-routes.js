@@ -1,6 +1,7 @@
 import { userApi } from "./api/user-api.js";
 import { waterfallApi } from "./api/waterfall-api.js";
 import { POIApi } from "./api/poi-api.js";
+import { reviewApi } from "./api/review-api.js";
 
 export const apiRoutes = [
   { method: "GET", path: "/api/users", config: userApi.find },
@@ -24,4 +25,10 @@ export const apiRoutes = [
   { method: "PUT", path: "/api/pois/{id}", config: POIApi.update },
 
   { method: "POST", path: "/api/users/authenticate", config: userApi.authenticate },
+
+  { method: "POST", path: "/api/waterfalls/{id}/reviews", config: reviewApi.create },
+  { method: "GET", path: "/api/waterfalls/{id}/reviews", config: reviewApi.waterfallReviews },
+  { method: "GET", path: "/api/waterfalls/{id}/reviews/average", config: reviewApi.averageRating },
+  { method: "DELETE", path: "/api/reviews", config: reviewApi.deleteAll },
+  { method: "DELETE", path: "/api/reviews/{reviewId}", config: reviewApi.deleteOne },
 ];

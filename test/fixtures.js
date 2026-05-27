@@ -92,3 +92,18 @@ export const testPOIs = [
     longitude: -54.5772,
   },
 ];
+
+export const testReviews = [
+  {
+    rating: 5,
+    comment: "Wonderfull",
+  },
+  {
+    rating: 3,
+    comment: "Okey",
+  },
+  {
+    rating: 1,
+    comment: "Awful"
+  },
+]
