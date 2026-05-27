@@ -103,4 +103,123 @@ suite("Waterfall API tests", () => {
     assert.equal(updated.name, "Partial");
     assert.equal(updated.description, waterfall.description);
   });
+
+  test("create a public waterfall", async () => {
+    const waterfallData = {
+      name: "Public Fall",
+      description: "Visible to everyone",
+      latitude: 52.1,
+      longitude: -7.2,
+      visibility: "Public",
+      userid: user._id,
+    };
+
+    const created = await waterfallService.createWaterfall(waterfallData);
+    assert.isTrue(created.visibility === "Public");
+
+    const fetched = await waterfallService.getWaterfall(created._id);
+    assert.isTrue(fetched.visibility === "Public");
+  });
+
+  test("create a private waterfall", async () => {
+    const waterfallData = {
+      name: "Private Fall",
+      description: "Hidden from public",
+      latitude: 51.9,
+      longitude: -8.1,
+      visibility: "Private",
+      userid: user._id,
+    };
+
+    const created = await waterfallService.createWaterfall(waterfallData);
+    assert.isFalse(created.visibility === "Public");
+
+    const fetched = await waterfallService.getWaterfall(created._id);
+    assert.isFalse(fetched.visibility === "Public");
+  });
+
+  test("default visibility is private", async () => {
+    const waterfallData = {
+      name: "Default Falls",
+      description: "Should default to private",
+      latitude: 50.0,
+      longitude: -6.0,
+      userid: user._id,
+    };
+
+    const created = await waterfallService.createWaterfall(waterfallData);
+    assert.equal(created.visibility, "Private");
+
+    const fetched = await waterfallService.getWaterfall(created._id);
+    assert.equal(fetched.visibility, "Private");
+  });
+
+  test("get only public waterfalls", async () => {
+    await waterfallService.deleteAllWaterfalls();
+
+    await waterfallService.createWaterfall({ ...base[0], visibility: "Public", userid: user._id });
+    await waterfallService.createWaterfall({ ...base[1], visibility: "Private", userid: user._id });
+
+    const all = await waterfallService.getAllWaterfalls();
+    const publicOnly = all.filter(w => w.visibility === "Public");
+
+    assert.equal(publicOnly.length, 1);
+    assert.equal(publicOnly[0].visibility, "Public");
+  });
+
+  test("private waterfalls are excluded from public list", async () => {
+    await waterfallService.deleteAllWaterfalls();
+
+    const privateFall = await waterfallService.createWaterfall({
+      ...base[0],
+      visibility: "Private",
+      userid: user._id,
+    });
+
+    const all = await waterfallService.getAllWaterfalls();
+    const publicOnly = all.filter(w => w.visibility === "Public");
+
+    assert.equal(publicOnly.length, 0);
+
+    const fetched = await waterfallService.getWaterfall(privateFall._id);
+    assert.equal(fetched.visibility, "Private");
+  });
+
+  test("update waterfall visibility", async () => {
+    const waterfall = await waterfallService.createWaterfall({
+      ...base[0],
+      visibility: "Private",
+      userid: user._id,
+    });
+
+    const updatedFields = {
+      ...base[0],
+      visibility: "Public",
+    };
+
+    const updated = await waterfallService.updateWaterfall(waterfall._id, updatedFields);
+
+    assert.equal(updated.visibility, "Public");
+
+    const fetched = await waterfallService.getWaterfall(waterfall._id);
+    assert.equal(fetched.visibility, "Public");
+  });
+
+  test("invalid visibility value fails validation", async () => {
+    const badWaterfall = {
+      name: "Bad Visibility",
+      description: "Should fail",
+      latitude: 52.0,
+      longitude: -7.0,
+      visibility: "Anything Else",
+      userid: user._id,
+    };
+
+    try {
+      await waterfallService.createWaterfall(badWaterfall);
+      assert.fail("Should not succeed");
+    } catch (error) {
+      assert.include(error.response.data.message, "visibility");
+    }
+  });
 });
