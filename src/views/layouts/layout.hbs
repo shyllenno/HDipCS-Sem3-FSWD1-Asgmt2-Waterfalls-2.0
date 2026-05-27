@@ -11,9 +11,20 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
+  <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js" defer></script>
 </head>
 
 <body>
+  <!-- Reference: https://sharethis.com/platform/share-buttons/ -->
+  <!-- ShareThis BEGINS -->
+  <div class="sharethis-share-buttons" data-type="sticky-share-buttons" data-alignment="left" data-labels="none" data-show_total="false">
+    <span data-network="facebook"></span>
+    <span data-network="whatsapp"></span>
+    <span data-network="email"></span>
+    <span data-network="copy"></span>
+    <span data-network="sharethis"></span>
+  </div>
+  <!-- ShareThis ENDS -->
   <div class="container">
     {{{content}}}
     {{> error }}
