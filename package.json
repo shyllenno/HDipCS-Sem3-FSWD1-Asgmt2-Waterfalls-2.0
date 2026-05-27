@@ -1,7 +1,7 @@
 {
   "name": "waterfalls-2.0",
-  "version": "1.2.0",
-  "description": "Waterfalls App 2.0: Add review and rating systems, and share through third library sharethis",
+  "version": "1.3.0",
+  "description": "Waterfalls App 2.0: Add tests (models and api) for new features (Private, Public, and Reviews). Add Coverage Reports using Instanbul NYC",
   "homepage": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt2-Waterfalls-2.0#readme",
   "bugs": {
     "url": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt2-Waterfalls-2.0/issues"
