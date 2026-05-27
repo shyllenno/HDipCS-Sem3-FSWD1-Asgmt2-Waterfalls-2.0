@@ -43,6 +43,19 @@ export const reviewMongoStore = {
     }
   },
 
+  async deleteAllReviews() {
+    await ReviewSchema.deleteMany({});
+
+  },
+
+  async getReviewById(id) {
+    if (Mongoose.isValidObjectId(id)) {
+      const review = await ReviewSchema.findOne({ _id: id }).lean();
+      return review;
+    }
+    return null;
+  }
+
 }
 
 
