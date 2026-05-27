@@ -13,12 +13,17 @@ export const waterfallController = {
       const isOwner = waterfall.userid.toString() === loggedInUser._id.toString();
       waterfall.canModify = loggedInUser.role === "admin" || isOwner;
 
-      const reviews = await db.reviewStore.getReviewsByWaterfallId(waterfall._id);
+      let reviews = await db.reviewStore.getReviewsByWaterfallId(waterfall._id);
+      reviews = reviews.map((review) => ({
+        ...review,
+        isOwner: review.userid._id.toString() === loggedInUser._id.toString(),
+      }));
 
       const viewData = {
         title: "Waterfall",
         waterfall: waterfall,
         reviews: reviews,
+        user: loggedInUser,
         addressPath: `/waterfall/${waterfall._id}`,
       };
       return h.view("waterfall-view", viewData);
@@ -199,4 +204,16 @@ export const waterfallController = {
       return h.redirect(`/waterfall/${request.params.id}`);
     }
   },
+
+  deleteReview: {
+    handler: async function (request, h) {
+      const waterfallId = request.params.id;
+      const reviewId = request.params.reviewId;
+
+      await db.reviewStore.deleteReviewById(reviewId);
+
+      return h.redirect(`/waterfall/${waterfallId}`);
+    }
+  }
+
 };

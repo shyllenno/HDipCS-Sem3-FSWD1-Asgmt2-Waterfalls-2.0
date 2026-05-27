@@ -43,4 +43,7 @@ export const webRoutes = [
   { method: "GET", path: "/admin", config: accountsController.adminDashboard },
 
   { method: "POST", path: "/waterfall/{id}/addreview", config: waterfallController.addReview },
+
+  { method: "GET", path: "/waterfall/{id}/deletereview/{reviewId}", config: waterfallController.deleteReview },
+
 ];

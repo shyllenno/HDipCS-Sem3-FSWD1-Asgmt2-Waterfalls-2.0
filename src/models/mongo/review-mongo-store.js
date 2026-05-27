@@ -35,6 +35,14 @@ export const reviewMongoStore = {
     return result.length ? result[0] : { avg: 0, count: 0 };
   },
 
+  async deleteReviewById(id) {
+    try {
+      await ReviewSchema.deleteOne({ _id: id });
+    } catch (error) {
+      console.log("bad id");
+    }
+  },
+
 }
 
 
