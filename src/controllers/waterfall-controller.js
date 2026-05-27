@@ -3,6 +3,10 @@ import { POISpec, ReviewSpec } from "../models/joi-schemas.js";
 import { imageStore } from "../models/image-store.js";
 import { POISchema } from "../models/mongo/mongoSchemas.js";
 
+// Reference:
+// https://github.com/apostrophecms/apostrophe/tree/main/packages/sanitize-html
+import sanitizeHtml from 'sanitize-html';
+
 export const waterfallController = {
   index: {
     handler: async function (request, h) {
@@ -59,9 +63,9 @@ export const waterfallController = {
 
       const newPOI = {
         waterfallid: waterfallid,
-        type: request.payload.type,
-        group: request.payload.group,
-        description: request.payload.description,
+        type: sanitizeHtml(request.payload.type),
+        group: sanitizeHtml(request.payload.group),
+        description: sanitizeHtml(request.payload.description),
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
         imagefile: imageUrl,
@@ -132,9 +136,9 @@ export const waterfallController = {
       }
 
       const updatedPOI = {
-        type: request.payload.type,
-        group: request.payload.group,
-        description: request.payload.description,
+        type: sanitizeHtml(request.payload.type),
+        group: sanitizeHtml(request.payload.group),
+        description: sanitizeHtml(request.payload.description),
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
         imagefile: imageUrl,
@@ -150,7 +154,7 @@ export const waterfallController = {
     handler: async function (request, h) {
       const waterfallId = request.params.id;
 
-      const query = request.query.question;
+      const query = sanitizeHtml(request.query.question);
       const POIs = await db.POIStore.searchEverywhere(waterfallId, query);
 
       return h.view("waterfall-view", {
@@ -180,7 +184,6 @@ export const waterfallController = {
   },
 
   addReview: {
-
     validate: {
       payload: ReviewSpec,
       options: { abortEarly: false },
@@ -195,7 +198,7 @@ export const waterfallController = {
     handler: async function (request, h) {
       const newReview = {
         rating: request.payload.rating,
-        comment: request.payload.comment,
+        comment: sanitizeHtml(request.payload.comment),
         waterfallid: request.params.id,
         userid: request.auth.credentials._id,
       };

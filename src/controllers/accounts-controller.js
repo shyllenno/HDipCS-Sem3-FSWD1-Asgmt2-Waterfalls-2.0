@@ -1,6 +1,10 @@
 import { db } from "../models/db.js";
 import { UserCredentialsSpec, UserSpec } from "../models/joi-schemas.js";
 
+// Reference:
+// https://github.com/apostrophecms/apostrophe/tree/main/packages/sanitize-html
+import sanitizeHtml from 'sanitize-html';
+
 export const accountsController = {
   index: {
     auth: false,
@@ -24,8 +28,16 @@ export const accountsController = {
       },
     },
     handler: async function (request, h) {
-      const user = request.payload;
-      user.role = "user";
+      const payloadUser = request.payload;
+
+      const user = {
+        firstName: sanitizeHtml(payloadUser.firstName),
+        lastName: sanitizeHtml(payloadUser.lastName),
+        email: sanitizeHtml(payloadUser.email),
+        password: payloadUser.password,
+        role: "user",
+      }
+      
       await db.userStore.addUser(user);
       return h.redirect("/login");
     },
@@ -46,7 +58,8 @@ export const accountsController = {
       },
     },
     handler: async function (request, h) {
-      const { email, password } = request.payload;
+      const email = sanitizeHtml(request.payload.email);
+      const password = request.payload.password;
 
       // 1. Check if email exists
       const user = await db.userStore.getUserByEmail(email);
@@ -123,7 +136,15 @@ export const accountsController = {
       // eslint-disable-next-line prefer-destructuring
       const role = request.auth.credentials.role;
       const userId = request.params.id;
-      const updatedUser = request.payload;
+      const payloadUpdatedUser = request.payload;
+
+      const updateUser = {
+        firstName: sanitizeHtml(payloadUpdatedUser.firstName),
+        lastName: sanitizeHtml(payloadUpdatedUser.lastName),
+        email: sanitizeHtml(payloadUpdatedUser.email),
+        password: payloadUpdatedUser.password,
+        role: payloadUpdatedUser.role,
+      }
 
       await db.userStore.updateUser(userId, updatedUser);
 

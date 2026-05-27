@@ -2,6 +2,10 @@ import { db } from "../models/db.js";
 import { WaterfallSpec } from "../models/joi-schemas.js";
 import { imageStore } from "../models/image-store.js";
 
+// Reference:
+// https://github.com/apostrophecms/apostrophe/tree/main/packages/sanitize-html
+import sanitizeHtml from 'sanitize-html';
+
 export const dashboardController = {
   index: {
     handler: async function (request, h) {
@@ -83,8 +87,8 @@ export const dashboardController = {
 
       const newWaterfall = {
         userid: loggedInUser._id,
-        name: request.payload.name,
-        description: request.payload.description,
+        name: sanitizeHtml(request.payload.name),
+        description: sanitizeHtml(request.payload.description),
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
         imagefile: imageUrl,
@@ -152,8 +156,8 @@ export const dashboardController = {
       }
 
       const updatedWaterfall = {
-        name: request.payload.name,
-        description: request.payload.description,
+        name: sanitizeHtml(request.payload.name),
+        description: sanitizeHtml(request.payload.description),
         latitude: parseFloat(request.payload.latitude),
         longitude: parseFloat(request.payload.longitude),
         imagefile: imageUrl,
@@ -169,7 +173,7 @@ export const dashboardController = {
     handler: async function (request, h) {
       const loggedInUser = request.auth.credentials;
 
-      const query = request.query.question;
+      const query = sanitizeHtml(request.query.question);
       const waterfalls = await db.waterfallStore.searchEverywhere(loggedInUser, query);
 
       return h.view("dashboard-view", {
