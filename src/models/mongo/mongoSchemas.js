@@ -48,3 +48,12 @@ const poiSchema = new Schema({
 });
 
 export const POISchema = Mongoose.model("POIs", poiSchema);
+
+const reviewSchema = new Schema({
+  rating: Number,
+  comment: String,
+  waterfallid: { type: Mongoose.Schema.Types.ObjectId, ref: "Waterfalls" },
+  userid: { type: Mongoose.Schema.Types.ObjectId, ref: "Users" },
+});
+
+export const ReviewSchema = Mongoose.model("Reviews", reviewSchema);
