@@ -1,7 +1,7 @@
 {
   "name": "waterfalls-2.0",
-  "version": "1.1.0",
-  "description": "Waterfalls App 2.0: Add Private and Public listing",
+  "version": "1.2.0",
+  "description": "Waterfalls App 2.0: Add review and rating systems, and share through third library sharethis",
   "homepage": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt2-Waterfalls-2.0#readme",
   "bugs": {
     "url": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt2-Waterfalls-2.0/issues"
