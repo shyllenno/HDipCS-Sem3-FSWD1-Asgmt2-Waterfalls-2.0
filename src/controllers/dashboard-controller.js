@@ -38,6 +38,10 @@ export const dashboardController = {
         waterfall.isOwner = waterfall.userid.toString() === loggedInUser._id.toString();
         waterfall.canModify = loggedInUser.role === "admin" || waterfall.isOwner;
         waterfall.isPublic = waterfall.visibility === "Public";
+
+        const stats = await db.reviewStore.getAverageRating(waterfall._id);
+        waterfall.averageRating = stats.avg ? stats.avg.toFixed(1) : "0.0";
+        waterfall.reviewCount = stats.count || 0;
       }
 
       const viewData = {

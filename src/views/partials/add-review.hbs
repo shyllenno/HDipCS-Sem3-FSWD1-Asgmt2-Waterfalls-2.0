@@ -1,0 +1,32 @@
+<h1 class="title">Add a Review</h1>
+
+<form class="box" action="/waterfall/{{waterfall._id}}/addreview" method="POST">
+
+  <div class="field is-horizontal">
+    <div class="field-body">
+
+      <div class="field">
+        <label class="label" for="rating">Rating:</label>
+
+        <div class="control">
+          <div class="select">
+            <select id="rating" name="rating">
+              <option value="5">★★★★★</option>
+              <option value="4">★★★★☆</option>
+              <option value="3">★★★☆☆</option>
+              <option value="2">★★☆☆☆</option>
+              <option value="1">★☆☆☆☆</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <div class="field">
+          <label class="label">Comment:</label>
+          <textarea class="textarea" name="comment"></textarea>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <button class="button is-link" type="submit">Submit Review</button>
+</form>

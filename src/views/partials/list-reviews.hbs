@@ -1,0 +1,29 @@
+<h1 class="title">Reviews</h1>
+
+{{#if reviews}}
+{{#each reviews}}
+<div class="box columns is-gapless">
+  <div class="column is-10">
+    <strong><i class="fas fa-star"></i>&nbsp;{{rating}}</strong>
+    <p>{{comment}}</p>
+    <small>By {{userid.firstName}} {{userid.lastName}}</small>
+  </div>
+
+  <div class="column">
+    {{#if ../waterfall.canModify}}
+    <a href="/waterfall/{{../waterfall._id}}/deletereview/{{_id}}" class="button is-danger is-small mt-2">
+      Delete Review
+    </a>
+    {{else}}
+    {{#if isOwner}}
+    <a href="/waterfall/{{../waterfall._id}}/deletereview/{{_id}}" class="button is-danger is-small mt-2">
+      Delete My Review
+    </a>
+    {{/if}}
+    {{/if}}
+  </div>
+</div>
+{{/each}}
+{{else}}
+<p class="box">No reviews yet.</p>
+{{/if}}
