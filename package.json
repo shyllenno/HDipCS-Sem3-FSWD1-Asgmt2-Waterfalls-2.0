@@ -18,11 +18,15 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js --ignore 'src/models/json/*.json'",
     "lint": "./node_modules/.bin/eslint . --ext .js",
-    "test": "./node_modules/.bin/mocha --ui tdd test/**/*.js --exit",
+    "test": "./node_modules/.bin/mocha --timeout 100000 --ui tdd test/**/*.js --exit",
     "testmodels": "./node_modules/.bin/mocha --ui tdd test/models/*.js --exit",
-    "testapi": "./node_modules/.bin/mocha --ui tdd test/api/*.js --exit"
+    "testapi": "./node_modules/.bin/mocha --ui tdd test/api/*.js --exit",
+    "coverage": "NODE_OPTIONS=--experimental-loader=@istanbuljs/esm-loader-hook nyc mocha --timeout 100000 --ui tdd test/**/*.js --exit",
+    "coveragemodels": "NODE_OPTIONS=--experimental-loader=@istanbuljs/esm-loader-hook nyc mocha --timeout 100000 --ui tdd test/models/*.js --exit",
+    "coverageapi": "NODE_OPTIONS=--experimental-loader=@istanbuljs/esm-loader-hook nyc mocha --timeout 100000 --ui tdd test/api/*.js --exit"
   },
   "devDependencies": {
+    "@istanbuljs/esm-loader-hook": "^0.3.0",
     "axios": "^1.13.6",
     "chai": "^6.2.2",
     "eslint": "^8.57.1",
@@ -31,6 +35,7 @@
     "eslint-plugin-import": "^2.32.0",
     "mocha": "^11.7.5",
     "nodemon": "^3.1.14",
+    "nyc": "^18.0.0",
     "prettier": "^3.8.1"
   },
   "dependencies": {

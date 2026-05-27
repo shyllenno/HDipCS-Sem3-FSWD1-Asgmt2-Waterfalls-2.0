@@ -1,0 +1,9 @@
+References used to implement the coverage report
+
+https://stackoverflow.com/questions/70173964/how-to-generate-the-coverage-report-using-mocha-in-vs-code
+
+https://medium.com/@asemiloore/nodejs-testing-with-mocha-and-code-coverage-with-nyc-9d1d6e428ac1
+
+https://stackoverflow.com/questions/69007082/why-is-my-nyc-code-coverage-not-working-with-esm
+
+https://github.com/istanbuljs/nyc/issues/1287

@@ -26,13 +26,10 @@ export const waterfallApi = {
       try {
         const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
         if (!waterfall) {
-          console.log("UPDATE ERROR:", err); // <-- TEMP DEBUG
-
           return Boom.notFound("No Waterfall with this id");
         }
         return waterfall;
       } catch (err) {
-        console.log("UPDATE ERROR:", err); // <-- TEMP DEBUG
         return Boom.serverUnavailable("No Waterfall with this id");
       }
     },
