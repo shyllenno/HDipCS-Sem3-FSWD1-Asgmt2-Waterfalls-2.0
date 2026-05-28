@@ -143,11 +143,11 @@ export const accountsController = {
 
       const updatedUser = {};
 
-      if (payloadUpdatedUser.firstName){updatedUser.firstName = sanitizeHtml(payloadUpdatedUser.firstName);}
-      if (payloadUpdatedUser.lastName){updatedUser.lastName = sanitizeHtml(payloadUpdatedUser.lastName);}
-      if (payloadUpdatedUser.email){updatedUser.email = payloadUpdatedUser.email;}
-      if (payloadUpdatedUser.password){updatedUser.password = await bcrypt.hash(payloadUpdatedUser.password, 10);}
-      if (payloadUpdatedUser.role){updatedUser.role = payloadUpdatedUser.role;}
+      if (payloadUpdatedUser.firstName) { updatedUser.firstName = sanitizeHtml(payloadUpdatedUser.firstName); }
+      if (payloadUpdatedUser.lastName) { updatedUser.lastName = sanitizeHtml(payloadUpdatedUser.lastName); }
+      if (payloadUpdatedUser.email) { updatedUser.email = payloadUpdatedUser.email; }
+      if (payloadUpdatedUser.password) { updatedUser.password = await bcrypt.hash(payloadUpdatedUser.password, 10); }
+      if (payloadUpdatedUser.role) { updatedUser.role = payloadUpdatedUser.role; }
 
 
       await db.userStore.updateUser(userId, updatedUser);

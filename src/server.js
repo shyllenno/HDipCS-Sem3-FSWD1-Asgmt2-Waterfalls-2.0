@@ -15,6 +15,12 @@ import { accountsController } from "./controllers/accounts-controller.js";
 import { apiRoutes } from "./api-routes.js";
 import { validate } from "./api/jwt-utils.js";
 
+// Reference:
+// https://hapi.dev/module/bell/api/13.x.x
+// https://github.com/hapijs/bell/blob/master/examples/google.js
+
+import Bell from "@hapi/bell";
+
 const result = dotenv.config();
 if (result.error) {
   console.log(result.error.message);
@@ -46,6 +52,7 @@ async function init() {
   });
 
   await server.register(Vision);
+  await server.register(Bell);
   await server.register(Cookie);
   await server.register(Inert);
   await server.register({
@@ -63,20 +70,32 @@ async function init() {
 
   server.validator(Joi);
 
+  server.auth.strategy('google', 'bell', {
+    provider: 'google',
+    password: 'cookie_encryption_password_secure',
+    clientId: process.env.GOOGLE_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
+    isSecure: false,
+    location: "http://localhost:3000"
+
+  });
+
   server.auth.strategy("session", "cookie", {
     cookie: {
       name: process.env.COOKIE_NAME,
       password: process.env.COOKIE_PASSWORD,
       isSecure: false,
     },
-    redirectTo: "/",
+    redirectTo: "/login",
     validate: accountsController.validate,
   });
+
   server.auth.strategy("jwt", "jwt", {
     key: process.env.COOKIE_PASSWORD,
     validate: validate,
     verifyOptions: { algorithms: ["HS256"] },
   });
+
   server.auth.default("session");
 
   server.views({
@@ -90,6 +109,46 @@ async function init() {
   });
 
   db.init("mongo");
+
+  server.route({
+    method: ["GET", "POST"],
+    path: "/auth/google",
+    options: {
+      auth: {
+        strategy: "google",
+        mode: "required"
+      },
+
+      handler: async function (request, h) {
+
+        if (!request.auth.isAuthenticated) {
+          return 'Authentication failed due to: ' + request.auth.error.message;
+        }
+
+        const profile = request.auth.credentials.profile;
+
+        const email = profile.email;
+        const firstName = profile.raw.given_name;
+        const lastName = profile.raw.family_name;
+
+        let user = await db.userStore.getUserByEmail(email);
+
+        if (!user) {
+          user = await db.userStore.addUser({
+            firstName,
+            lastName,
+            email,
+            password: null,
+            role: "user"
+          });
+        }
+
+        request.cookieAuth.set({ id: user._id });
+        return h.redirect("/dashboard");
+      }
+    }
+  });
+
   server.route(webRoutes);
   server.route(apiRoutes);
 
