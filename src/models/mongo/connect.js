@@ -2,12 +2,22 @@ import Mongoose from "mongoose";
 import * as mongooseSeeder from "mais-mongoose-seeder";
 import dotenv from "dotenv";
 import { seedData } from "./seed-data.js";
+import bcrypt from "bcrypt"
 
 dotenv.config();
 
 const seedLib = mongooseSeeder.default;
 
 async function seed() {
+  const users = seedData.users;
+
+  for (const key of Object.keys(users)) {
+    const user = users[key];
+
+    if (user.password) {
+      user.password = await bcrypt.hash(user.password, 10);
+    }
+  }
   const seeder = seedLib(Mongoose);
   await seeder.seed(seedData, { dropDatabase: false, dropCollections: true });
 }

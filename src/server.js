@@ -76,7 +76,7 @@ async function init() {
     clientId: process.env.GOOGLE_ID,
     clientSecret: process.env.GOOGLE_SECRET,
     isSecure: false,
-    location: "http://localhost:3000"
+    location: "https://hdipcs-sem3-fswd1-asgmt2-waterfalls-2-0.onrender.com",
 
   });
 
