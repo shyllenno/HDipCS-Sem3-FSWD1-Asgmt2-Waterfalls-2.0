@@ -1,7 +1,7 @@
 {
   "name": "waterfalls-2.0",
-  "version": "1.4.0",
-  "description": "Waterfalls App 2.0: Add Sanitisation using sanitize-html library",
+  "version": "1.5.0",
+  "description": "Waterfalls App 2.0: Add Salt and Hash to Passwords using bcrypt library",
   "homepage": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt2-Waterfalls-2.0#readme",
   "bugs": {
     "url": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt2-Waterfalls-2.0/issues"
@@ -39,11 +39,13 @@
     "prettier": "^3.8.1"
   },
   "dependencies": {
+    "@hapi/bell": "^13.1.0",
     "@hapi/boom": "^10.0.1",
     "@hapi/cookie": "^12.0.1",
     "@hapi/hapi": "^21.4.7",
     "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^7.0.3",
+    "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
     "dotenv": "^17.3.1",
     "handlebars": "^4.7.8",

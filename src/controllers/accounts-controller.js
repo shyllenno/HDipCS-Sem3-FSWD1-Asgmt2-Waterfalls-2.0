@@ -5,6 +5,10 @@ import { UserCredentialsSpec, UserSpec } from "../models/joi-schemas.js";
 // https://github.com/apostrophecms/apostrophe/tree/main/packages/sanitize-html
 import sanitizeHtml from 'sanitize-html';
 
+// Reference:
+// https://coreui.io/answers/how-to-hash-passwords-in-node-js/
+import bcrypt from "bcrypt";
+
 export const accountsController = {
   index: {
     auth: false,
@@ -33,11 +37,11 @@ export const accountsController = {
       const user = {
         firstName: sanitizeHtml(payloadUser.firstName),
         lastName: sanitizeHtml(payloadUser.lastName),
-        email: sanitizeHtml(payloadUser.email),
-        password: payloadUser.password,
+        email: payloadUser.email,
+        password: await bcrypt.hash(payloadUser.password, 10),
         role: "user",
       }
-      
+
       await db.userStore.addUser(user);
       return h.redirect("/login");
     },
@@ -58,8 +62,7 @@ export const accountsController = {
       },
     },
     handler: async function (request, h) {
-      const email = sanitizeHtml(request.payload.email);
-      const password = request.payload.password;
+      const { email, password } = request.payload;
 
       // 1. Check if email exists
       const user = await db.userStore.getUserByEmail(email);
@@ -74,7 +77,7 @@ export const accountsController = {
       }
 
       // 2. Check password
-      const passwordsMatch = user.password === password;
+      const passwordsMatch = await bcrypt.compare(password, user.password);
       if (!passwordsMatch) {
         return h
           .view("login-view", {
@@ -138,13 +141,14 @@ export const accountsController = {
       const userId = request.params.id;
       const payloadUpdatedUser = request.payload;
 
-      const updateUser = {
-        firstName: sanitizeHtml(payloadUpdatedUser.firstName),
-        lastName: sanitizeHtml(payloadUpdatedUser.lastName),
-        email: sanitizeHtml(payloadUpdatedUser.email),
-        password: payloadUpdatedUser.password,
-        role: payloadUpdatedUser.role,
-      }
+      const updatedUser = {};
+
+      if (payloadUpdatedUser.firstName) { updatedUser.firstName = sanitizeHtml(payloadUpdatedUser.firstName); }
+      if (payloadUpdatedUser.lastName) { updatedUser.lastName = sanitizeHtml(payloadUpdatedUser.lastName); }
+      if (payloadUpdatedUser.email) { updatedUser.email = payloadUpdatedUser.email; }
+      if (payloadUpdatedUser.password) { updatedUser.password = await bcrypt.hash(payloadUpdatedUser.password, 10); }
+      if (payloadUpdatedUser.role) { updatedUser.role = payloadUpdatedUser.role; }
+
 
       await db.userStore.updateUser(userId, updatedUser);
 
