@@ -1,7 +1,7 @@
 {
   "name": "waterfalls-2.0",
-  "version": "1.5.0",
-  "description": "Waterfalls App 2.0: Add Salt and Hash to Passwords using bcrypt library",
+  "version": "1.5.1",
+  "description": "Waterfalls App 2.0: Add hash on seed-data passwords; Update URI from render deployement",
   "homepage": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt2-Waterfalls-2.0#readme",
   "bugs": {
     "url": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt2-Waterfalls-2.0/issues"
