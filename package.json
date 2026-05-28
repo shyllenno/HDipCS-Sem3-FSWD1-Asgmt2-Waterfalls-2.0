@@ -1,7 +1,7 @@
 {
   "name": "waterfalls-2.0",
-  "version": "1.4.0",
-  "description": "Waterfalls App 2.0: Add Sanitisation using sanitize-html library",
+  "version": "1.5.0",
+  "description": "Waterfalls App 2.0: Add Salt and Hash to Passwords using bcrypt library",
   "homepage": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt2-Waterfalls-2.0#readme",
   "bugs": {
     "url": "https://github.com/shyllenno/HDipCS-Sem3-FSWD1-Asgmt2-Waterfalls-2.0/issues"
